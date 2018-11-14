@@ -28,13 +28,13 @@ public class Immo {
     private boolean status;
     private String enterDate;
     private String sellingDate;
-    private String agentId;
+    private int agentId;
 
     // --- DEFAULT CONSTRUCTOR ---
     public Immo() {}
 
     // --- PARTIAL CONSTRUCTOR ---
-    public Immo(String type, int price, int surface, int pieceNumber, String address, Boolean status, String enterDate, String agentId) {
+    public Immo(String type, int price, int surface, int pieceNumber, String address, Boolean status, String enterDate, int agentId) {
         this.type = type;
         this.price = price;
         this.surface = surface;
@@ -47,7 +47,7 @@ public class Immo {
 
     // --- COMPLETE CONSTRUCTOR ---
     public Immo(String type, int price, int surface, int pieceNumber, String description, Map<String, String> pathAndFileNameForPicture,
-                String address, List<String> pointOfInterest, Boolean status, String enterDate, String sellingDate, String agentId) {
+                String address, List<String> pointOfInterest, Boolean status, String enterDate, String sellingDate, int agentId) {
         this.type = type;
         this.price = price;
         this.surface = surface;
@@ -75,7 +75,7 @@ public class Immo {
     public boolean isStatus() { return status; }
     public String getEnterDate() { return enterDate; }
     public String getSellingDate() { return sellingDate; }
-    public String getAgentId() { return agentId; }
+    public int getAgentId() { return agentId; }
 
     // --- SETTER ---
     public void setId(int id) { this.id = id; }
@@ -90,7 +90,7 @@ public class Immo {
     public void setStatus(boolean status) { this.status = status; }
     public void setEnterDate(String enterDate) { this.enterDate = enterDate; }
     public void setSellingDate(String sellingDate) { this.sellingDate = sellingDate; }
-    public void setAgentId(String agentId) { this.agentId = agentId; }
+    public void setAgentId(int agentId) { this.agentId = agentId; }
 
     // --- UTILS ---
 
