@@ -1,9 +1,10 @@
-package com.openclassrooms.realestatemanager;
+package com.openclassrooms.realestatemanager.controllers.activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class SecondActivity extends AppCompatActivity {
+import com.openclassrooms.realestatemanager.R;
+
+public class SecondActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
