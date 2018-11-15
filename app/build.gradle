@@ -11,9 +11,15 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            buildConfigField 'String', "AlphaVantage_ApiKey", AlphaVantage_ApiKey
+            resValue 'string', "alphavantage_api_key", AlphaVantage_ApiKey
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', "AlphaVantage_ApiKey", AlphaVantage_ApiKey
+            resValue 'string', "alphavantage_api_key", AlphaVantage_ApiKey
         }
     }
 }
@@ -36,4 +42,8 @@ dependencies {
     androidTestImplementation "android.arch.core:core-testing:1.1.1"
     // GSON
     implementation 'com.google.code.gson:gson:2.8.2'
+    // RETROFIT
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
 }
