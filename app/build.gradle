@@ -22,6 +22,10 @@ android {
             resValue 'string', "alphavantage_api_key", AlphaVantage_ApiKey
         }
     }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 }
 
 dependencies {

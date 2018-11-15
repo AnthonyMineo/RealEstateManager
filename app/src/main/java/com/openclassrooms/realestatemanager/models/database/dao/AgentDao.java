@@ -12,8 +12,8 @@ import com.openclassrooms.realestatemanager.models.Agent;
 public interface AgentDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void createAgent(Agent agent);
+    void insertAgent(Agent agent);
 
     @Query("SELECT * FROM Agent WHERE id = :agentId")
-    LiveData<Agent> getAgent(long agentId);
+    LiveData<Agent> getAgentById(long agentId);
 }
