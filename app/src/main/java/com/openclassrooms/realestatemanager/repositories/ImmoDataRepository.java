@@ -7,10 +7,15 @@ import com.openclassrooms.realestatemanager.models.database.dao.ImmoDao;
 
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 public class ImmoDataRepository {
 
     private final ImmoDao immoDao;
 
+    // --- CONSTRUCTOR ---
+    @Inject
     public ImmoDataRepository(ImmoDao immoDao) { this.immoDao = immoDao; }
 
     // --- GET ---

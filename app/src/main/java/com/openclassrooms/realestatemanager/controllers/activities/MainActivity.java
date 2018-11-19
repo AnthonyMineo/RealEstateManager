@@ -1,36 +1,53 @@
 package com.openclassrooms.realestatemanager.controllers.activities;
 
 import android.os.Bundle;
-import android.widget.TextView;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+
 
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.utils.Utils;
+import com.openclassrooms.realestatemanager.controllers.fragments.ListFragment;
 
-public class MainActivity extends BaseActivity {
+import javax.inject.Inject;
 
-    private TextView textViewMain;
-    private TextView textViewQuantity;
+import dagger.android.AndroidInjection;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
+
+public class MainActivity extends AppCompatActivity implements HasSupportFragmentInjector {
+
+    @Inject
+    DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
+
+    private static int CURRENT_USER_ID = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.textViewMain = findViewById(R.id.activity_main_activity_text_view_main);
-        this.textViewQuantity = findViewById(R.id.activity_main_activity_text_view_quantity);
+        this.configureDagger();
+        this.showFragment(savedInstanceState);
 
-        this.configureTextViewMain();
-        this.configureTextViewQuantity();
     }
 
-    private void configureTextViewMain(){
-        this.textViewMain.setTextSize(15);
-        this.textViewMain.setText("Le premier bien immobilier enregistré vaut ");
+    @Override
+    public DispatchingAndroidInjector<Fragment> supportFragmentInjector() {
+        return dispatchingAndroidInjector;
     }
 
-    private void configureTextViewQuantity(){
-        int quantity = Utils.convertDollarToEuro(100);
-        this.textViewQuantity.setTextSize(20);
-        this.textViewQuantity.setText(String.valueOf(quantity));
+    private void showFragment(Bundle savedInstanceState){
+        if (savedInstanceState == null) {
+            ListFragment fragment = new ListFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString(ListFragment.FROM_CURRENCY, ListFragment.TO_CURRENCY);
+            fragment.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, fragment, null)
+                    .commit();
+        }
+    }
+    private void configureDagger(){
+        AndroidInjection.inject(this);
     }
 }

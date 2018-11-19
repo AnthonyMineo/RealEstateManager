@@ -8,11 +8,13 @@ public class AlphaVantageResponse {
     @SerializedName("Realtime Currency Exchange Rate")
     @Expose
     private CurrencyExchangeRate currencyExchangeRate;
+    @SerializedName("5. Exchange Rate")
+    @Expose
+    private String exchangeRate;
 
     // --- GETTER ---
     public CurrencyExchangeRate getCurrencyExchangeRate() { return currencyExchangeRate; }
 
     // --- SETTER ---
     public void setCurrencyExchangeRate(CurrencyExchangeRate currencyExchangeRate) { this.currencyExchangeRate = currencyExchangeRate; }
-
 }

@@ -11,16 +11,20 @@ import com.openclassrooms.realestatemanager.repositories.ImmoDataRepository;
 import java.util.List;
 import java.util.concurrent.Executor;
 
+import javax.inject.Inject;
+
 public class ImmoViewModel extends ViewModel {
 
     // --- REPOSITORIES ---
-    private final ImmoDataRepository immoDataSource;
-    private final AgentDataRepository agentDateSource;
-    private final Executor executor;
+    private ImmoDataRepository immoDataSource;
+    private AgentDataRepository agentDateSource;
+    private Executor executor;
 
     // --- DATA ---
     private LiveData<Agent> currentUser;
 
+    // --- CONSTRUCTOR ---
+    @Inject
     public ImmoViewModel(ImmoDataRepository immoDataSource, AgentDataRepository agentDateSource, Executor executor){
         this.immoDataSource = immoDataSource;
         this.agentDateSource = agentDateSource;
@@ -35,7 +39,7 @@ public class ImmoViewModel extends ViewModel {
     }
 
     // --- FOR AGENT ---
-    public LiveData<Agent> getCurrentUser(int agentId) { return this.currentUser; }
+    public LiveData<Agent> getCurrentUser() { return this.currentUser; }
 
     // --- FOR IMMO ---
     public LiveData<List<Immo>> getImmosByAgent(int agentId) { return immoDataSource.getImmosByAgent(agentId); }

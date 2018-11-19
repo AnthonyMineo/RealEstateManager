@@ -55,9 +55,9 @@ public class ImmoDaoTest {
     @Test
     public void insertAndGetUser() throws InterruptedException {
         // BEFORE : Adding a new user
-        this.database.agentDao().createAgent(AGENT_DEMO);
+        this.database.agentDao().insertAgent(AGENT_DEMO);
         // TEST
-        Agent agentTest = LiveDataTestUtil.getValue(this.database.agentDao().getAgent(AGENT_ID));
+        Agent agentTest = LiveDataTestUtil.getValue(this.database.agentDao().getAgentById(AGENT_ID));
         assertTrue(agentTest.getUserName().equals(AGENT_DEMO.getUserName()) && agentTest.getId() == AGENT_ID);
     }
 
@@ -71,7 +71,7 @@ public class ImmoDaoTest {
     @Test
     public void insertAndGetImmo() throws InterruptedException {
         // BEFORE : Adding demo user & demo items
-        this.database.agentDao().createAgent(AGENT_DEMO);
+        this.database.agentDao().insertAgent(AGENT_DEMO);
         this.database.immoDao().insertImmo(IMMO_1);
         this.database.immoDao().insertImmo(IMMO_2);
         this.database.immoDao().insertImmo(IMMO_3);
@@ -84,7 +84,7 @@ public class ImmoDaoTest {
     @Test
     public void insertAndUpdateItem() throws InterruptedException {
         // BEFORE : Adding demo user & demo items. Next, update item added & re-save it
-        this.database.agentDao().createAgent(AGENT_DEMO);
+        this.database.agentDao().insertAgent(AGENT_DEMO);
         this.database.immoDao().insertImmo(IMMO_1);
         Immo immoAdded = LiveDataTestUtil.getValue(this.database.immoDao().getImmosByAgent(AGENT_ID)).get(0);
 
@@ -112,7 +112,7 @@ public class ImmoDaoTest {
     @Test
     public void insertAndDeleteItem() throws InterruptedException {
         // BEFORE : Adding demo user & demo item. Next, get the item added & delete it.
-        this.database.agentDao().createAgent(AGENT_DEMO);
+        this.database.agentDao().insertAgent(AGENT_DEMO);
         this.database.immoDao().insertImmo(IMMO_1);
         Immo immoAdded = LiveDataTestUtil.getValue(this.database.immoDao().getImmosByAgent(AGENT_ID)).get(0);
         this.database.immoDao().deleteImmo(immoAdded.getId());
