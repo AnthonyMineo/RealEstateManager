@@ -1,11 +1,16 @@
 package com.openclassrooms.realestatemanager.utils;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Philippe on 21/02/2018.
@@ -35,9 +40,11 @@ public class Utils {
      * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
      * @return
      */
+    // I had just changed the pattern
     public static String getTodayDate(){
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-        return dateFormat.format(new Date());
+        Date currentDate = Calendar.getInstance().getTime();
+        SimpleDateFormat dateFormat= new SimpleDateFormat("dd/MM/yyyy");
+        return dateFormat.format(currentDate);
     }
 
     /**
@@ -46,8 +53,33 @@ public class Utils {
      * @param context
      * @return
      */
+
     public static Boolean isInternetAvailable(Context context){
-        WifiManager wifi = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
-        return wifi.isWifiEnabled();
+        Boolean connectivity = false;
+        if(isWifiAvailable(context) || isMobileDataAvailable(context)){
+            connectivity = true;
+        }
+        return connectivity;
     }
+
+    public static Boolean isWifiAvailable(Context context){
+        Boolean wifi = false;
+        ConnectivityManager cM = (ConnectivityManager)context.getSystemService(context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cM.getActiveNetworkInfo();
+        if(activeNetwork != null && activeNetwork.isConnectedOrConnecting()){
+            wifi = activeNetwork.getType() == ConnectivityManager.TYPE_WIFI;
+        }
+        return wifi;
+    }
+
+    public static Boolean isMobileDataAvailable(Context context){
+        Boolean data = false;
+        ConnectivityManager cM = (ConnectivityManager)context.getSystemService(context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cM.getActiveNetworkInfo();
+        if(activeNetwork != null && activeNetwork.isConnectedOrConnecting()){
+            data = activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE;
+        }
+        return data;
+    }
+
 }

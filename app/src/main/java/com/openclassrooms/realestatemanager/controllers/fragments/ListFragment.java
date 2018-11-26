@@ -31,8 +31,8 @@ public class ListFragment extends Fragment {
     private TextView textViewRate;
 
     // --- DATA ---
-    public static final String FROM_CURRENCY = "USD";
-    public static final  String TO_CURRENCY = "EUR";
+    public static final String CURRENCY_1 = "USD";
+    public static final  String CURRENCY_2 = "EUR";
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -67,7 +67,7 @@ public class ListFragment extends Fragment {
 
     private void configureViewModel(){
         cerViewModel = ViewModelProviders.of(this, viewModelFactory).get(CurrencyExchangeRateViewModel.class);
-        cerViewModel.initCER(FROM_CURRENCY, TO_CURRENCY);
+        cerViewModel.initCER(CURRENCY_1, CURRENCY_2);
         cerViewModel.getCER().observe(this, cer -> updateUI(cer));
 
         immoViewModel = ViewModelProviders.of(this, viewModelFactory).get(ImmoViewModel.class);
@@ -87,7 +87,7 @@ public class ListFragment extends Fragment {
         Log.e("TAG", "AAAAAAAAAAAAA");
         if(agent != null){
             Log.e("TAG", "BBBBBBBBBBBB");
-            this.textViewQuantity.setText(agent.getUserName());
+            this.textViewQuantity.setText(Utils.getTodayDate());
         }
     }
 

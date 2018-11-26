@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
         if (savedInstanceState == null) {
             ListFragment fragment = new ListFragment();
             Bundle bundle = new Bundle();
-            bundle.putString(ListFragment.FROM_CURRENCY, ListFragment.TO_CURRENCY);
+            bundle.putString(ListFragment.CURRENCY_1, ListFragment.CURRENCY_2);
             fragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, fragment, null)
