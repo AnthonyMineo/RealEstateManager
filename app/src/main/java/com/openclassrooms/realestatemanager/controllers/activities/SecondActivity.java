@@ -11,4 +11,14 @@ public class SecondActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
     }
+
+
+    // --------------------
+    // GETTERS
+    // --------------------
+
+    @Override
+    protected int getActivityLayout() {
+        return R.layout.activity_second;
+    }
 }

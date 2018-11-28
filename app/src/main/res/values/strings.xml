@@ -3,4 +3,18 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Toolbar menu -->
+    <string name="menu_add_title">Add</string>
+    <string name="menu_edit_title">Edit</string>
+    <string name="menu_search_title">Search</string>
+    <string name="search_query_hint">Search Immovable</string>
+
+    <!-- Menu drawer -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="menu_map_title">MAP VIEW</string>
+    <string name="menu_settings_title">SETTINGS</string>
+    <string name="menu_log_out_title">LOG OUT</string>
+
 </resources>

@@ -43,6 +43,7 @@ public class ListFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public static ListFragment newInstance() { return new ListFragment(); }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,6 +52,7 @@ public class ListFragment extends Fragment {
         this.textViewMain = view.findViewById(R.id.fragment_list_text_view_1);
         this.textViewQuantity = view.findViewById(R.id.fragment_list_text_view_2);
         this.textViewRate = view.findViewById(R.id.fragment_list_text_view_3);
+        Log.e("tag", "ListFragnment");
         return view;
     }
 
