@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="nav_header_height">180dp</dimen>
+    <dimen name="recycle_image_size">80dp</dimen>
+    <dimen name="recyle_item_height_padding">5dp</dimen>
+    <dimen name="recyle_item_width_padding">10dp</dimen>
+    <dimen name="recycle_item_text_type_size">12sp</dimen>
+    <dimen name="recycle_item_text_city_size">11sp</dimen>
+    <dimen name="recycle_item_text_price_size">14sp</dimen>
 </resources>

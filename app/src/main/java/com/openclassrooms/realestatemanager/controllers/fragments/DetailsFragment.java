@@ -21,10 +21,14 @@ public class DetailsFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_details, container, false);
-        Log.e("tag", "DetailsFragnment");
+        View view = super.onCreateView(inflater, container, savedInstanceState);
         return view;
 
+    }
+
+    @Override
+    public int getFragmentLayout() {
+        return R.layout.fragment_details;
     }
 
 }

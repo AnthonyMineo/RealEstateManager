@@ -1,17 +1,11 @@
 package com.openclassrooms.realestatemanager.models.database;
 
-import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Database;
-import android.arch.persistence.room.OnConflictStrategy;
-import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
-import android.content.ContentValues;
-import android.content.Context;
-import android.support.annotation.NonNull;
 
-import com.openclassrooms.realestatemanager.models.Agent;
-import com.openclassrooms.realestatemanager.models.Immo;
+import com.openclassrooms.realestatemanager.models.local.Agent;
+import com.openclassrooms.realestatemanager.models.local.immovables.Immo;
 import com.openclassrooms.realestatemanager.models.database.dao.AgentDao;
 import com.openclassrooms.realestatemanager.models.database.dao.CerDao;
 import com.openclassrooms.realestatemanager.models.database.dao.ImmoDao;

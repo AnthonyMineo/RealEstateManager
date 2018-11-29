@@ -2,13 +2,12 @@ package com.openclassrooms.realestatemanager.repositories;
 
 import android.arch.lifecycle.LiveData;
 
-import com.openclassrooms.realestatemanager.models.Immo;
+import com.openclassrooms.realestatemanager.models.local.immovables.Immo;
 import com.openclassrooms.realestatemanager.models.database.dao.ImmoDao;
 
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 public class ImmoDataRepository {
 

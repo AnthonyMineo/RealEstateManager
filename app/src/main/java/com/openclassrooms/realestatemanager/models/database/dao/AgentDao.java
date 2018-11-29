@@ -6,7 +6,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
-import com.openclassrooms.realestatemanager.models.Agent;
+import com.openclassrooms.realestatemanager.models.local.Agent;
 
 @Dao
 public interface AgentDao {

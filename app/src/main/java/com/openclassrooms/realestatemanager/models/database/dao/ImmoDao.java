@@ -6,7 +6,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-import com.openclassrooms.realestatemanager.models.Immo;
+import com.openclassrooms.realestatemanager.models.local.immovables.Immo;
 
 import java.util.List;
 

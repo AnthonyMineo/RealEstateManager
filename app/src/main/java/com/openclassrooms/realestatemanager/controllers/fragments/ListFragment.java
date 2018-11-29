@@ -5,30 +5,34 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.models.Agent;
+import com.openclassrooms.realestatemanager.models.local.immovables.Immo;
 import com.openclassrooms.realestatemanager.models.remote.CurrencyExchangeRate;
-import com.openclassrooms.realestatemanager.utils.Utils;
+import com.openclassrooms.realestatemanager.utils.ItemClickSupport;
 import com.openclassrooms.realestatemanager.viewmodels.CurrencyExchangeRateViewModel;
 import com.openclassrooms.realestatemanager.viewmodels.ImmoViewModel;
+import com.openclassrooms.realestatemanager.views.ImmoAdapter;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import dagger.android.support.AndroidSupportInjection;
 
 
-public class ListFragment extends Fragment {
+public class ListFragment extends BaseFragment {
 
-    private TextView textViewMain;
-    private TextView textViewQuantity;
-    private TextView textViewRate;
+    // --- DESIGN ---
+    @BindView(R.id.fragment_list_recycler_view) RecyclerView recyclerView;
 
     // --- DATA ---
     public static final String CURRENCY_1 = "USD";
@@ -38,6 +42,7 @@ public class ListFragment extends Fragment {
     ViewModelProvider.Factory viewModelFactory;
     private CurrencyExchangeRateViewModel cerViewModel;
     private ImmoViewModel immoViewModel;
+    private ImmoAdapter immoAdapter;
 
     public ListFragment() {
         // Required empty public constructor
@@ -48,19 +53,38 @@ public class ListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_list, container, false);
-        this.textViewMain = view.findViewById(R.id.fragment_list_text_view_1);
-        this.textViewQuantity = view.findViewById(R.id.fragment_list_text_view_2);
-        this.textViewRate = view.findViewById(R.id.fragment_list_text_view_3);
-        Log.e("tag", "ListFragnment");
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+
+        this.configureDagger();
+
+        this.configureRecyclerView();
+        this.configureViewModel();
+        this.getCER();
+        this.getImmosByAgent(1);
+
         return view;
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        this.configureDagger();
-        this.configureViewModel();
+    public int getFragmentLayout() { return R.layout.fragment_list; }
+
+    // --------------------
+    // ACTIONS
+    // --------------------
+
+    // - Configure RecyclerView, Adapter, LayoutManager & glue it together
+    private void configureRecyclerView(){
+        // - Create adapter passing the list of Restaurants
+        this.immoAdapter = new ImmoAdapter(Glide.with(this));
+        // - Attach the adapter to the recyclerview to populate items
+        this.recyclerView.setAdapter(this.immoAdapter);
+        // - Set layout manager to position the items
+        this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        ItemClickSupport.addTo(recyclerView, R.layout.immo_list_recycle_item)
+                .setOnItemClickListener((recyclerView, position, v) -> {
+                    Log.i("ItemClickSupport", "You click on : " + immoAdapter.getImmo(position));
+                });
     }
 
     private void configureDagger(){
@@ -70,27 +94,26 @@ public class ListFragment extends Fragment {
     private void configureViewModel(){
         cerViewModel = ViewModelProviders.of(this, viewModelFactory).get(CurrencyExchangeRateViewModel.class);
         cerViewModel.initCER(CURRENCY_1, CURRENCY_2);
-        cerViewModel.getCER().observe(this, cer -> updateUI(cer));
 
         immoViewModel = ViewModelProviders.of(this, viewModelFactory).get(ImmoViewModel.class);
         immoViewModel.initCurrentUser(1);
-        immoViewModel.getCurrentUser().observe(this, agent -> updateUI2(agent));
+    }
+
+    private void getCER(){
+        cerViewModel.getCER().observe(this, cer -> updateUI(cer));
+    }
+
+    private void getImmosByAgent(int i){
+        immoViewModel.getImmosByAgent(i).observe(this, immo -> updateListImmo(immo));
+    }
+
+    private void updateListImmo(List<Immo> immo){
+        Log.e("TAG", "immo update");
+        this.immoAdapter.updateData(immo);
     }
 
     private void updateUI(@Nullable CurrencyExchangeRate cer){
-        Log.e("TAG", "AAAAAAAAAAAAA");
-        if(cer != null){
-            Log.e("TAG", "BBBBBBBBBBBB");
-            this.textViewRate.setText(cer.getExchangeRate());
-        }
-    }
-
-    private void updateUI2(@Nullable Agent agent){
-        Log.e("TAG", "AAAAAAAAAAAAA");
-        if(agent != null){
-            Log.e("TAG", "BBBBBBBBBBBB");
-            this.textViewQuantity.setText(Utils.getTodayDate());
-        }
+        Log.e("TAG", "CER change");
     }
 
 }

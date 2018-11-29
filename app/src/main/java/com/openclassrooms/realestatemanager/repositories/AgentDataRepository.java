@@ -2,11 +2,10 @@ package com.openclassrooms.realestatemanager.repositories;
 
 import android.arch.lifecycle.LiveData;
 
-import com.openclassrooms.realestatemanager.models.Agent;
+import com.openclassrooms.realestatemanager.models.local.Agent;
 import com.openclassrooms.realestatemanager.models.database.dao.AgentDao;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 public class AgentDataRepository {
 

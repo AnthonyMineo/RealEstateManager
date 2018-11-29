@@ -17,4 +17,7 @@
     <string name="menu_settings_title">SETTINGS</string>
     <string name="menu_log_out_title">LOG OUT</string>
 
+    <!-- Recycle item -->
+    <string name="no_text_yet">loading informations...</string>
+
 </resources>

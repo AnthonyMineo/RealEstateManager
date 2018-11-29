@@ -11,6 +11,9 @@ import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.openclassrooms.realestatemanager.models.local.immovables.Picture;
+import com.openclassrooms.realestatemanager.models.local.immovables.Vicinity;
+import com.openclassrooms.realestatemanager.models.database.Converters;
 import com.openclassrooms.realestatemanager.models.database.RealEstateDB;
 import com.openclassrooms.realestatemanager.models.database.dao.AgentDao;
 import com.openclassrooms.realestatemanager.models.database.dao.CerDao;
@@ -20,6 +23,8 @@ import com.openclassrooms.realestatemanager.repositories.CurrencyExchangeRateDat
 import com.openclassrooms.realestatemanager.repositories.ImmoDataRepository;
 import com.openclassrooms.realestatemanager.utils.api.AlphaVantageService;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -63,6 +68,40 @@ public class AppModule {
                 contentValues.put("urlPicture", "none");
 
                 db.insert("Agent", OnConflictStrategy.IGNORE, contentValues);
+
+                ContentValues cv1 = new ContentValues();
+                Vicinity loc = new Vicinity("23 rue de la paix", null, "Bordeaux", "33000", "France");
+               /* Picture pic = new Picture("Main", "/storage/emulated/0/Download/", "voyages-iles1.jpg");
+                List<Picture> gallery = new ArrayList<Picture>();
+                gallery.add(pic);*/
+                cv1.put("type", "loft");
+                cv1.put("price", 130000);
+                cv1.put("surface", 100);
+                cv1.put("pieceNumber", 8);
+                cv1.put("vicinity", Converters.VicinityToString(loc));
+              // cv1.put("gallery", Converters.GalleryToString(gallery));
+                cv1.put("status", true);
+                cv1.put("enterDate", "29/11/2018");
+                cv1.put("agentId", 1);
+
+                db.insert("Immo", OnConflictStrategy.IGNORE, cv1);
+
+                ContentValues cv2 = new ContentValues();
+                Vicinity loc2 = new Vicinity("12 rue du test", null, "Mérignac", "33100", "France");
+               /* Picture pic2 = new Picture("Main", "/storage/emulated/0/Download/", "voyages-iles1.jpg");
+                List<Picture> gallery2 = new ArrayList<Picture>();
+                gallery.add(pic2);*/
+                cv2.put("type", "appartment");
+                cv2.put("price", 145000);
+                cv2.put("surface", 120);
+                cv2.put("pieceNumber", 9);
+                cv2.put("vicinity", Converters.VicinityToString(loc2));
+                // cv2.put("gallery", Converters.GalleryToString(gallery));
+                cv2.put("status", true);
+                cv2.put("enterDate", "29/11/2018");
+                cv2.put("agentId", 1);
+
+                db.insert("Immo", OnConflictStrategy.IGNORE, cv2);
             }
         };
     }

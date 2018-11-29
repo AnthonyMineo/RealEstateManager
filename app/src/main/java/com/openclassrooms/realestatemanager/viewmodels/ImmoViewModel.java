@@ -3,8 +3,8 @@ package com.openclassrooms.realestatemanager.viewmodels;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
-import com.openclassrooms.realestatemanager.models.Agent;
-import com.openclassrooms.realestatemanager.models.Immo;
+import com.openclassrooms.realestatemanager.models.local.Agent;
+import com.openclassrooms.realestatemanager.models.local.immovables.Immo;
 import com.openclassrooms.realestatemanager.repositories.AgentDataRepository;
 import com.openclassrooms.realestatemanager.repositories.ImmoDataRepository;
 
