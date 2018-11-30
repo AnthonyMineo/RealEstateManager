@@ -44,6 +44,7 @@ public class ImmoViewModel extends ViewModel {
     // --- FOR IMMO ---
     public LiveData<List<Immo>> getImmosByAgent(int agentId) { return immoDataSource.getImmosByAgent(agentId); }
     public LiveData<List<Immo>> getAllImmos() { return immoDataSource.getAllImmos(); }
+    public LiveData<Immo> getImmoById(int immoId) { return immoDataSource.getImmoById(immoId); }
     public void createImmo(Immo immo) { executor.execute(() -> immoDataSource.createImmo(immo)); }
     public void updateImmo(Immo immo) { executor.execute(() -> immoDataSource.updateImmo(immo)); }
     public void deleteimmo(int immoId) { executor.execute(() -> immoDataSource.deleteImmo(immoId));}

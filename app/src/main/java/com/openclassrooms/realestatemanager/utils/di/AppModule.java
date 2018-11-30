@@ -71,15 +71,25 @@ public class AppModule {
 
                 ContentValues cv1 = new ContentValues();
                 Vicinity loc = new Vicinity("23 rue de la paix", null, "Bordeaux", "33000", "France");
-               /* Picture pic = new Picture("Main", "/storage/emulated/0/Download/", "voyages-iles1.jpg");
+                Picture pic = new Picture("Main", "/storage/emulated/0/Download/", "voyages-iles1.jpg");
+                Picture pic2 = new Picture("Kitchen", "/storage/emulated/0/Download/", "voyages-iles1.jpg");
+                Picture pic3 = new Picture("Bath", "/storage/emulated/0/Download/", "voyages-iles1.jpg");
+                Picture pic4 = new Picture("Living", "/storage/emulated/0/Download/", "voyages-iles1.jpg");
+                Picture pic5 = new Picture("Lounge", "/storage/emulated/0/Download/", "voyages-iles1.jpg");
+                Picture pic6 = new Picture("Bed", "/storage/emulated/0/Download/", "voyages-iles1.jpg");
                 List<Picture> gallery = new ArrayList<Picture>();
-                gallery.add(pic);*/
+                gallery.add(pic);
+                gallery.add(pic2);
+                gallery.add(pic3);
+                gallery.add(pic4);
+                gallery.add(pic5);
+                gallery.add(pic6);
                 cv1.put("type", "loft");
                 cv1.put("price", 130000);
                 cv1.put("surface", 100);
                 cv1.put("pieceNumber", 8);
                 cv1.put("vicinity", Converters.VicinityToString(loc));
-              // cv1.put("gallery", Converters.GalleryToString(gallery));
+                cv1.put("gallery", Converters.GalleryToString(gallery));
                 cv1.put("status", true);
                 cv1.put("enterDate", "29/11/2018");
                 cv1.put("agentId", 1);

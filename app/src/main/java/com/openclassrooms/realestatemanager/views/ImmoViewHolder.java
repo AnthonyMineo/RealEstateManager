@@ -22,6 +22,7 @@ public class ImmoViewHolder extends RecyclerView.ViewHolder {
     public ImmoViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
+
     }
 
     public void updateWithImmovables(Immo immo, RequestManager glide){

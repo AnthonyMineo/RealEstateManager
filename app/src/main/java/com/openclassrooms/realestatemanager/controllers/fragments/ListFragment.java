@@ -1,10 +1,13 @@
 package com.openclassrooms.realestatemanager.controllers.fragments;
 
 
+import android.app.Activity;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,6 +17,8 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.controllers.activities.BaseActivity;
+import com.openclassrooms.realestatemanager.controllers.activities.MainActivity;
 import com.openclassrooms.realestatemanager.models.local.immovables.Immo;
 import com.openclassrooms.realestatemanager.models.remote.CurrencyExchangeRate;
 import com.openclassrooms.realestatemanager.utils.ItemClickSupport;
@@ -21,6 +26,7 @@ import com.openclassrooms.realestatemanager.viewmodels.CurrencyExchangeRateViewM
 import com.openclassrooms.realestatemanager.viewmodels.ImmoViewModel;
 import com.openclassrooms.realestatemanager.views.ImmoAdapter;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -37,12 +43,21 @@ public class ListFragment extends BaseFragment {
     // --- DATA ---
     public static final String CURRENCY_1 = "USD";
     public static final  String CURRENCY_2 = "EUR";
+    public OnItemSelectedListener callback;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
     private CurrencyExchangeRateViewModel cerViewModel;
     private ImmoViewModel immoViewModel;
     private ImmoAdapter immoAdapter;
+
+    public void setOnItemSelectedListener(MainActivity activity){
+        callback =  activity;
+    }
+
+    public interface OnItemSelectedListener{
+        void onItemSelected();
+    }
 
     public ListFragment() {
         // Required empty public constructor
@@ -68,6 +83,11 @@ public class ListFragment extends BaseFragment {
     @Override
     public int getFragmentLayout() { return R.layout.fragment_list; }
 
+    private void configureDagger(){
+        AndroidSupportInjection.inject(this);
+    }
+
+
     // --------------------
     // ACTIONS
     // --------------------
@@ -83,12 +103,10 @@ public class ListFragment extends BaseFragment {
 
         ItemClickSupport.addTo(recyclerView, R.layout.immo_list_recycle_item)
                 .setOnItemClickListener((recyclerView, position, v) -> {
+                    //v.setBackgroundColor(getContext().getResources().getColor(R.color.colorAccent));
+                    callback.onItemSelected();
                     Log.i("ItemClickSupport", "You click on : " + immoAdapter.getImmo(position));
                 });
-    }
-
-    private void configureDagger(){
-        AndroidSupportInjection.inject(this);
     }
 
     private void configureViewModel(){

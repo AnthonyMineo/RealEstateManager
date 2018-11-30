@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager.utils.di;
 /*
 Fragment Builder
  */
+import com.openclassrooms.realestatemanager.controllers.fragments.DetailsFragment;
 import com.openclassrooms.realestatemanager.controllers.fragments.ListFragment;
 
 import dagger.Module;
@@ -11,4 +12,7 @@ import dagger.android.ContributesAndroidInjector;
 public abstract class FragmentModule {
     @ContributesAndroidInjector
     abstract ListFragment contributelistFragment();
+
+    @ContributesAndroidInjector
+    abstract DetailsFragment contributeDetailFragment();
 }

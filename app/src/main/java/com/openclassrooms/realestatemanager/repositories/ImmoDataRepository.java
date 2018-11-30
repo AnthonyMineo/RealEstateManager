@@ -20,6 +20,7 @@ public class ImmoDataRepository {
     // --- GET ---
     public LiveData<List<Immo>> getImmosByAgent(int agentId){ return this.immoDao.getImmosByAgent(agentId); }
     public LiveData<List<Immo>> getAllImmos(){ return this.immoDao.getAllImmos(); }
+    public LiveData<Immo> getImmoById(int immoId){ return  this.immoDao.getImmoById(immoId); }
 
     // --- CREATE ---
     public void createImmo(Immo immo){ immoDao.insertImmo(immo); }

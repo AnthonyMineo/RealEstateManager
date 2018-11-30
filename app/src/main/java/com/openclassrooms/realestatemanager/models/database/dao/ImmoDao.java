@@ -19,6 +19,9 @@ public interface ImmoDao {
     @Query("SELECT * FROM Immo")
     LiveData<List<Immo>> getAllImmos();
 
+    @Query("SELECT * FROM Immo WHERE id = :immoId")
+    LiveData<Immo> getImmoById(int immoId);
+
     @Insert
     long insertImmo(Immo immo);
 

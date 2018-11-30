@@ -20,4 +20,13 @@
     <!-- Recycle item -->
     <string name="no_text_yet">loading informations...</string>
 
+    <!-- Detail Fragment -->
+    <string name="media_title">Media</string>
+    <string name="description_title">Description</string>
+    <string name="surface_title">Surface</string>
+    <string name="rooms_title">Number of rooms</string>
+    <string name="bath_title">Number of bathrooms</string>
+    <string name="bed_title">Number of bedrooms</string>
+    <string name="location_title">Location</string>
+
 </resources>
