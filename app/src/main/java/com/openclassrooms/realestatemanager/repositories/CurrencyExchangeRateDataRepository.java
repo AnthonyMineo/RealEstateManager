@@ -23,6 +23,7 @@ public class CurrencyExchangeRateDataRepository {
     private final CerDao cerDao;
     private final Executor executor;
     private AlphaVantageService alphaVantageService;
+    private final int CER_ID = 1;
 
     // --- CONSTRUCTOR ---
     @Inject
@@ -34,10 +35,9 @@ public class CurrencyExchangeRateDataRepository {
 
     // --- GETTER ---
     public LiveData<CurrencyExchangeRate> getCER(String fromCurrency, String toCurrency) {
-        refreshCER(fromCurrency, toCurrency);
-        Log.e("TAG", "GETTING CER FROM DAO");
+        getCERFromAPI(fromCurrency, toCurrency);
         // Returns a LiveData object directly from the database.
-        return cerDao.getCERById(1);
+        return cerDao.getCERById(CER_ID);
     }
 
     // --- CREATE ---
@@ -46,29 +46,24 @@ public class CurrencyExchangeRateDataRepository {
     // --- UPDATE ---
     public void updateCER(CurrencyExchangeRate cer){ cerDao.updateCER(cer); }
 
-    private void refreshCER(final String fromCurrency, final String toCurrency) {
+    // --- REMOTE DATA GETTER ---
+    private void getCERFromAPI(final String fromCurrency, final String toCurrency) {
         // Runs in a background thread.
         executor.execute(() -> {
-            // Check if CER data was fetched recently.
-            boolean cerExists = (cerDao.hasCER(1) != null);
-            // If CER have to be update
+            // Check if CER already exist in db and update it if he is not
+            boolean cerExists = (cerDao.hasCER(CER_ID) != null);
             if (!cerExists) {
                 alphaVantageService.getExchangeCurrencyRate(fromCurrency, toCurrency).enqueue(new Callback<AlphaVantageResponse>() {
                     @Override
                     public void onResponse(Call<AlphaVantageResponse> call, Response<AlphaVantageResponse> response) {
-                        Log.e("TAG", "Data refreshed from network !");
                         executor.execute(() -> {
                             if(response.isSuccessful()){
-                                Log.e("TAG", "SUCCESS");
-                                AlphaVantageResponse avr = response.body();
-                                CurrencyExchangeRate cer = avr.getCurrencyExchangeRate();
+                                CurrencyExchangeRate cer = response.body().getCurrencyExchangeRate();
                                 if(cer != null){
-                                    Log.e("TAG", cer.getExchangeRate());
-                                    cer.setId(1);
+                                    // Always write CER with id = 1 because we need only one cer.
+                                    cer.setId(CER_ID);
                                     cerDao.insertCER(cer);
                                 }
-                            } else {
-                                Log.e("TAG", "FAILED");
                             }
                         });
                     }

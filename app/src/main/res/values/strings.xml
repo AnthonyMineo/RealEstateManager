@@ -1,9 +1,6 @@
 <resources>
     <string name="app_name">Real Estate Manager</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <!-- Toolbar menu -->
     <string name="menu_add_title">Add</string>
     <string name="menu_edit_title">Edit</string>
@@ -28,5 +25,8 @@
     <string name="bath_title">Number of bathrooms</string>
     <string name="bed_title">Number of bedrooms</string>
     <string name="location_title">Location</string>
+
+    <!-- Firebase -->
+    <string name="error_unknown_error">An unknown error has occurred&#8230;</string>
 
 </resources>

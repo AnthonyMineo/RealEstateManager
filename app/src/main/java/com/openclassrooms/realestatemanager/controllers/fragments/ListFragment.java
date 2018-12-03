@@ -41,8 +41,7 @@ public class ListFragment extends BaseFragment {
     @BindView(R.id.fragment_list_recycler_view) RecyclerView recyclerView;
 
     // --- DATA ---
-    public static final String CURRENCY_1 = "USD";
-    public static final  String CURRENCY_2 = "EUR";
+
     public OnItemSelectedListener callback;
 
     @Inject
@@ -75,7 +74,7 @@ public class ListFragment extends BaseFragment {
         this.configureRecyclerView();
         this.configureViewModel();
         this.getCER();
-        this.getImmosByAgent(1);
+        this.getAllImmos();
 
         return view;
     }
@@ -114,15 +113,15 @@ public class ListFragment extends BaseFragment {
         cerViewModel.initCER(CURRENCY_1, CURRENCY_2);
 
         immoViewModel = ViewModelProviders.of(this, viewModelFactory).get(ImmoViewModel.class);
-        immoViewModel.initCurrentUser(1);
+        immoViewModel.initCurrentUser(USER_ID);
     }
 
     private void getCER(){
         cerViewModel.getCER().observe(this, cer -> updateUI(cer));
     }
 
-    private void getImmosByAgent(int i){
-        immoViewModel.getImmosByAgent(i).observe(this, immo -> updateListImmo(immo));
+    private void getAllImmos(){
+        immoViewModel.getAllImmos().observe(this, immo -> updateListImmo(immo));
     }
 
     private void updateListImmo(List<Immo> immo){

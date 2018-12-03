@@ -101,7 +101,7 @@ public class DetailsFragment extends BaseFragment {
 
     private void configureViewModel(){
         immoViewModel = ViewModelProviders.of(this, viewModelFactory).get(ImmoViewModel.class);
-        immoViewModel.initCurrentUser(1);
+        immoViewModel.initCurrentUser(USER_ID);
     }
 
     private void getImmoById(int immoId){

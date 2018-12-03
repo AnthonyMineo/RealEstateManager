@@ -136,8 +136,8 @@ public class AppModule {
 
     @Provides
     @Singleton
-    ImmoDataRepository provideImmoRepository(ImmoDao immoDao){
-        return new ImmoDataRepository(immoDao);
+    ImmoDataRepository provideImmoRepository(ImmoDao immoDao, Executor executor){
+        return new ImmoDataRepository(immoDao, executor);
     }
 
     @Provides

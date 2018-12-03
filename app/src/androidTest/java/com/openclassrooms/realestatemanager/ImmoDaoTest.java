@@ -18,9 +18,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static junit.framework.Assert.assertTrue;
 
@@ -105,14 +103,14 @@ public class ImmoDaoTest {
         pOI.add("Ecoles");
         pOI.add("SuperMarché");
 
-        immoAdded.setPointOfInterest(pOI);
+        immoAdded.setPointsOfInterest(pOI);
         immoAdded.setGallery(gallery);
         this.database.immoDao().updateImmo(immoAdded);
 
         // TEST
         List<Immo> immoList = LiveDataTestUtil.getValue(this.database.immoDao().getImmosByAgent(AGENT_ID));
         assertTrue(immoList.size() == 1);
-        assertTrue(immoList.get(0).getPointOfInterest().get(0).contains("Ecoles") && immoList.get(0).getPointOfInterest().get(1).contains("SuperMarché"));
+        assertTrue(immoList.get(0).getPointsOfInterest().get(0).contains("Ecoles") && immoList.get(0).getPointsOfInterest().get(1).contains("SuperMarché"));
         assertTrue( immoList.get(0).getGallery().get(0).getPath().contains("path/1") && immoList.get(0).getGallery().get(0).getFileName().contains("file.1"));
         assertTrue( immoList.get(0).getGallery().get(1).getPath().contains("path/2") && immoList.get(0).getGallery().get(1).getFileName().contains("file.2"));
     }
