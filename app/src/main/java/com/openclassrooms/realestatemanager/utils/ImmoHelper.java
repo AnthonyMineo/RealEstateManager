@@ -5,6 +5,11 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.openclassrooms.realestatemanager.models.local.immovables.Immo;
+import com.openclassrooms.realestatemanager.models.local.immovables.Picture;
+import com.openclassrooms.realestatemanager.models.local.immovables.Vicinity;
+
+import java.util.List;
 
 public class ImmoHelper {
 
@@ -16,13 +21,9 @@ public class ImmoHelper {
     }
 
     // --- CREATE ---
-    /*
-    public static Task<Void> createImmo() {
-        Immo immoToCreate = new Immo();
-        return ImmoHelper.getImmosCollection().document(id).set(immoToCreate);
-
+    public static Task<Void> createImmo(Immo immoToCreate) {
+        return ImmoHelper.getImmosCollection().document(String.valueOf(immoToCreate.getId())).set(immoToCreate);
     }
-    */
 
     // --- GET ---
     public static Task<DocumentSnapshot> getImmoById(String id){

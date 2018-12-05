@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.controllers.activities;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -172,6 +173,8 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
         switch (item.getItemId()) {
             case R.id.toolbar_menu_add:
                 // - start immo creation activity
+                Intent intent = new Intent(MainActivity.this, CreationActivity.class);
+                startActivity(intent);
                 return true;
             case R.id.toolbar_menu_edit:
                 // - start immo edition activity

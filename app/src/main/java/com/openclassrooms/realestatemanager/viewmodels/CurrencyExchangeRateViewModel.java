@@ -33,12 +33,12 @@ public class CurrencyExchangeRateViewModel extends ViewModel{
             return;
         }
         cer = cerDataSource.getCER(fromCurrency, toCurrency);
-        Log.e("TAG", "CER IS INIT");
+        Log.i("CERViewModel", "CER IS INIT");
     }
 
     // --- FOR CER ---
     public LiveData<CurrencyExchangeRate> getCER(){
-        Log.e("TAG", "GETTING CER");
+        Log.i("CERViewModel", "GETTING CER");
         return this.cer; }
 
     public void createCER(CurrencyExchangeRate cer) { executor.execute(() -> cerDataSource.createCER(cer)); }

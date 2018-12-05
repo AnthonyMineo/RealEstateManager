@@ -41,7 +41,6 @@ public class ListFragment extends BaseFragment {
     @BindView(R.id.fragment_list_recycler_view) RecyclerView recyclerView;
 
     // --- DATA ---
-
     public OnItemSelectedListener callback;
 
     @Inject
@@ -125,12 +124,12 @@ public class ListFragment extends BaseFragment {
     }
 
     private void updateListImmo(List<Immo> immo){
-        Log.e("TAG", "immo update");
+        Log.i("ListFragment", "immo update");
         this.immoAdapter.updateData(immo);
     }
 
     private void updateUI(@Nullable CurrencyExchangeRate cer){
-        Log.e("TAG", "CER change");
+        Log.i("ListFragment", "CER change");
     }
 
 }

@@ -14,12 +14,16 @@ android {
         debug {
             buildConfigField 'String', "AlphaVantage_ApiKey", AlphaVantage_ApiKey
             resValue 'string', "alphavantage_api_key", AlphaVantage_ApiKey
+            buildConfigField 'String', "Maps_ApiKey", Maps_ApiKey
+            resValue 'string', "maps_api_key", Maps_ApiKey
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField 'String', "AlphaVantage_ApiKey", AlphaVantage_ApiKey
             resValue 'string', "alphavantage_api_key", AlphaVantage_ApiKey
+            buildConfigField 'String', "Maps_ApiKey", Maps_ApiKey
+            resValue 'string', "maps_api_key", Maps_ApiKey
         }
     }
     compileOptions {

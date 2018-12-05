@@ -5,6 +5,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 
+import com.openclassrooms.realestatemanager.models.local.immovables.Vicinity;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -80,6 +82,12 @@ public class Utils {
             data = activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE;
         }
         return data;
+    }
+
+    public static String convertVicinityToMapsStaticAPIFormat(Vicinity vicinity){
+        String addressFormat = vicinity.getAddress().replace(" ", "+");
+        String vicinityFormatted = addressFormat + "," + vicinity.getCity();
+        return vicinityFormatted;
     }
 
 }

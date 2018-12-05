@@ -21,6 +21,8 @@ public class Immo {
     private int price;
     private int surface;
     private int pieceNumber;
+    private int bathNumber;
+    private int bedNumber;
     private String description;
     private List<Picture> gallery = new ArrayList<Picture>();
     private Vicinity vicinity;
@@ -34,120 +36,31 @@ public class Immo {
     public Immo() {}
 
     // --- PARTIAL CONSTRUCTORS ---
-
-    // --- 1 ---
-    // without "description" / "gallery" / "pointsOfInterest"
-    public Immo(String type, int price, int surface, int pieceNumber, Vicinity vicinity, String enterDate, int agentId) {
-        this.type = type;
-        this.price = price;
-        this.surface = surface;
-        this.pieceNumber = pieceNumber;
-        this.vicinity = vicinity;
-        this.status = false;
-        this.enterDate = enterDate;
-        this.agentId = agentId;
-    }
-
-    // --- 2 ---
     // without "gallery" / "pointsOfInterest"
-    public Immo(String type, int price, int surface, int pieceNumber, String description, Vicinity vicinity,
+    public Immo(String type, int price, int surface, int pieceNumber, int bathNumber, int bedNumber, String description, Vicinity vicinity,
                 String enterDate, int agentId) {
         this.type = type;
         this.price = price;
         this.surface = surface;
         this.pieceNumber = pieceNumber;
+        this.bathNumber = bathNumber;
+        this.bedNumber = bedNumber;
         this.description = description;
         this.vicinity = vicinity;
-        this.status = false;
-        this.enterDate = enterDate;
-        this.agentId = agentId;
-    }
-
-    // --- 3 ---
-    // without "description" / "pointsOfInterest"
-    public Immo(String type, int price, int surface, int pieceNumber, List<Picture> gallery, Vicinity vicinity,
-                String enterDate, int agentId) {
-        this.type = type;
-        this.price = price;
-        this.surface = surface;
-        this.pieceNumber = pieceNumber;
-        this.gallery = gallery;
-        this.vicinity = vicinity;
-        this.status = false;
-        this.enterDate = enterDate;
-        this.agentId = agentId;
-    }
-
-    // --- 4 ---
-    // without "description" / "gallery"
-    public Immo(String type, int price, int surface, int pieceNumber, Vicinity vicinity, List<String> pointsOfInterest,
-                String enterDate, int agentId) {
-        this.type = type;
-        this.price = price;
-        this.surface = surface;
-        this.pieceNumber = pieceNumber;
-        this.vicinity = vicinity;
-        this.pointsOfInterest = pointsOfInterest;
-        this.status = false;
-        this.enterDate = enterDate;
-        this.agentId = agentId;
-    }
-
-    // --- 5 ---
-    // without "pointsOfInterest"
-    public Immo(String type, int price, int surface, int pieceNumber, String description, List<Picture> gallery,
-                Vicinity vicinity, String enterDate, int agentId) {
-        this.type = type;
-        this.price = price;
-        this.surface = surface;
-        this.pieceNumber = pieceNumber;
-        this.description = description;
-        this.gallery = gallery;
-        this.vicinity = vicinity;
-        this.status = false;
-        this.enterDate = enterDate;
-        this.agentId = agentId;
-    }
-
-    // --- 6 ---
-    // without "gallery"
-    public Immo(String type, int price, int surface, int pieceNumber, String description,
-                Vicinity vicinity, List<String> pointsOfInterest, String enterDate, int agentId) {
-        this.type = type;
-        this.price = price;
-        this.surface = surface;
-        this.pieceNumber = pieceNumber;
-        this.description = description;
-        this.vicinity = vicinity;
-        this.pointsOfInterest = pointsOfInterest;
-        this.status = false;
-        this.enterDate = enterDate;
-        this.agentId = agentId;
-    }
-
-    // --- 7 ---
-    // without "description"
-    public Immo(String type, int price, int surface, int pieceNumber, List<Picture> gallery,
-                Vicinity vicinity, List<String> pointsOfInterest, String enterDate, int agentId) {
-        this.type = type;
-        this.price = price;
-        this.surface = surface;
-        this.pieceNumber = pieceNumber;
-        this.gallery = gallery;
-        this.vicinity = vicinity;
-        this.pointsOfInterest = pointsOfInterest;
         this.status = false;
         this.enterDate = enterDate;
         this.agentId = agentId;
     }
 
     // --- COMPLETE CONSTRUCTOR ---
-    public Immo(String type, int price, int surface, int pieceNumber, String description, List<Picture> gallery,
+    public Immo(String type, int price, int surface, int pieceNumber, int bathNumber, int bedNumber, String description, List<Picture> gallery,
                 Vicinity vicinity, List<String> pointsOfInterest, String enterDate, int agentId) {
         this.type = type;
         this.price = price;
         this.surface = surface;
         this.pieceNumber = pieceNumber;
+        this.bathNumber = bathNumber;
+        this.bedNumber = bedNumber;
         this.description = description;
         this.gallery = gallery;
         this.vicinity = vicinity;
@@ -163,6 +76,8 @@ public class Immo {
     public int getPrice() { return price; }
     public int getSurface() { return surface; }
     public int getPieceNumber() { return pieceNumber; }
+    public int getBathNumber() { return bathNumber; }
+    public int getBedNumber() { return bedNumber; }
     public String getDescription() { return description; }
     public List<Picture> getGallery() { return gallery; }
     public Vicinity getVicinity() { return vicinity; }
@@ -178,6 +93,8 @@ public class Immo {
     public void setPrice(int price) { this.price = price; }
     public void setSurface(int surface) { this.surface = surface; }
     public void setPieceNumber(int pieceNumber) { this.pieceNumber = pieceNumber; }
+    public void setBathNumber(int bathNumber) { this.bathNumber = bathNumber; }
+    public void setBedNumber(int bedNumber) { this.bedNumber = bedNumber; }
     public void setDescription(String description) { this.description = description; }
     public void setGallery(List<Picture> gallery) { this.gallery = gallery; }
     public void setVicinity(Vicinity vicinity) { this.vicinity = vicinity; }

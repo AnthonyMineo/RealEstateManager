@@ -40,21 +40,20 @@ public class ImmoDataRepository {
     public LiveData<List<Immo>> getImmosByAgent(int agentId){ return this.immoDao.getImmosByAgent(agentId); }
 
     public LiveData<List<Immo>> getAllImmos(){
-        executor.execute(() -> {
-            getAllImmosFromFirebase();
-        });
+        getAllImmosFromFirebase();
         return this.immoDao.getAllImmos();
     }
 
     public LiveData<Immo> getImmoById(int immoId){
-        executor.execute(() -> {
-            getImmoByIdFromFirebase(immoId);
-        });
+        getImmoByIdFromFirebase(immoId);
         return this.immoDao.getImmoById(immoId);
     }
 
     // --- CREATE ---
-    public void createImmo(Immo immo){ immoDao.insertImmo(immo); }
+    public void createImmo(Immo immo){
+        createImmoInFirebase(immo);
+        immoDao.insertImmo(immo);
+    }
 
     // --- DELETE ---
     public void deleteImmo(int immoId){ immoDao.deleteImmo(immoId); }
@@ -64,33 +63,57 @@ public class ImmoDataRepository {
 
     // --- REMOTE DATA GETTER ---
     private void getImmoByIdFromFirebase(int id){
-        ImmoHelper.getImmoById(String.valueOf(id)).addOnCompleteListener(task -> {
-            if(task.getResult().exists()){
-                Immo immo = task.getResult().toObject(Immo.class);
-                // check if he already exist in db
-                boolean immoExists = (immoDao.hasImmo(immo.getId()) != null);
-                // if not create it
-                if (!immoExists) {
-                    immoDao.insertImmo(immo);
-                }
-            }
-        }).addOnFailureListener(this.onFailureListener());
+        executor.execute(() -> {
+            ImmoHelper.getImmoById(String.valueOf(id)).addOnCompleteListener(task -> {
+                executor.execute(() -> {
+                    if (task.getResult().exists()) {
+                        Immo immo = task.getResult().toObject(Immo.class);
+                        // check if he already exist in db
+                        boolean immoExists = (immoDao.hasImmo(immo.getId()) != null);
+                        // if not create it
+                        if (!immoExists) {
+                            immoDao.insertImmo(immo);
+                        }
+                    }
+                });
+            }).addOnFailureListener(this.onFailureListener());
+        });
     }
 
     private void getAllImmosFromFirebase(){
-        ImmoHelper.getAllImmos().addOnCompleteListener(task -> {
-            // for each immo return by firebase
-            for(DocumentSnapshot immovable : task.getResult()){
-                Immo immo = immovable.toObject(Immo.class);
-                // check if he already exist in db
-                boolean immoExists = (immoDao.hasImmo(immo.getId()) != null);
-                // if not create it
-                if (!immoExists) {
-                    immoDao.insertImmo(immo);
-                }
-            }
-        }).addOnFailureListener(this.onFailureListener());
+        executor.execute(() -> {
+            ImmoHelper.getAllImmos().addOnCompleteListener(task -> {
+                executor.execute(() -> {
+                    // for each immo return by firebase
+                    if (!task.getResult().isEmpty()) {
+                        for (DocumentSnapshot immovable : task.getResult()) {
+                            Immo immo = immovable.toObject(Immo.class);
+                            // check if he already exist in db
+                            boolean immoExists = (immoDao.hasImmo(immo.getId()) != null);
+                            // if not create it
+                            if (!immoExists) {
+                                immoDao.insertImmo(immo);
+                            }
+                        }
+                    }
+                });
+            }).addOnFailureListener(this.onFailureListener());
+        });
     }
+
+    // --- REMOTE DATA SETTER ---
+    private void createImmoInFirebase(Immo immo){
+        executor.execute(() -> {
+            ImmoHelper.createImmo(immo).addOnCompleteListener(task -> {
+                executor.execute(() -> {
+                    // something notification related
+                    Log.i("ImmoDataRepository", "ImmoAddOnFireBase");
+                });
+            }).addOnFailureListener(this.onFailureListener());
+        });
+    }
+
+
 
     private OnFailureListener onFailureListener(){
         return e -> e.printStackTrace();

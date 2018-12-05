@@ -12,11 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.openclassrooms.realestatemanager.BuildConfig;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.local.immovables.Immo;
 import com.openclassrooms.realestatemanager.utils.ItemClickSupport;
+import com.openclassrooms.realestatemanager.utils.Utils;
 import com.openclassrooms.realestatemanager.viewmodels.CurrencyExchangeRateViewModel;
 import com.openclassrooms.realestatemanager.viewmodels.ImmoViewModel;
 import com.openclassrooms.realestatemanager.views.PageAdapter;
@@ -34,6 +37,28 @@ public class DetailsFragment extends BaseFragment {
     RecyclerView recyclerView;
     @BindView(R.id.fragment_detail_zoom_image_view)
     ImageView zoomImageView;
+    @BindView(R.id.fragment_detail_description_text)
+    TextView descriptionTextView;
+    @BindView(R.id.detail_fragment_surface_text_view)
+    TextView surfaceTextView;
+    @BindView(R.id.detail_fragment_rooms_text_view)
+    TextView roomsTextView;
+    @BindView(R.id.detail_fragment_bath_text_view)
+    TextView bathTextView;
+    @BindView(R.id.detail_fragment_bed_text_view)
+    TextView bedTextView;
+    @BindView(R.id.detail_fragment_address_text_view)
+    TextView addressTextView;
+    @BindView(R.id.detail_fragment_cpt_address_text_view)
+    TextView cptAddressTextView;
+    @BindView(R.id.detail_fragment_city_text_view)
+    TextView cityTextView;
+    @BindView(R.id.detail_fragment_postal_code_text_view)
+    TextView postalCodeTextView;
+    @BindView(R.id.detail_fragment_country_text_view)
+    TextView countryTextView;
+    @BindView(R.id.static_map_image_view)
+    ImageView staticMapImageView;
 
     // --- DATA ---
     @Inject
@@ -58,7 +83,7 @@ public class DetailsFragment extends BaseFragment {
         // Actions
         this.configureRecyclerView();
         this.configureViewModel();
-        this.getImmoById(1);
+        this.getImmoById(5);
         return view;
     }
 
@@ -110,7 +135,31 @@ public class DetailsFragment extends BaseFragment {
     }
 
     private void updateUI(Immo immo){
-        this.photoAdapter.updateData(immo.getGallery());
-        // need other UI update
+        if(immo != null){
+            this.photoAdapter.updateData(immo.getGallery());
+
+            // first layout informations
+            this.descriptionTextView.setText(immo.getDescription());
+            this.surfaceTextView.setText(String.valueOf(immo.getSurface()));
+            this.roomsTextView.setText(String.valueOf(immo.getPieceNumber()));
+            this.bathTextView.setText(String.valueOf(immo.getBathNumber()));
+            this.bedTextView.setText(String.valueOf(immo.getBedNumber()));
+
+            // second layout informations - location
+            this.addressTextView.setText(immo.getVicinity().getAddress());
+            this.cptAddressTextView.setText(immo.getVicinity().getCptAddress());
+            this.cityTextView.setText(immo.getVicinity().getCity());
+            this.postalCodeTextView.setText(immo.getVicinity().getPostalCode());
+            this.countryTextView.setText(immo.getVicinity().getCountry());
+
+            try{
+                String addressFormatted = Utils.convertVicinityToMapsStaticAPIFormat(immo.getVicinity());
+                String url = "https://maps.googleapis.com/maps/api/staticmap?size=500x500&markers=" + addressFormatted + "&key=" + BuildConfig.Maps_ApiKey;
+                Glide.with(this).load(url).into(staticMapImageView);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
     }
+
 }
