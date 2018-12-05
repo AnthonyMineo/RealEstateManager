@@ -18,7 +18,7 @@ public class AgentDataRepository {
     }
 
     // --- GET ---
-    public LiveData<Agent> getAgentById(int agentId) { return this.agentDao.getAgentById(agentId); }
+    public LiveData<Agent> getAgentById(long agentId) { return this.agentDao.getAgentById(agentId); }
 
     // --- CREATE ---
     public void createAgent(Agent agent) { agentDao.insertAgent(agent); }

@@ -68,7 +68,6 @@ public class AppModule {
                 contentValues.put("urlPicture", "none");
 
                 db.insert("Agent", OnConflictStrategy.IGNORE, contentValues);
-
             }
         };
     }

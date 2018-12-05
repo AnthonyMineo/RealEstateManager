@@ -16,7 +16,7 @@ import java.util.List;
 public class Immo {
 
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    private long id;
     private String type;
     private int price;
     private int surface;
@@ -30,7 +30,7 @@ public class Immo {
     private boolean status;
     private String enterDate;
     private String sellingDate; // omitted in constructor because it should be initialize during an update
-    private int agentId;
+    private long agentId;
 
     // --- DEFAULT CONSTRUCTOR ---
     public Immo() {}
@@ -38,7 +38,7 @@ public class Immo {
     // --- PARTIAL CONSTRUCTORS ---
     // without "gallery" / "pointsOfInterest"
     public Immo(String type, int price, int surface, int pieceNumber, int bathNumber, int bedNumber, String description, Vicinity vicinity,
-                String enterDate, int agentId) {
+                String enterDate, long agentId) {
         this.type = type;
         this.price = price;
         this.surface = surface;
@@ -54,7 +54,7 @@ public class Immo {
 
     // --- COMPLETE CONSTRUCTOR ---
     public Immo(String type, int price, int surface, int pieceNumber, int bathNumber, int bedNumber, String description, List<Picture> gallery,
-                Vicinity vicinity, List<String> pointsOfInterest, String enterDate, int agentId) {
+                Vicinity vicinity, List<String> pointsOfInterest, String enterDate, long agentId) {
         this.type = type;
         this.price = price;
         this.surface = surface;
@@ -71,7 +71,7 @@ public class Immo {
     }
 
     // --- GETTER ---
-    public int getId() { return id; }
+    public long getId() { return id; }
     public String getType() { return type; }
     public int getPrice() { return price; }
     public int getSurface() { return surface; }
@@ -85,10 +85,10 @@ public class Immo {
     public boolean isStatus() { return status; }
     public String getEnterDate() { return enterDate; }
     public String getSellingDate() { return sellingDate; }
-    public int getAgentId() { return agentId; }
+    public long getAgentId() { return agentId; }
 
     // --- SETTER ---
-    public void setId(int id) { this.id = id; }
+    public void setId(long id) { this.id = id; }
     public void setType(String type) { this.type = type; }
     public void setPrice(int price) { this.price = price; }
     public void setSurface(int surface) { this.surface = surface; }
@@ -102,7 +102,7 @@ public class Immo {
     public void setStatus(boolean status) { this.status = status; }
     public void setEnterDate(String enterDate) { this.enterDate = enterDate; }
     public void setSellingDate(String sellingDate) { this.sellingDate = sellingDate; }
-    public void setAgentId(int agentId) { this.agentId = agentId; }
+    public void setAgentId(long agentId) { this.agentId = agentId; }
 
     // --- UTILS ---
 

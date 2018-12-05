@@ -7,12 +7,12 @@ import android.arch.persistence.room.PrimaryKey;
 public class Agent {
 
     @PrimaryKey
-    private int id;
+    private long id;
     private String userName;
     private String mailAddress;
     private String urlPicture;
 
-    public Agent (int id, String userName, String mailAddress, String urlPicture){
+    public Agent (long id, String userName, String mailAddress, String urlPicture){
         this.id = id;
         this.userName = userName;
         this.mailAddress = mailAddress;
@@ -20,13 +20,13 @@ public class Agent {
     }
 
     // --- GETTER ---
-    public int getId() { return id; }
+    public long getId() { return id; }
     public String getUserName() { return userName; }
     public String getMailAddress() { return mailAddress; }
     public String getUrlPicture() { return urlPicture; }
 
     // --- SETTER ---
-    public void setId(int id) { this.id = id; }
+    public void setId(long id) { this.id = id; }
     public void setUserName(String userName) { this.userName = userName; }
     public void setMailAddress(String mailAddress) { this.mailAddress = mailAddress; }
     public void setUrlPicture(String urlPicture) { this.urlPicture = urlPicture; }

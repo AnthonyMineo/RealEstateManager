@@ -5,7 +5,7 @@
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="@dimen/detail_fragment_main_container_padding">
 
@@ -77,8 +77,8 @@
                         android:textSize="@dimen/detail_fragment_text_size"
                         android:textStyle="bold"
                         android:text="@string/surface_title"
-                        android:layout_toRightOf="@id/surface_icon"
-                        android:layout_marginLeft="@dimen/detail_fragment_relative_layout_margin"/>
+                        android:layout_toEndOf="@id/surface_icon"
+                        android:layout_marginStart="@dimen/detail_fragment_relative_layout_margin"/>
 
                     <TextView
                         android:id="@+id/detail_fragment_surface_text_view"
@@ -86,9 +86,9 @@
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/detail_fragment_text_size"
                         android:text="@string/no_text_yet"
-                        android:layout_toRightOf="@id/surface_icon"
+                        android:layout_toEndOf="@id/surface_icon"
                         android:layout_below="@id/surface_title"
-                        android:layout_marginLeft="@dimen/detail_fragment_text_left_margin"/>
+                        android:layout_marginStart="@dimen/detail_fragment_text_left_margin"/>
 
                 </RelativeLayout>
 
@@ -110,8 +110,8 @@
                         android:textSize="@dimen/detail_fragment_text_size"
                         android:textStyle="bold"
                         android:text="@string/rooms_title"
-                        android:layout_toRightOf="@id/home_icon"
-                        android:layout_marginLeft="@dimen/detail_fragment_relative_layout_margin"/>
+                        android:layout_toEndOf="@id/home_icon"
+                        android:layout_marginStart="@dimen/detail_fragment_relative_layout_margin"/>
 
                     <TextView
                         android:id="@+id/detail_fragment_rooms_text_view"
@@ -119,9 +119,9 @@
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/detail_fragment_text_size"
                         android:text="@string/no_text_yet"
-                        android:layout_toRightOf="@id/home_icon"
+                        android:layout_toEndOf="@id/home_icon"
                         android:layout_below="@id/rooms_title"
-                        android:layout_marginLeft="@dimen/detail_fragment_text_left_margin"/>
+                        android:layout_marginStart="@dimen/detail_fragment_text_left_margin"/>
 
                 </RelativeLayout>
 
@@ -143,8 +143,8 @@
                         android:textSize="@dimen/detail_fragment_text_size"
                         android:textStyle="bold"
                         android:text="@string/bath_title"
-                        android:layout_toRightOf="@id/bath_icon"
-                        android:layout_marginLeft="@dimen/detail_fragment_relative_layout_margin"/>
+                        android:layout_toEndOf="@id/bath_icon"
+                        android:layout_marginStart="@dimen/detail_fragment_relative_layout_margin"/>
 
                     <TextView
                         android:id="@+id/detail_fragment_bath_text_view"
@@ -152,9 +152,9 @@
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/detail_fragment_text_size"
                         android:text="@string/no_text_yet"
-                        android:layout_toRightOf="@id/bath_icon"
+                        android:layout_toEndOf="@id/bath_icon"
                         android:layout_below="@id/bath_title"
-                        android:layout_marginLeft="@dimen/detail_fragment_text_left_margin"/>
+                        android:layout_marginStart="@dimen/detail_fragment_text_left_margin"/>
 
                 </RelativeLayout>
 
@@ -176,8 +176,8 @@
                         android:textSize="@dimen/detail_fragment_text_size"
                         android:textStyle="bold"
                         android:text="@string/bed_title"
-                        android:layout_toRightOf="@id/bed_icon"
-                        android:layout_marginLeft="@dimen/detail_fragment_relative_layout_margin"/>
+                        android:layout_toEndOf="@id/bed_icon"
+                        android:layout_marginStart="@dimen/detail_fragment_relative_layout_margin"/>
 
                     <TextView
                         android:id="@+id/detail_fragment_bed_text_view"
@@ -185,9 +185,9 @@
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/detail_fragment_text_size"
                         android:text="@string/no_text_yet"
-                        android:layout_toRightOf="@id/bed_icon"
+                        android:layout_toEndOf="@id/bed_icon"
                         android:layout_below="@id/bed_title"
-                        android:layout_marginLeft="@dimen/detail_fragment_text_left_margin"/>
+                        android:layout_marginStart="@dimen/detail_fragment_text_left_margin"/>
 
                 </RelativeLayout>
 
@@ -212,8 +212,8 @@
                     android:textSize="@dimen/detail_fragment_text_size"
                     android:textStyle="bold"
                     android:text="@string/location_title"
-                    android:layout_toRightOf="@id/location_icon"
-                    android:layout_marginLeft="@dimen/detail_fragment_relative_layout_margin"/>
+                    android:layout_toEndOf="@id/location_icon"
+                    android:layout_marginStart="@dimen/detail_fragment_relative_layout_margin"/>
 
                 <TextView
                     android:id="@+id/detail_fragment_address_text_view"
@@ -221,9 +221,9 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/detail_fragment_text_size"
                     android:text="@string/no_text_yet"
-                    android:layout_toRightOf="@id/location_icon"
+                    android:layout_toEndOf="@id/location_icon"
                     android:layout_below="@id/location_title"
-                    android:layout_marginLeft="@dimen/detail_fragment_text_left_margin"/>
+                    android:layout_marginStart="@dimen/detail_fragment_text_left_margin"/>
 
                 <TextView
                     android:id="@+id/detail_fragment_cpt_address_text_view"
@@ -231,9 +231,9 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/detail_fragment_text_size"
                     android:text="@string/no_text_yet"
-                    android:layout_toRightOf="@id/location_icon"
+                    android:layout_toEndOf="@id/location_icon"
                     android:layout_below="@id/detail_fragment_address_text_view"
-                    android:layout_marginLeft="@dimen/detail_fragment_text_left_margin"/>
+                    android:layout_marginStart="@dimen/detail_fragment_text_left_margin"/>
 
                 <TextView
                     android:id="@+id/detail_fragment_city_text_view"
@@ -241,9 +241,9 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/detail_fragment_text_size"
                     android:text="@string/no_text_yet"
-                    android:layout_toRightOf="@id/location_icon"
+                    android:layout_toEndOf="@id/location_icon"
                     android:layout_below="@id/detail_fragment_cpt_address_text_view"
-                    android:layout_marginLeft="@dimen/detail_fragment_text_left_margin"/>
+                    android:layout_marginStart="@dimen/detail_fragment_text_left_margin"/>
 
                 <TextView
                     android:id="@+id/detail_fragment_postal_code_text_view"
@@ -251,9 +251,9 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/detail_fragment_text_size"
                     android:text="@string/no_text_yet"
-                    android:layout_toRightOf="@id/location_icon"
+                    android:layout_toEndOf="@id/location_icon"
                     android:layout_below="@id/detail_fragment_city_text_view"
-                    android:layout_marginLeft="@dimen/detail_fragment_text_left_margin"/>
+                    android:layout_marginStart="@dimen/detail_fragment_text_left_margin"/>
 
                 <TextView
                     android:id="@+id/detail_fragment_country_text_view"
@@ -261,9 +261,9 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/detail_fragment_text_size"
                     android:text="@string/no_text_yet"
-                    android:layout_toRightOf="@id/location_icon"
+                    android:layout_toEndOf="@id/location_icon"
                     android:layout_below="@id/detail_fragment_postal_code_text_view"
-                    android:layout_marginLeft="@dimen/detail_fragment_text_left_margin"/>
+                    android:layout_marginStart="@dimen/detail_fragment_text_left_margin"/>
 
             </RelativeLayout>
 

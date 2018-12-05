@@ -92,7 +92,7 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
 
     // - Configure Toolbar
     private void configureToolBar() {
-        toolbar.setTitle(getResources().getString(R.string.app_name));
+        toolbar.setTitle(getResources().getString(R.string.activity_main_title));
         setSupportActionBar(toolbar);
     }
 

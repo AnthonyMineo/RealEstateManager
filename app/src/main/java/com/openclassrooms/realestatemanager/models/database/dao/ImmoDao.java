@@ -15,13 +15,13 @@ import java.util.List;
 public interface ImmoDao {
 
     @Query("SELECT * FROM Immo WHERE agentId = :agentId")
-    LiveData<List<Immo>> getImmosByAgent(int agentId);
+    LiveData<List<Immo>> getImmosByAgent(long agentId);
 
     @Query("SELECT * FROM Immo")
     LiveData<List<Immo>> getAllImmos();
 
     @Query("SELECT * FROM Immo WHERE id = :immoId")
-    LiveData<Immo> getImmoById(int immoId);
+    LiveData<Immo> getImmoById(long immoId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insertImmo(Immo immo);
@@ -30,8 +30,8 @@ public interface ImmoDao {
     int updateImmo(Immo immo);
 
     @Query("DELETE FROM Immo WHERE id = :immoId")
-    int deleteImmo(int immoId);
+    int deleteImmo(long immoId);
 
     @Query("SELECT * FROM Immo WHERE id = :immoId")
-    Immo hasImmo(int immoId);
+    Immo hasImmo(long immoId);
 }

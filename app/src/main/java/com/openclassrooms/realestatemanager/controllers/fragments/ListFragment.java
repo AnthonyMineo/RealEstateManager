@@ -103,7 +103,7 @@ public class ListFragment extends BaseFragment {
                 .setOnItemClickListener((recyclerView, position, v) -> {
                     //v.setBackgroundColor(getContext().getResources().getColor(R.color.colorAccent));
                     callback.onItemSelected();
-                    Log.i("ItemClickSupport", "You click on : " + immoAdapter.getImmo(position));
+                    Log.i("ItemClickSupport", "You click on : " + String.valueOf(immoAdapter.getImmo(position).getId()));
                 });
     }
 
@@ -120,12 +120,12 @@ public class ListFragment extends BaseFragment {
     }
 
     private void getAllImmos(){
-        immoViewModel.getAllImmos().observe(this, immo -> updateListImmo(immo));
+        immoViewModel.getAllImmos().observe(this, immos -> updateListImmo(immos));
     }
 
-    private void updateListImmo(List<Immo> immo){
+    private void updateListImmo(List<Immo> immos){
         Log.i("ListFragment", "immo update");
-        this.immoAdapter.updateData(immo);
+        this.immoAdapter.updateData(immos);
     }
 
     private void updateUI(@Nullable CurrencyExchangeRate cer){

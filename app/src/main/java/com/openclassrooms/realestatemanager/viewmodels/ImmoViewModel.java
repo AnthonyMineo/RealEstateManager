@@ -31,7 +31,7 @@ public class ImmoViewModel extends ViewModel {
         this.executor = executor;
     }
 
-    public void initCurrentUser(int agentId){
+    public void initCurrentUser(long agentId){
         if(this.currentUser != null){
             return;
         }
@@ -42,10 +42,10 @@ public class ImmoViewModel extends ViewModel {
     public LiveData<Agent> getCurrentUser() { return this.currentUser; }
 
     // --- FOR IMMO ---
-    public LiveData<List<Immo>> getImmosByAgent(int agentId) { return immoDataSource.getImmosByAgent(agentId); }
+    public LiveData<List<Immo>> getImmosByAgent(long agentId) { return immoDataSource.getImmosByAgent(agentId); }
     public LiveData<List<Immo>> getAllImmos() { return immoDataSource.getAllImmos(); }
-    public LiveData<Immo> getImmoById(int immoId) { return immoDataSource.getImmoById(immoId); }
+    public LiveData<Immo> getImmoById(long immoId) { return immoDataSource.getImmoById(immoId); }
     public void createImmo(Immo immo) { executor.execute(() -> immoDataSource.createImmo(immo)); }
     public void updateImmo(Immo immo) { executor.execute(() -> immoDataSource.updateImmo(immo)); }
-    public void deleteimmo(int immoId) { executor.execute(() -> immoDataSource.deleteImmo(immoId));}
+    public void deleteimmo(long immoId) { executor.execute(() -> immoDataSource.deleteImmo(immoId));}
 }

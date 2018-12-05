@@ -8,6 +8,8 @@ import butterknife.ButterKnife;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
+    public final long USER_ID = 1;
+
     // --------------------
     // CREATION
     // --------------------

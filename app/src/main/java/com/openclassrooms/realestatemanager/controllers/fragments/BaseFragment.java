@@ -18,7 +18,7 @@ public abstract class BaseFragment extends Fragment{
 
     public final String CURRENCY_1 = "USD";
     public final String CURRENCY_2 = "EUR";
-    public final int USER_ID = 1;
+    public final long USER_ID = 1;
 
     @Nullable
     @Override
