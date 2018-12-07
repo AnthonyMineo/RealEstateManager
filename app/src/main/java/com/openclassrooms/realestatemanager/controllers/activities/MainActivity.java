@@ -1,15 +1,10 @@
 package com.openclassrooms.realestatemanager.controllers.activities;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,7 +13,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.controllers.fragments.DetailsFragment;
@@ -173,11 +167,15 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
         switch (item.getItemId()) {
             case R.id.toolbar_menu_add:
                 // - start immo creation activity
-                Intent intent = new Intent(MainActivity.this, CreationActivity.class);
-                startActivity(intent);
+                Intent intentAdd = new Intent(MainActivity.this, EditionActivity.class);
+                intentAdd.putExtra("editionMode", 0);
+                startActivity(intentAdd);
                 return true;
             case R.id.toolbar_menu_edit:
                 // - start immo edition activity
+                Intent intentEdit = new Intent(MainActivity.this, EditionActivity.class);
+                intentEdit.putExtra("editionMode", 1);
+                startActivity(intentEdit);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

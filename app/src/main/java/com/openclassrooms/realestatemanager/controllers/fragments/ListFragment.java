@@ -102,8 +102,10 @@ public class ListFragment extends BaseFragment {
         ItemClickSupport.addTo(recyclerView, R.layout.immo_list_recycle_item)
                 .setOnItemClickListener((recyclerView, position, v) -> {
                     //v.setBackgroundColor(getContext().getResources().getColor(R.color.colorAccent));
+                    immoViewModel.setSelectedImmo(immoAdapter.getImmo(position));
                     callback.onItemSelected();
                     Log.i("ItemClickSupport", "You click on : " + String.valueOf(immoAdapter.getImmo(position).getId()));
+                    Log.i("ItemCilckSupport", String.valueOf(immoViewModel.getSelectedImmo().getId()));
                 });
     }
 

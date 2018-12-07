@@ -18,7 +18,7 @@
     <string name="menu_log_out_title">LOG OUT</string>
 
     <!-- Recycle item -->
-    <string name="no_text_yet">loading informations...</string>
+    <string name="no_text_yet">loading informations…</string>
 
     <!-- Detail Fragment -->
     <string name="media_title">Media</string>
@@ -32,8 +32,9 @@
     <!-- Firebase -->
     <string name="error_unknown_error">An unknown error has occurred&#8230;</string>
 
-    <!-- Creation Activity -->
-    <string name="activity_creation_title">Immovable Creation</string>
+    <!-- Edition Activity -->
+    <string name="activity_edition_creation_title">Immovable Creation</string>
+    <string name="activity_edition_editing_title">Immovable Edition</string>
     <string name="global_group">GLOBAL</string>
     <string name="location_group">LOCATION</string>
     <string name="description_group">DESCRIPTION</string>

@@ -28,6 +28,7 @@ public class ImmoDataRepository {
 
     private final ImmoDao immoDao;
     private final Executor executor;
+    private Immo selectedImmo;
 
     // --- CONSTRUCTOR ---
     @Inject
@@ -112,6 +113,14 @@ public class ImmoDataRepository {
                 });
             }).addOnFailureListener(this.onFailureListener());
         });
+    }
+
+    public Immo getSelectedImmo() {
+        return selectedImmo;
+    }
+
+    public void setSelectedImmo(Immo selectedImmo) {
+        this.selectedImmo = selectedImmo;
     }
 
     private OnFailureListener onFailureListener(){

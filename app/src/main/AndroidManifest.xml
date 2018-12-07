@@ -26,7 +26,7 @@
 
         <!-- CREATION ACTIVITY -->
         <activity
-            android:name="com.openclassrooms.realestatemanager.controllers.activities.CreationActivity"
+            android:name="com.openclassrooms.realestatemanager.controllers.activities.EditionActivity"
             android:label="Creation"
             android:parentActivityName=".controllers.activities.MainActivity">
 

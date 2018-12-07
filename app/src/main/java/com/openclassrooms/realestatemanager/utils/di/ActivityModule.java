@@ -2,7 +2,7 @@ package com.openclassrooms.realestatemanager.utils.di;
 /*
 Activity Builder
  */
-import com.openclassrooms.realestatemanager.controllers.activities.CreationActivity;
+import com.openclassrooms.realestatemanager.controllers.activities.EditionActivity;
 import com.openclassrooms.realestatemanager.controllers.activities.MainActivity;
 
 import dagger.Module;
@@ -14,5 +14,5 @@ public abstract class ActivityModule {
     abstract MainActivity contributeMainActivity();
 
     @ContributesAndroidInjector
-    abstract CreationActivity contributeCreationActivity();
+    abstract EditionActivity contributeCreationActivity();
 }

@@ -48,4 +48,12 @@ public class ImmoViewModel extends ViewModel {
     public void createImmo(Immo immo) { executor.execute(() -> immoDataSource.createImmo(immo)); }
     public void updateImmo(Immo immo) { executor.execute(() -> immoDataSource.updateImmo(immo)); }
     public void deleteimmo(long immoId) { executor.execute(() -> immoDataSource.deleteImmo(immoId));}
+
+    public Immo getSelectedImmo() {
+        return immoDataSource.getSelectedImmo();
+    }
+
+    public void setSelectedImmo(Immo selectedImmo) {
+        immoDataSource.setSelectedImmo(selectedImmo);
+    }
 }

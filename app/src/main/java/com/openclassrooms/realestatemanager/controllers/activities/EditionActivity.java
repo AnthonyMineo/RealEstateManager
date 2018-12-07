@@ -22,7 +22,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import dagger.android.AndroidInjection;
 
-public class CreationActivity extends BaseActivity {
+public class EditionActivity extends BaseActivity {
 
     // FOR DESIGN
     @BindView(R.id.toolbar)
@@ -68,6 +68,7 @@ public class CreationActivity extends BaseActivity {
     @Inject
     ViewModelProvider.Factory viewModelFactory;
     private ImmoViewModel immoViewModel;
+    private int mode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +77,10 @@ public class CreationActivity extends BaseActivity {
         // Init Dagger
         this.configureDagger();
 
+        this.initExtras();
         this.configureToolBar();
         this.configureViewModel();
+        this.configureUI(immoViewModel.getSelectedImmo());
     }
 
     // --------------------
@@ -86,7 +89,7 @@ public class CreationActivity extends BaseActivity {
 
     @Override
     protected int getActivityLayout() {
-        return R.layout.activity_creation;
+        return R.layout.activity_edition;
     }
 
     // --------------------
@@ -97,9 +100,17 @@ public class CreationActivity extends BaseActivity {
         AndroidInjection.inject(this);
     }
 
+    private void initExtras(){
+        this.mode = getIntent().getExtras().getInt("editionMode");
+    }
+
     // - Configure Toolbar
     private void configureToolBar() {
-        toolbar.setTitle(getResources().getString(R.string.activity_creation_title));
+        if(this.mode == 0){
+            toolbar.setTitle(getResources().getString(R.string.activity_edition_creation_title));
+        } else {
+            toolbar.setTitle(getResources().getString(R.string.activity_edition_editing_title));
+        }
         setSupportActionBar(toolbar);
         // Get a support ActionBar corresponding to this toolbar
         ActionBar ab = getSupportActionBar();
@@ -110,6 +121,50 @@ public class CreationActivity extends BaseActivity {
     private void configureViewModel(){
         immoViewModel = ViewModelProviders.of(this, viewModelFactory).get(ImmoViewModel.class);
         immoViewModel.initCurrentUser(USER_ID);
+    }
+
+    private void configureUI(Immo selectedImmo){
+        if(this.mode == 1 && selectedImmo != null){
+            this.typeEditText.setText(selectedImmo.getType());
+            this.priceEditText.setText(String.valueOf(selectedImmo.getPrice()));
+            this.surfaceEditText.setText(String.valueOf(selectedImmo.getSurface()));
+            this.pieceNumberEditText.setText(String.valueOf(selectedImmo.getPieceNumber()));
+            this.bathNumberEditText.setText(String.valueOf(selectedImmo.getBathNumber()));
+            this.bedNumberEditText.setText(String.valueOf(selectedImmo.getBedNumber()));
+            this.addressEditText.setText(selectedImmo.getVicinity().getAddress());
+            this.cptAddressEditText.setText(selectedImmo.getVicinity().getCptAddress());
+            this.cityEditText.setText(selectedImmo.getVicinity().getCity());
+            this.postalCodeEditText.setText(selectedImmo.getVicinity().getPostalCode());
+            this.countryEditText.setText(selectedImmo.getVicinity().getCountry());
+            this.descriptionEditText.setText(selectedImmo.getDescription());
+
+            this.configureCheckBox(selectedImmo);
+        }
+    }
+
+    private void configureCheckBox(Immo selectedImmo){
+        for(String poi : selectedImmo.getPointsOfInterest()){
+            switch (poi){
+                case "School":
+                    this.schoolCheckBox.setChecked(true);
+                    break;
+                case "Market":
+                    this.marketCheckBox.setChecked(true);
+                    break;
+                case "Bus" :
+                    this.busCheckBox.setChecked(true);
+                    break;
+                case "Sport" :
+                    this.sportCheckBox.setChecked(true);
+                    break;
+                case "Monument" :
+                    this.monumentCheckBox.setChecked(true);
+                    break;
+                case "Park" :
+                    this.parkCheckBox.setChecked(true);
+                    break;
+            }
+        }
     }
 
     @OnClick(R.id.activity_creation_validation_button)
@@ -129,12 +184,17 @@ public class CreationActivity extends BaseActivity {
         String country = this.countryEditText.getText().toString();
         Vicinity vicinity = new Vicinity(address, cptAddress, city, postalCode, country);
 
-        Immo newImmoToCreate = new Immo(type, price, surface, pieceNumber, bathNumber, bedNumber, description, vicinity, Utils.getTodayDate(), USER_ID);
-        ImmoCreation(newImmoToCreate);
+        Immo newImmo = new Immo(type, price, surface, pieceNumber, bathNumber, bedNumber, description, vicinity, Utils.getTodayDate(), USER_ID);
+        ImmoAction(newImmo);
     }
 
-    private void ImmoCreation(Immo immo){
-        immoViewModel.createImmo(immo);
+    private void ImmoAction(Immo immo){
+        if(this.mode == 0){
+            immoViewModel.createImmo(immo);
+        } else {
+            immoViewModel.updateImmo(immo);
+        }
+
     }
 
 
