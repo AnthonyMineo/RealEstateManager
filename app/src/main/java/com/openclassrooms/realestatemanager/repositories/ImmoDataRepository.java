@@ -1,25 +1,15 @@
 package com.openclassrooms.realestatemanager.repositories;
 
 import android.arch.lifecycle.LiveData;
-import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.SnapshotMetadata;
-import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.local.immovables.Immo;
 import com.openclassrooms.realestatemanager.models.database.dao.ImmoDao;
-import com.openclassrooms.realestatemanager.models.local.immovables.Picture;
-import com.openclassrooms.realestatemanager.utils.ImmoHelper;
+import com.openclassrooms.realestatemanager.utils.FirebaseImmoHelper;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Executor;
 
 import javax.inject.Inject;
@@ -66,7 +56,7 @@ public class ImmoDataRepository {
     // --- REMOTE DATA GETTER ---
     private void getImmoByIdFromFirebase(long id){
         executor.execute(() -> {
-            ImmoHelper.getImmoById(String.valueOf(id)).addOnCompleteListener(task -> {
+            FirebaseImmoHelper.getImmoById(String.valueOf(id)).addOnCompleteListener(task -> {
                 executor.execute(() -> {
                     if (task.getResult().exists()) {
                         Immo immo = task.getResult().toObject(Immo.class);
@@ -84,7 +74,7 @@ public class ImmoDataRepository {
 
     private void getAllImmosFromFirebase(){
         executor.execute(() -> {
-            ImmoHelper.getAllImmos().addOnCompleteListener(task -> {
+            FirebaseImmoHelper.getAllImmos().addOnCompleteListener(task -> {
                 executor.execute(() -> {
                     // for each immo return by firebase
                     if (!task.getResult().isEmpty()) {
@@ -106,7 +96,7 @@ public class ImmoDataRepository {
     // --- REMOTE DATA SETTER ---
     private void createImmoInFirebase(Immo immo){
         executor.execute(() -> {
-            ImmoHelper.createImmo(immo).addOnCompleteListener(task -> {
+            FirebaseImmoHelper.createImmo(immo).addOnCompleteListener(task -> {
                 executor.execute(() -> {
                     // something notification related
                     Log.i("ImmoDataRepository", "ImmoAddOnFireBase");
