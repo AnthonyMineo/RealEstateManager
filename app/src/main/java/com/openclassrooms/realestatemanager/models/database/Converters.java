@@ -1,9 +1,11 @@
 package com.openclassrooms.realestatemanager.models.database;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.TypeConverter;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.openclassrooms.realestatemanager.models.local.immovables.Immo;
 import com.openclassrooms.realestatemanager.models.local.immovables.Picture;
 import com.openclassrooms.realestatemanager.models.local.immovables.Vicinity;
 

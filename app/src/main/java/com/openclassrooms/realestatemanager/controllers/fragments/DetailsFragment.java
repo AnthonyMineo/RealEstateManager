@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.controllers.fragments;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +20,7 @@ import com.openclassrooms.realestatemanager.BuildConfig;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.local.immovables.Immo;
 import com.openclassrooms.realestatemanager.utils.ItemClickSupport;
+import com.openclassrooms.realestatemanager.utils.LocalStorageHelper;
 import com.openclassrooms.realestatemanager.utils.Utils;
 import com.openclassrooms.realestatemanager.viewmodels.CurrencyExchangeRateViewModel;
 import com.openclassrooms.realestatemanager.viewmodels.ImmoViewModel;
@@ -83,7 +85,6 @@ public class DetailsFragment extends BaseFragment {
         // Actions
         this.configureRecyclerView();
         this.configureViewModel();
-        this.getImmoById(5);
         return view;
     }
 
@@ -103,7 +104,7 @@ public class DetailsFragment extends BaseFragment {
     // - Configure RecyclerView, Adapter, LayoutManager & glue it together
     private void configureRecyclerView(){
         // - Create adapter passing the list of Restaurants
-        this.photoAdapter = new PhotoAdapter(Glide.with(this));
+        this.photoAdapter = new PhotoAdapter(0);
         // - Attach the adapter to the recyclerview to populate items
         this.recyclerView.setAdapter(this.photoAdapter);
         // - Set layout manager to position the items
@@ -119,7 +120,7 @@ public class DetailsFragment extends BaseFragment {
                         zoomImageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                         zoomImageView.setVisibility(View.VISIBLE);
                     }
-                    //zoomImageView.setImageURI();
+                    zoomImageView.setImageURI(Uri.fromFile(LocalStorageHelper.createOrGetFile(getContext().getFilesDir(), photoAdapter.getPhoto(position).getFileName())));
                     Log.i("ItemClickSupport", "You click on : " + photoAdapter.getPhoto(position));
                 });
     }
@@ -127,11 +128,8 @@ public class DetailsFragment extends BaseFragment {
     private void configureViewModel(){
         immoViewModel = ViewModelProviders.of(this, viewModelFactory).get(ImmoViewModel.class);
         immoViewModel.initCurrentUser(USER_ID);
-    }
-
-    private void getImmoById(int immoId){
         this.zoomImageView.setVisibility(View.INVISIBLE);
-        immoViewModel.getImmoById(immoId).observe(this, immo -> updateUI(immo));
+        immoViewModel.getSelectedImmo().observe(this, immo -> updateUI(immo));
     }
 
     private void updateUI(Immo immo){

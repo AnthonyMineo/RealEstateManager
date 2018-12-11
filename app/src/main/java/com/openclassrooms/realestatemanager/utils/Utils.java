@@ -1,9 +1,13 @@
 package com.openclassrooms.realestatemanager.utils;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.net.wifi.WifiManager;
+import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 
 import com.openclassrooms.realestatemanager.models.local.immovables.Vicinity;
 
@@ -89,5 +93,47 @@ public class Utils {
         String vicinityFormatted = addressFormat + "," + vicinity.getCity();
         return vicinityFormatted;
     }
+
+    public static String getRealFileNameFromURI(Uri uri, Context context) {
+        String result = null;
+        if (uri.getScheme().equals("content")) {
+            Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
+            try {
+                if (cursor != null && cursor.moveToFirst()) {
+                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                }
+            } finally {
+                cursor.close();
+            }
+        }
+        if (result == null) {
+            result = uri.getPath();
+            int cut = result.lastIndexOf('/');
+            if (cut != -1) {
+                result = result.substring(cut + 1);
+            }
+        }
+        return result;
+    }
+
+    public static String getRealPathFromURI(Uri uri, Context context) {
+        String result = null;
+        String[] proj = { MediaStore.Images.Media.DATA };
+        Cursor cursor = context.getContentResolver().query(uri,  proj, null, null, null);
+        try {
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            result = cursor.getString(column_index);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        result = result.substring(0, result.length()-getRealFileNameFromURI(uri, context).length());
+        return result;
+    }
+
 
 }

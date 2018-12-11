@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.models.local.immovables;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
@@ -97,6 +98,7 @@ public class Immo {
     public void setBedNumber(int bedNumber) { this.bedNumber = bedNumber; }
     public void setDescription(String description) { this.description = description; }
     public void setGallery(List<Picture> gallery) { this.gallery = gallery; }
+    public void addToGallery(Picture pic){ this.gallery.add(pic); }
     public void setVicinity(Vicinity vicinity) { this.vicinity = vicinity; }
     public void setPointsOfInterest(List<String> pointsOfInterest) { this.pointsOfInterest = pointsOfInterest; }
     public void setStatus(boolean status) { this.status = status; }

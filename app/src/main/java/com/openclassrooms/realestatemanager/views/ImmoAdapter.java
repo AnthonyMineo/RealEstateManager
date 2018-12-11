@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.views;
 
+import android.arch.lifecycle.LiveData;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,18 +16,18 @@ import java.util.List;
 
 public class ImmoAdapter extends RecyclerView.Adapter<ImmoViewHolder> {
 
-    private RequestManager glide;
+    private Context context;
     private List<Immo> immos;
 
-    public ImmoAdapter(RequestManager glide){
+    public ImmoAdapter(){
         this.immos = new ArrayList<>();
-        this.glide = glide;
     }
 
     @Override
     public ImmoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // CREATE VIEW HOLDER AND INFLATING ITS XML LAYOUT
         Context context = parent.getContext();
+        this.context = context;
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.immo_list_recycle_item, parent, false);
         return new ImmoViewHolder(view);
@@ -35,7 +36,7 @@ public class ImmoAdapter extends RecyclerView.Adapter<ImmoViewHolder> {
     // UPDATE VIEW HOLDER WITH IMMOVABLES
     @Override
     public void onBindViewHolder(ImmoViewHolder viewHolder, int position) {
-        viewHolder.updateWithImmovables(this.immos.get(position), this.glide);
+        viewHolder.updateWithImmovables(this.immos.get(position), this.context);
     }
 
     // RETURN THE TOTAL COUNT OF ITEMS IN THE LIST

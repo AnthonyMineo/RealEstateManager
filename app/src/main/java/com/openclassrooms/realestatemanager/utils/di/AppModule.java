@@ -23,6 +23,7 @@ import com.openclassrooms.realestatemanager.repositories.CurrencyExchangeRateDat
 import com.openclassrooms.realestatemanager.repositories.ImmoDataRepository;
 import com.openclassrooms.realestatemanager.utils.api.AlphaVantageService;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -45,12 +46,18 @@ public class AppModule {
         return application;
     }
 
+    // --- INTERN STORAGE INJECTION ---
+    @Provides
+    File provideDestination(Context context){
+        return context.getFilesDir();
+    }
+
     // --- DB INJECTION ---
     @Provides
     @Singleton
     RealEstateDB provideDatabase(Application application){
         return Room.databaseBuilder(application,
-                RealEstateDB.class, "RealEsateDB.db")
+                RealEstateDB.class, "RealEstateDB.db")
                 .addCallback(prepopulateDatabase())
                 .build();
     }
@@ -92,8 +99,8 @@ public class AppModule {
 
     @Provides
     @Singleton
-    ImmoDataRepository provideImmoRepository(ImmoDao immoDao, Executor executor){
-        return new ImmoDataRepository(immoDao, executor);
+    ImmoDataRepository provideImmoRepository(ImmoDao immoDao, Executor executor, File destination, Context context){
+        return new ImmoDataRepository(immoDao, executor, destination, context);
     }
 
     @Provides
@@ -107,6 +114,7 @@ public class AppModule {
     CurrencyExchangeRateDataRepository provideCerRepository(CerDao cerDao, Executor executor, AlphaVantageService alphaVantageService){
         return new CurrencyExchangeRateDataRepository(cerDao, executor, alphaVantageService);
     }
+
 
     // --- NETWORK INJECTION ---
     private static String ALPHA_VANTAGE_URL = "https://www.alphavantage.co/";

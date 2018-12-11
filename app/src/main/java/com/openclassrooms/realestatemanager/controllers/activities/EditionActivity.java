@@ -1,26 +1,50 @@
 package com.openclassrooms.realestatemanager.controllers.activities;
 
+import android.Manifest;
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.local.immovables.Immo;
+import com.openclassrooms.realestatemanager.models.local.immovables.Picture;
 import com.openclassrooms.realestatemanager.models.local.immovables.Vicinity;
+import com.openclassrooms.realestatemanager.utils.ItemClickSupport;
+import com.openclassrooms.realestatemanager.utils.LocalStorageHelper;
 import com.openclassrooms.realestatemanager.utils.Utils;
 import com.openclassrooms.realestatemanager.viewmodels.ImmoViewModel;
+import com.openclassrooms.realestatemanager.views.PhotoAdapter;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import dagger.android.AndroidInjection;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 
 public class EditionActivity extends BaseActivity {
 
@@ -63,12 +87,18 @@ public class EditionActivity extends BaseActivity {
     CheckBox monumentCheckBox;
     @BindView(R.id.check_box_park)
     CheckBox parkCheckBox;
+    @BindView(R.id.activity_edition_recycler_view)
+    RecyclerView recyclerView;
 
     // FOR DATA
     @Inject
     ViewModelProvider.Factory viewModelFactory;
     private ImmoViewModel immoViewModel;
+    private PhotoAdapter photoAdapter;
+    private Executor executor = Executors.newSingleThreadExecutor();
     private int mode;
+    private final int PICK_IMAGE_REQUEST = 1;
+    private final String TAG = "EditionActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +109,16 @@ public class EditionActivity extends BaseActivity {
 
         this.initExtras();
         this.configureToolBar();
+        this.configureRecyclerView();
         this.configureViewModel();
         this.configureUI(immoViewModel.getSelectedImmo());
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        // 2 - Forward results to EasyPermissions
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
     // --------------------
@@ -118,13 +156,31 @@ public class EditionActivity extends BaseActivity {
         ab.setDisplayHomeAsUpEnabled(true);
     }
 
+    // - Configure RecyclerView, Adapter, LayoutManager & glue it together
+    private void configureRecyclerView(){
+        // - Create adapter passing the list of Restaurants
+        this.photoAdapter = new PhotoAdapter(1);
+        // - Attach the adapter to the recyclerview to populate items
+        this.recyclerView.setAdapter(this.photoAdapter);
+        // - Set layout manager to position the items
+        LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        this.recyclerView.setLayoutManager(horizontalLayoutManager);
+
+        ItemClickSupport.addTo(recyclerView, R.layout.photo_list_recycle_item)
+                .setOnItemClickListener((recyclerView, position, v) -> {
+                    Log.i("editionActivity", "You click on : " + photoAdapter.getPhoto(position));
+                });
+    }
+
     private void configureViewModel(){
         immoViewModel = ViewModelProviders.of(this, viewModelFactory).get(ImmoViewModel.class);
         immoViewModel.initCurrentUser(USER_ID);
     }
 
-    private void configureUI(Immo selectedImmo){
-        if(this.mode == 1 && selectedImmo != null){
+    private void configureUI(LiveData<Immo> selectImmo){
+        if(this.mode == 1 && selectImmo != null){
+            Immo selectedImmo = selectImmo.getValue();
+
             this.typeEditText.setText(selectedImmo.getType());
             this.priceEditText.setText(String.valueOf(selectedImmo.getPrice()));
             this.surfaceEditText.setText(String.valueOf(selectedImmo.getSurface()));
@@ -167,7 +223,34 @@ public class EditionActivity extends BaseActivity {
         }
     }
 
-    @OnClick(R.id.activity_creation_validation_button)
+    @OnClick(R.id.activity_edition_gallery_button)
+    @AfterPermissionGranted(RC_IMAGE_PERMS)
+    public void addImageToGallery(){
+        if (!EasyPermissions.hasPermissions(this, PERMS)) {
+            EasyPermissions.requestPermissions(this, "test", RC_IMAGE_PERMS, PERMS);
+            return;
+        }
+        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri uri = data.getData();
+            Picture newPic = new Picture("", Utils.getRealPathFromURI(uri, this), Utils.getRealFileNameFromURI(uri, this), uri.toString());
+
+            immoViewModel.getTempImmo().addToGallery(newPic);
+            this.photoAdapter.addData(newPic);
+        }
+    }
+
+
+
+    @OnClick(R.id.activity_edition_validation_button)
     public void submit(){
         String type = this.typeEditText.getText().toString();
         int price = Integer.valueOf(this.priceEditText.getText().toString());
@@ -184,11 +267,34 @@ public class EditionActivity extends BaseActivity {
         String country = this.countryEditText.getText().toString();
         Vicinity vicinity = new Vicinity(address, cptAddress, city, postalCode, country);
 
-        Immo newImmo = new Immo(type, price, surface, pieceNumber, bathNumber, bedNumber, description, vicinity, Utils.getTodayDate(), USER_ID);
+        Immo newImmo = immoViewModel.getTempImmo();
+
+        for(Picture pic : newImmo.getGallery()){
+            // create path to the new intern file
+            File file = LocalStorageHelper.createOrGetFile(getFilesDir(), pic.getFileName());
+            String truePath = file.getPath();
+            truePath = truePath.substring(0, truePath.length()-pic.getFileName().length());
+            pic.setPath(truePath);
+
+        }
+
+        newImmo.setType(type);
+        newImmo.setPrice(price);
+        newImmo.setSurface(surface);
+        newImmo.setPieceNumber(pieceNumber);
+        newImmo.setBathNumber(bathNumber);
+        newImmo.setBedNumber(bedNumber);
+        newImmo.setDescription(description);
+        newImmo.setVicinity(vicinity);
+        newImmo.setEnterDate(Utils.getTodayDate());
+        newImmo.setAgentId(USER_ID);
+
         ImmoAction(newImmo);
     }
 
     private void ImmoAction(Immo immo){
+        // Important to reset TempImmo -> avoid working with the same informations each time you create an new immo preventing to overwrite instead of adding 
+        immoViewModel.setTempImmo(new Immo());
         if(this.mode == 0){
             immoViewModel.createImmo(immo);
         } else {

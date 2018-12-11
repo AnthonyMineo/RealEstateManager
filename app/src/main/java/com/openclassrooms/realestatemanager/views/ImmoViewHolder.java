@@ -1,13 +1,17 @@
 package com.openclassrooms.realestatemanager.views;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.local.immovables.Immo;
+import com.openclassrooms.realestatemanager.models.local.immovables.Picture;
+import com.openclassrooms.realestatemanager.utils.LocalStorageHelper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,20 +26,15 @@ public class ImmoViewHolder extends RecyclerView.ViewHolder {
     public ImmoViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
-
     }
 
-    public void updateWithImmovables(Immo immo, RequestManager glide){
+    public void updateWithImmovables(Immo immo, Context context) {
         this.immoType.setText(immo.getType());
         this.immoCity.setText(immo.getVicinity().getCity());
         this.immoPrice.setText(String.valueOf(immo.getPrice()));
-    /*
-        try{
-            immoIcon.setImageURI();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    */
+
+        if(LocalStorageHelper.createOrGetFile(context.getFilesDir(), immo.getGallery().get(0).getFileName()).exists())
+            Glide.with(context).load(LocalStorageHelper.createOrGetFile(context.getFilesDir(), immo.getGallery().get(0).getFileName())).into(immoIcon);
     }
 }
 

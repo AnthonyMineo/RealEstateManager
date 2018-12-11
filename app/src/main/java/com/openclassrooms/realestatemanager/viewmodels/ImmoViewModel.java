@@ -2,12 +2,15 @@ package com.openclassrooms.realestatemanager.viewmodels;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
+import android.graphics.Bitmap;
 
 import com.openclassrooms.realestatemanager.models.local.Agent;
 import com.openclassrooms.realestatemanager.models.local.immovables.Immo;
 import com.openclassrooms.realestatemanager.repositories.AgentDataRepository;
 import com.openclassrooms.realestatemanager.repositories.ImmoDataRepository;
+import com.openclassrooms.realestatemanager.utils.LocalStorageHelper;
 
+import java.io.File;
 import java.util.List;
 import java.util.concurrent.Executor;
 
@@ -49,11 +52,15 @@ public class ImmoViewModel extends ViewModel {
     public void updateImmo(Immo immo) { executor.execute(() -> immoDataSource.updateImmo(immo)); }
     public void deleteimmo(long immoId) { executor.execute(() -> immoDataSource.deleteImmo(immoId));}
 
-    public Immo getSelectedImmo() {
+    public LiveData<Immo> getSelectedImmo() {
         return immoDataSource.getSelectedImmo();
     }
+    public Immo getTempImmo() { return immoDataSource.getTempImmo(); }
 
     public void setSelectedImmo(Immo selectedImmo) {
         immoDataSource.setSelectedImmo(selectedImmo);
+    }
+    public void setTempImmo(Immo tempImmo) {
+        immoDataSource.setTempImmo(tempImmo);
     }
 }

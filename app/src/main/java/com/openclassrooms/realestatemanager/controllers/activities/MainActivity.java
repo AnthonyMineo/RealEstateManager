@@ -25,6 +25,8 @@ import butterknife.BindView;
 import dagger.android.AndroidInjection;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 
 public class MainActivity extends BaseActivity implements HasSupportFragmentInjector, NavigationView.OnNavigationItemSelectedListener, ListFragment.OnItemSelectedListener {
 
@@ -62,6 +64,7 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
         this.showFirstFragment();
     }
 
+
     @Override
     public DispatchingAndroidInjector<Fragment> supportFragmentInjector() {
         return dispatchingAndroidInjector;
@@ -79,6 +82,7 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
     // --------------------
     // ACTIONS
     // --------------------
+
 
     private void configureDagger(){
         AndroidInjection.inject(this);

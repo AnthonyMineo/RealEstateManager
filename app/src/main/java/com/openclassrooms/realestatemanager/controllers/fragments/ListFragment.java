@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager.controllers.fragments;
 
 
 import android.app.Activity;
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
@@ -33,6 +34,8 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import dagger.android.support.AndroidSupportInjection;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 
 
 public class ListFragment extends BaseFragment {
@@ -93,7 +96,7 @@ public class ListFragment extends BaseFragment {
     // - Configure RecyclerView, Adapter, LayoutManager & glue it together
     private void configureRecyclerView(){
         // - Create adapter passing the list of Restaurants
-        this.immoAdapter = new ImmoAdapter(Glide.with(this));
+        this.immoAdapter = new ImmoAdapter();
         // - Attach the adapter to the recyclerview to populate items
         this.recyclerView.setAdapter(this.immoAdapter);
         // - Set layout manager to position the items
@@ -104,8 +107,6 @@ public class ListFragment extends BaseFragment {
                     //v.setBackgroundColor(getContext().getResources().getColor(R.color.colorAccent));
                     immoViewModel.setSelectedImmo(immoAdapter.getImmo(position));
                     callback.onItemSelected();
-                    Log.i("ItemClickSupport", "You click on : " + String.valueOf(immoAdapter.getImmo(position).getId()));
-                    Log.i("ItemCilckSupport", String.valueOf(immoViewModel.getSelectedImmo().getId()));
                 });
     }
 

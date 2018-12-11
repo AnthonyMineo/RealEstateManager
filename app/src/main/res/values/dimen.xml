@@ -25,10 +25,10 @@
     <dimen name="static_map_size">200dp</dimen>
     <dimen name="detail_fragment_element_bottom_margin">12dp</dimen>
 
-    <!-- Activity Creation -->
-    <dimen name="activity_creation_main_container_padding">15dp</dimen>
-    <dimen name="activity_creation_big_margin">30dp</dimen>
-    <dimen name="activity_creation_little_margin">10dp</dimen>
+    <!-- Activity Edition -->
+    <dimen name="activity_edition_main_container_padding">15dp</dimen>
+    <dimen name="activity_edition_big_margin">30dp</dimen>
+    <dimen name="activity_edition_little_margin">10dp</dimen>
     <dimen name="poi_text_view_width">120dp</dimen>
 
 </resources>
