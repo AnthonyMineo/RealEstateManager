@@ -134,7 +134,12 @@ public class DetailsFragment extends BaseFragment {
 
     private void updateUI(Immo immo){
         if(immo != null){
+
             this.photoAdapter.updateData(immo.getGallery());
+            if(zoomImageView.getVisibility() == View.VISIBLE){
+                zoomImageView.getLayoutParams().height = 0;
+                zoomImageView.setVisibility(View.INVISIBLE);
+            }
 
             // first layout informations
             this.descriptionTextView.setText(immo.getDescription());
@@ -159,5 +164,4 @@ public class DetailsFragment extends BaseFragment {
             }
         }
     }
-
 }

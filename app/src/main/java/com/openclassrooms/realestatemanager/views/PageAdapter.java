@@ -10,7 +10,7 @@ import com.openclassrooms.realestatemanager.controllers.fragments.ListFragment;
 public class PageAdapter extends FragmentPagerAdapter {
 
 
-    //Default Constructor
+    // Default Constructor
     public PageAdapter(FragmentManager mgr) {
         super(mgr);
     }

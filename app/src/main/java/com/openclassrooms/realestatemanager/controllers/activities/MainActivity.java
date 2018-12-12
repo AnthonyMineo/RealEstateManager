@@ -1,5 +1,7 @@
 package com.openclassrooms.realestatemanager.controllers.activities;
 
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -17,6 +19,8 @@ import android.view.MenuItem;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.controllers.fragments.DetailsFragment;
 import com.openclassrooms.realestatemanager.controllers.fragments.ListFragment;
+import com.openclassrooms.realestatemanager.models.local.immovables.Immo;
+import com.openclassrooms.realestatemanager.viewmodels.ImmoViewModel;
 import com.openclassrooms.realestatemanager.views.PageAdapter;
 
 import javax.inject.Inject;
@@ -40,6 +44,9 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
     private MenuItem searchMenu;
 
     // FOR DATA
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
+    private ImmoViewModel immoViewModel;
     private PageAdapter pagerAdapter;
     private ListFragment listFragment;
     private DetailsFragment detailsFragment;
@@ -61,6 +68,7 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
         this.configureDrawerLayout();
         this.configureNavigationView();
         this.configureViewPager();
+        this.configureViewModel();
         this.showFirstFragment();
     }
 
@@ -113,6 +121,12 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
         viewPager.setAdapter(pagerAdapter);
     }
 
+    private void configureViewModel(){
+        immoViewModel = ViewModelProviders.of(this, viewModelFactory).get(ImmoViewModel.class);
+        immoViewModel.initCurrentUser(USER_ID);
+        immoViewModel.getSelectedImmo().observe(this, immo -> updateMenu(immo));
+    }
+
     // Listener init
     @Override
     public void onAttachFragment(Fragment fragment) {
@@ -146,6 +160,7 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
 
         this.addMenu = menu.findItem(R.id.toolbar_menu_add);
         this.editMenu = menu.findItem(R.id.toolbar_menu_edit);
+        this.editMenu.setVisible(false);
         this.searchMenu = menu.findItem(R.id.toolbar_menu_search);
 
         this.searchView = (SearchView) searchMenu.getActionView();
@@ -174,14 +189,12 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
                 Intent intentAdd = new Intent(MainActivity.this, EditionActivity.class);
                 intentAdd.putExtra("editionMode", 0);
                 startActivity(intentAdd);
-                viewPager.setCurrentItem(0);
                 return true;
             case R.id.toolbar_menu_edit:
                 // - start immo edition activity
                 Intent intentEdit = new Intent(MainActivity.this, EditionActivity.class);
                 intentEdit.putExtra("editionMode", 1);
                 startActivity(intentEdit);
-                viewPager.setCurrentItem(0);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -217,6 +230,16 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
             this.drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+        }
+    }
+
+    private void updateMenu(Immo immo){
+        if(this.editMenu != null){
+            if(immo != null){
+                this.editMenu.setVisible(true);
+            } else {
+                this.editMenu.setVisible(false);
+            }
         }
     }
 

@@ -69,4 +69,5 @@
     <string name="selling_button">Sold</string>
     <string name="validation_button">Validation</string>
 
+    <string name="error_photo_number">Immovable should at least have one photo</string>
 </resources>

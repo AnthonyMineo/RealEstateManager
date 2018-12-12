@@ -22,6 +22,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.openclassrooms.realestatemanager.R;
@@ -36,6 +37,7 @@ import com.openclassrooms.realestatemanager.views.PhotoAdapter;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -193,11 +195,15 @@ public class EditionActivity extends BaseActivity {
 
         ItemClickSupport.addTo(recyclerView, R.layout.photo_list_recycle_item)
                 .setOnItemClickListener((recyclerView, position, v) -> {
-                    this.photoAdapter.deletePhoto(position);
-                    if(mode == 0){
-                        immoViewModel.getTempImmo().deleteFromGallery(position);
+                    if(this.photoAdapter.getItemCount() > 1){
+                        this.photoAdapter.deletePhoto(position);
+                        if(mode == 0){
+                            immoViewModel.getTempImmo().deleteFromGallery(position);
+                        } else {
+                            immoViewModel.getSelectedImmo().getValue().deleteFromGallery(position);
+                        }
                     } else {
-                        immoViewModel.getSelectedImmo().getValue().deleteFromGallery(position);
+                        Toast.makeText(this, R.string.error_photo_number, Toast.LENGTH_LONG).show();
                     }
                 });
     }
@@ -242,26 +248,19 @@ public class EditionActivity extends BaseActivity {
 
     private void configureCheckBox(Immo selectedImmo){
         for(String poi : selectedImmo.getPointsOfInterest()){
-            switch (poi){
-                case "School":
-                    this.schoolCheckBox.setChecked(true);
-                    break;
-                case "Market":
-                    this.marketCheckBox.setChecked(true);
-                    break;
-                case "Bus" :
-                    this.busCheckBox.setChecked(true);
-                    break;
-                case "Sport" :
-                    this.sportCheckBox.setChecked(true);
-                    break;
-                case "Monument" :
-                    this.monumentCheckBox.setChecked(true);
-                    break;
-                case "Park" :
-                    this.parkCheckBox.setChecked(true);
-                    break;
-            }
+            // Switch don't like not final var
+            if(poi.equals(getResources().getString(R.string.poi_school)))
+                this.schoolCheckBox.setChecked(true);
+            if(poi.equals(getResources().getString(R.string.poi_market)))
+                this.marketCheckBox.setChecked(true);
+            if(poi.equals(getResources().getString(R.string.poi_bus)))
+                this.busCheckBox.setChecked(true);
+            if(poi.equals(getResources().getString(R.string.poi_sport)))
+                this.sportCheckBox.setChecked(true);
+            if(poi.equals(getResources().getString(R.string.poi_monument)))
+                this.monumentCheckBox.setChecked(true);
+            if(poi.equals(getResources().getString(R.string.poi_park)))
+                this.parkCheckBox.setChecked(true);
         }
     }
 
@@ -384,7 +383,7 @@ public class EditionActivity extends BaseActivity {
     private void ImmoAction(Immo immo){
         // Important to reset TempImmo -> avoid working with the same informations each time you create an new immo preventing to overwrite instead of adding
         immoViewModel.setTempImmo(new Immo());
-        immoViewModel.setSelectedImmo(null);
+
         if(this.mode == 0){
             immoViewModel.createImmo(immo);
         } else {
