@@ -31,12 +31,8 @@ public class FirebaseImmoHelper {
     }
 
     // --- UPDATE ---
-    public static Task<Void> updateImmoString(String field, String value, String id) {
-        return FirebaseImmoHelper.getImmosCollection().document(id).update(field, value);
-    }
-
-    public static Task<Void> updateImmoInt(String field, int value, String id) {
-        return FirebaseImmoHelper.getImmosCollection().document(id).update(field, value);
+    public static Task<Void> updateImmo(Immo immoToUpdate) {
+        return FirebaseImmoHelper.getImmosCollection().document(String.valueOf(immoToUpdate.getId())).set(immoToUpdate);
     }
 
     // --- DELETE ---

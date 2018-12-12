@@ -50,6 +50,10 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoViewHolder> {
     public Picture getPhoto(int position){
         return this.gallery.get(position);
     }
+    public void deletePhoto(int position) {
+        this.gallery.remove(position);
+        this.notifyDataSetChanged();
+    }
 
     public void updateData(List<Picture> gallery){
         this.gallery = gallery;

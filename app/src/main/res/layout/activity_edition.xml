@@ -2,6 +2,7 @@
 <LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:focusableInTouchMode="true"
     xmlns:android="http://schemas.android.com/apk/res/android" >
 
         <!-- Toolbar -->
@@ -33,6 +34,25 @@
                     android:layout_height="1dp"
                     android:background="@android:color/black"
                     android:layout_marginBottom="@dimen/activity_edition_little_margin"/>
+
+                <LinearLayout
+                    android:id="@+id/selling_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:visibility="visible"
+                    android:gravity="center">
+
+                    <CheckBox
+                        android:id="@+id/check_box_selling"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/selling_button" />
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -389,20 +409,65 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/activity_edition_big_margin">
+                    android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/activity_edition_gallery_button"
+                        android:id="@+id/activity_edition_gallery_outdoor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/gallery_button" />
+                        android:layout_weight="1"
+                        android:text="@string/gallery_outdoor" />
 
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/activity_edition_recycler_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/recycler_view_height" />
+                    <Button
+                        android:id="@+id/activity_edition_gallery_kitchen"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/gallery_kitchen" />
+
+                    <Button
+                        android:id="@+id/activity_edition_gallery_bath"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/gallery_bath" />
 
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="@dimen/activity_edition_little_margin">
+
+                    <Button
+                        android:id="@+id/activity_edition_gallery_bed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/gallery_bed" />
+
+                    <Button
+                        android:id="@+id/activity_edition_gallery_living"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/gallery_living" />
+
+                    <Button
+                        android:id="@+id/activity_edition_gallery_other"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/gallery_other" />
+
+                </LinearLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/activity_edition_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/recycler_view_height"
+                    android:layout_marginBottom="@dimen/activity_edition_big_margin"/>
 
                 <Button
                     android:id="@+id/activity_edition_validation_button"

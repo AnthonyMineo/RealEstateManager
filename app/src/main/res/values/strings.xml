@@ -57,7 +57,16 @@
     <string name="poi_sport">Sport Hall</string>
     <string name="poi_monument">Monument</string>
     <string name="poi_park">Park</string>
-    <string name="gallery_button">+</string>
+
+    <string name="gallery_outdoor">Outdoor</string>
+    <string name="gallery_kitchen">Kitchen</string>
+    <string name="gallery_bath">Bath</string>
+    <string name="gallery_bed">Bed</string>
+    <string name="gallery_living">Living</string>
+    <string name="gallery_other">Other</string>
+    <string name="chooser_text">Where do you want to pick your photo ?</string>
+
+    <string name="selling_button">Sold</string>
     <string name="validation_button">Validation</string>
 
 </resources>

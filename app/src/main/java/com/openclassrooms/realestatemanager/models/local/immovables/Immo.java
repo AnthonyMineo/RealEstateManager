@@ -28,9 +28,9 @@ public class Immo {
     private List<Picture> gallery = new ArrayList<Picture>();
     private Vicinity vicinity;
     private List<String> pointsOfInterest = new ArrayList<String>();
-    private boolean status;
+    private boolean status = false;
     private String enterDate;
-    private String sellingDate; // omitted in constructor because it should be initialize during an update
+    private String sellingDate = ""; // omitted in constructor because it should be initialize during an update
     private long agentId;
 
     // --- DEFAULT CONSTRUCTOR ---
@@ -48,7 +48,6 @@ public class Immo {
         this.bedNumber = bedNumber;
         this.description = description;
         this.vicinity = vicinity;
-        this.status = false;
         this.enterDate = enterDate;
         this.agentId = agentId;
     }
@@ -66,7 +65,6 @@ public class Immo {
         this.gallery = gallery;
         this.vicinity = vicinity;
         this.pointsOfInterest = pointsOfInterest;
-        this.status = false;
         this.enterDate = enterDate;
         this.agentId = agentId;
     }
@@ -98,13 +96,15 @@ public class Immo {
     public void setBedNumber(int bedNumber) { this.bedNumber = bedNumber; }
     public void setDescription(String description) { this.description = description; }
     public void setGallery(List<Picture> gallery) { this.gallery = gallery; }
-    public void addToGallery(Picture pic){ this.gallery.add(pic); }
     public void setVicinity(Vicinity vicinity) { this.vicinity = vicinity; }
     public void setPointsOfInterest(List<String> pointsOfInterest) { this.pointsOfInterest = pointsOfInterest; }
     public void setStatus(boolean status) { this.status = status; }
     public void setEnterDate(String enterDate) { this.enterDate = enterDate; }
     public void setSellingDate(String sellingDate) { this.sellingDate = sellingDate; }
     public void setAgentId(long agentId) { this.agentId = agentId; }
+
+    public void addToGallery(Picture pic){ this.gallery.add(pic); }
+    public void deleteFromGallery(int position){ this.gallery.remove(position); }
 
     // --- UTILS ---
 

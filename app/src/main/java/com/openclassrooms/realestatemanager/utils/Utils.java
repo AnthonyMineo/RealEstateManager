@@ -116,24 +116,4 @@ public class Utils {
         return result;
     }
 
-    public static String getRealPathFromURI(Uri uri, Context context) {
-        String result = null;
-        String[] proj = { MediaStore.Images.Media.DATA };
-        Cursor cursor = context.getContentResolver().query(uri,  proj, null, null, null);
-        try {
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            result = cursor.getString(column_index);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-        result = result.substring(0, result.length()-getRealFileNameFromURI(uri, context).length());
-        return result;
-    }
-
-
 }

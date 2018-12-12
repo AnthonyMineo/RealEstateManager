@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.openclassrooms.realestatemanager.R;
@@ -35,6 +36,8 @@ import com.openclassrooms.realestatemanager.views.PhotoAdapter;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -51,6 +54,12 @@ public class EditionActivity extends BaseActivity {
     // FOR DESIGN
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
+    // Global
+    @BindView(R.id.selling_layout)
+    LinearLayout sellingLayout;
+    @BindView(R.id.check_box_selling)
+    CheckBox sellingCheckBox;
     @BindView(R.id.type_edit_text)
     EditText typeEditText;
     @BindView(R.id.price_edit_text)
@@ -63,6 +72,8 @@ public class EditionActivity extends BaseActivity {
     EditText bathNumberEditText;
     @BindView(R.id.bed_number_edit_text)
     EditText bedNumberEditText;
+
+    // Location
     @BindView(R.id.address_edit_text)
     EditText addressEditText;
     @BindView(R.id.cpt_address_edit_text)
@@ -73,8 +84,12 @@ public class EditionActivity extends BaseActivity {
     EditText postalCodeEditText;
     @BindView(R.id.country_edit_text)
     EditText countryEditText;
+
+    // Description
     @BindView(R.id.description_edit_text)
     EditText descriptionEditText;
+
+    // Points of interest
     @BindView(R.id.check_box_school)
     CheckBox schoolCheckBox;
     @BindView(R.id.check_box_market)
@@ -87,6 +102,8 @@ public class EditionActivity extends BaseActivity {
     CheckBox monumentCheckBox;
     @BindView(R.id.check_box_park)
     CheckBox parkCheckBox;
+
+    // Gallery
     @BindView(R.id.activity_edition_recycler_view)
     RecyclerView recyclerView;
 
@@ -95,8 +112,8 @@ public class EditionActivity extends BaseActivity {
     ViewModelProvider.Factory viewModelFactory;
     private ImmoViewModel immoViewModel;
     private PhotoAdapter photoAdapter;
-    private Executor executor = Executors.newSingleThreadExecutor();
     private int mode;
+    private String picturePlace;
     private final int PICK_IMAGE_REQUEST = 1;
     private final String TAG = "EditionActivity";
 
@@ -111,7 +128,8 @@ public class EditionActivity extends BaseActivity {
         this.configureToolBar();
         this.configureRecyclerView();
         this.configureViewModel();
-        this.configureUI(immoViewModel.getSelectedImmo());
+        this.configureUI(immoViewModel.getSelectedImmo().getValue());
+        this.chekForPermissions();
     }
 
     @Override
@@ -133,6 +151,13 @@ public class EditionActivity extends BaseActivity {
     // --------------------
     // ACTIONS
     // --------------------
+
+    private void chekForPermissions(){
+        if (!EasyPermissions.hasPermissions(this, PERMS)) {
+            EasyPermissions.requestPermissions(this, "test", RC_IMAGE_PERMS, PERMS);
+            return;
+        }
+    }
 
     private void configureDagger(){
         AndroidInjection.inject(this);
@@ -168,7 +193,12 @@ public class EditionActivity extends BaseActivity {
 
         ItemClickSupport.addTo(recyclerView, R.layout.photo_list_recycle_item)
                 .setOnItemClickListener((recyclerView, position, v) -> {
-                    Log.i("editionActivity", "You click on : " + photoAdapter.getPhoto(position));
+                    this.photoAdapter.deletePhoto(position);
+                    if(mode == 0){
+                        immoViewModel.getTempImmo().deleteFromGallery(position);
+                    } else {
+                        immoViewModel.getSelectedImmo().getValue().deleteFromGallery(position);
+                    }
                 });
     }
 
@@ -177,9 +207,17 @@ public class EditionActivity extends BaseActivity {
         immoViewModel.initCurrentUser(USER_ID);
     }
 
-    private void configureUI(LiveData<Immo> selectImmo){
-        if(this.mode == 1 && selectImmo != null){
-            Immo selectedImmo = selectImmo.getValue();
+    private void configureUI(Immo selectedImmo){
+        if(this.mode == 1 && selectedImmo != null){
+
+            this.sellingLayout.setVisibility(View.VISIBLE);
+            this.sellingLayout.getLayoutParams().height = getResources().getDimensionPixelSize(R.dimen.selling_layout_height);
+
+            if(selectedImmo.getSellingDate().equals("")){
+                sellingCheckBox.setChecked(false);
+            } else {
+                sellingCheckBox.setChecked(true);
+            }
 
             this.typeEditText.setText(selectedImmo.getType());
             this.priceEditText.setText(String.valueOf(selectedImmo.getPrice()));
@@ -195,6 +233,10 @@ public class EditionActivity extends BaseActivity {
             this.descriptionEditText.setText(selectedImmo.getDescription());
 
             this.configureCheckBox(selectedImmo);
+
+            for(Picture pic : selectedImmo.getGallery()){
+                this.photoAdapter.addData(pic);
+            }
         }
     }
 
@@ -223,32 +265,60 @@ public class EditionActivity extends BaseActivity {
         }
     }
 
-    @OnClick(R.id.activity_edition_gallery_button)
-    @AfterPermissionGranted(RC_IMAGE_PERMS)
-    public void addImageToGallery(){
-        if (!EasyPermissions.hasPermissions(this, PERMS)) {
-            EasyPermissions.requestPermissions(this, "test", RC_IMAGE_PERMS, PERMS);
-            return;
-        }
-        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    @OnClick({R.id.activity_edition_gallery_outdoor, R.id.activity_edition_gallery_kitchen, R.id.activity_edition_gallery_bath,
+            R.id.activity_edition_gallery_bed, R.id.activity_edition_gallery_living, R.id.activity_edition_gallery_other})
+    public void addImageToGallery(View view){
+        this.chekForPermissions();
+        setPicturePlace(view);
+
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+
+        Intent chooser = Intent.createChooser(galleryIntent, getResources().getString(R.string.chooser_text));
+        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] { cameraIntent });
+        startActivityForResult(chooser, PICK_IMAGE_REQUEST);
+
     }
-
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri uri = data.getData();
-            Picture newPic = new Picture("", Utils.getRealPathFromURI(uri, this), Utils.getRealFileNameFromURI(uri, this), uri.toString());
+            Picture newPic = new Picture(this.picturePlace, Utils.getRealFileNameFromURI(uri, this), uri.toString());
 
-            immoViewModel.getTempImmo().addToGallery(newPic);
+            if(mode == 0){
+                immoViewModel.getTempImmo().addToGallery(newPic);
+            } else {
+                immoViewModel.getSelectedImmo().getValue().addToGallery(newPic);
+            }
+
             this.photoAdapter.addData(newPic);
         }
     }
 
-
+    private void setPicturePlace(View view){
+        switch (view.getId()) {
+            case R.id.activity_edition_gallery_outdoor:
+                this.picturePlace = getResources().getString(R.string.gallery_outdoor);
+                break;
+            case R.id.activity_edition_gallery_kitchen:
+                this.picturePlace = getResources().getString(R.string.gallery_kitchen);
+                break;
+            case R.id.activity_edition_gallery_bath:
+                this.picturePlace = getResources().getString(R.string.gallery_bath);
+                break;
+            case R.id.activity_edition_gallery_bed:
+                this.picturePlace = getResources().getString(R.string.gallery_bed);
+                break;
+            case R.id.activity_edition_gallery_living:
+                this.picturePlace = getResources().getString(R.string.gallery_living);
+                break;
+            case R.id.activity_edition_gallery_other:
+                this.picturePlace = getResources().getString(R.string.gallery_other);
+                break;
+        }
+    }
 
     @OnClick(R.id.activity_edition_validation_button)
     public void submit(){
@@ -267,15 +337,26 @@ public class EditionActivity extends BaseActivity {
         String country = this.countryEditText.getText().toString();
         Vicinity vicinity = new Vicinity(address, cptAddress, city, postalCode, country);
 
-        Immo newImmo = immoViewModel.getTempImmo();
+        List<String> poi = new ArrayList<>();
+        if(this.schoolCheckBox.isChecked())
+            poi.add(getResources().getString(R.string.poi_school));
+        if(this.marketCheckBox.isChecked())
+            poi.add(getResources().getString(R.string.poi_market));
+        if(this.busCheckBox.isChecked())
+            poi.add(getResources().getString(R.string.poi_bus));
+        if(this.sportCheckBox.isChecked())
+            poi.add(getResources().getString(R.string.poi_sport));
+        if(this.monumentCheckBox.isChecked())
+            poi.add(getResources().getString(R.string.poi_monument));
+        if(this.parkCheckBox.isChecked())
+            poi.add(getResources().getString(R.string.poi_park));
 
-        for(Picture pic : newImmo.getGallery()){
-            // create path to the new intern file
-            File file = LocalStorageHelper.createOrGetFile(getFilesDir(), pic.getFileName());
-            String truePath = file.getPath();
-            truePath = truePath.substring(0, truePath.length()-pic.getFileName().length());
-            pic.setPath(truePath);
+        Immo newImmo = null;
 
+        if(mode == 0){
+            newImmo = immoViewModel.getTempImmo();
+        } else {
+            newImmo = immoViewModel.getSelectedImmo().getValue();
         }
 
         newImmo.setType(type);
@@ -286,21 +367,31 @@ public class EditionActivity extends BaseActivity {
         newImmo.setBedNumber(bedNumber);
         newImmo.setDescription(description);
         newImmo.setVicinity(vicinity);
+        newImmo.setPointsOfInterest(poi);
         newImmo.setEnterDate(Utils.getTodayDate());
         newImmo.setAgentId(USER_ID);
+        if(sellingCheckBox.isChecked()){
+            newImmo.setSellingDate(Utils.getTodayDate());
+            newImmo.setStatus(true);
+        } else {
+            newImmo.setSellingDate("");
+            newImmo.setStatus(false);
+        }
 
         ImmoAction(newImmo);
     }
 
     private void ImmoAction(Immo immo){
-        // Important to reset TempImmo -> avoid working with the same informations each time you create an new immo preventing to overwrite instead of adding 
+        // Important to reset TempImmo -> avoid working with the same informations each time you create an new immo preventing to overwrite instead of adding
         immoViewModel.setTempImmo(new Immo());
+        immoViewModel.setSelectedImmo(null);
         if(this.mode == 0){
             immoViewModel.createImmo(immo);
         } else {
             immoViewModel.updateImmo(immo);
         }
 
+        this.finish();
     }
 
 

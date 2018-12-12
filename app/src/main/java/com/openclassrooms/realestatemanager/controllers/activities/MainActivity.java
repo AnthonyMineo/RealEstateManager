@@ -174,12 +174,14 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
                 Intent intentAdd = new Intent(MainActivity.this, EditionActivity.class);
                 intentAdd.putExtra("editionMode", 0);
                 startActivity(intentAdd);
+                viewPager.setCurrentItem(0);
                 return true;
             case R.id.toolbar_menu_edit:
                 // - start immo edition activity
                 Intent intentEdit = new Intent(MainActivity.this, EditionActivity.class);
                 intentEdit.putExtra("editionMode", 1);
                 startActivity(intentEdit);
+                viewPager.setCurrentItem(0);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

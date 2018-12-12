@@ -30,5 +30,6 @@
     <dimen name="activity_edition_big_margin">30dp</dimen>
     <dimen name="activity_edition_little_margin">10dp</dimen>
     <dimen name="poi_text_view_width">120dp</dimen>
+    <dimen name="selling_layout_height">30dp</dimen>
 
 </resources>
