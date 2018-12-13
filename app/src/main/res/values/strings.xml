@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Real Estate Manager</string>
 
+    <!-- PERMISSIONS -->
+    <string name="popup_title_permission">This application need permissions to work</string>
+
     <!-- Activity Main -->
     <string name="activity_main_title">R.E.M</string>
 
@@ -70,4 +73,8 @@
     <string name="validation_button">Validation</string>
 
     <string name="error_photo_number">Immovable should at least have one photo</string>
+
+    <!-- MAP Activity -->
+    <string name="activity_map_title">Map View</string>
+
 </resources>

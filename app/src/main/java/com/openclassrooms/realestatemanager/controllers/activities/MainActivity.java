@@ -29,7 +29,6 @@ import butterknife.BindView;
 import dagger.android.AndroidInjection;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
-import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
 public class MainActivity extends BaseActivity implements HasSupportFragmentInjector, NavigationView.OnNavigationItemSelectedListener, ListFragment.OnItemSelectedListener {
@@ -70,6 +69,7 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
         this.configureViewPager();
         this.configureViewModel();
         this.showFirstFragment();
+        this.checkForPermission();
     }
 
 
@@ -102,6 +102,22 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
         setSupportActionBar(toolbar);
     }
 
+    private void checkForPermission(){
+        if (!EasyPermissions.hasPermissions(this, ACCESS_FINE_LOCATION_PERMS)) {
+            EasyPermissions.requestPermissions(this, getString(R.string.popup_title_permission), RC_LOCATION_PERMS1, ACCESS_FINE_LOCATION_PERMS);
+        }
+        if (!EasyPermissions.hasPermissions(this, ACCES_COARSE_LOCATION_PERMS)) {
+            EasyPermissions.requestPermissions(this, getString(R.string.popup_title_permission), RC_LOCATION_PERMS2, ACCES_COARSE_LOCATION_PERMS);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        // 2 - Forward results to EasyPermissions
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
     // - Configure Drawer Layout
     private void configureDrawerLayout() {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -116,7 +132,7 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
 
     // - Configure ViewPager
     private void configureViewPager() {
-        pagerAdapter = new PageAdapter(getSupportFragmentManager());
+        pagerAdapter = new PageAdapter(getSupportFragmentManager(), ACTIVITY_MAIN_SOURCE);
         // - Set Adapter PageAdapter and glue it together
         viewPager.setAdapter(pagerAdapter);
     }
@@ -208,6 +224,8 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
 
         switch (id){
             case R.id.menu_drawer_map :
+                Intent intentMap = new Intent(MainActivity.this, MapActivity.class);
+                startActivity(intentMap);
                 // - Show google maps activity center to the current user
                 break;
             case R.id.menu_drawer_settings:

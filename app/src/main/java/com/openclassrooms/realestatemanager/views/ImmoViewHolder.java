@@ -7,10 +7,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.local.immovables.Immo;
-import com.openclassrooms.realestatemanager.models.local.immovables.Picture;
 import com.openclassrooms.realestatemanager.utils.LocalStorageHelper;
 
 import butterknife.BindView;

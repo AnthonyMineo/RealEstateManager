@@ -2,27 +2,31 @@ package com.openclassrooms.realestatemanager.utils;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.net.wifi.WifiManager;
-import android.provider.MediaStore;
+
 import android.provider.OpenableColumns;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.openclassrooms.realestatemanager.models.local.immovables.Vicinity;
 
-import java.text.DateFormat;
+import java.io.IOException;
+
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
+
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
+import java.util.List;
 
 /**
  * Created by Philippe on 21/02/2018.
  */
 
 public class Utils {
+
     /**
      * Conversion d'un prix d'un bien immobilier (Dollars vers Euros)
      * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
@@ -116,4 +120,21 @@ public class Utils {
         return result;
     }
 
+    public static LatLng getLocationFromAddress(Context context, String strAddress) {
+        Geocoder coder = new Geocoder(context);
+        List<Address> address;
+        LatLng loc = null;
+        try {
+            // May throw an IOException
+            address = coder.getFromLocationName(strAddress, 5);
+            if (address == null || address.size() == 0) {
+                return null;
+            }
+            Address location = address.get(0);
+            loc = new LatLng(location.getLatitude(), location.getLongitude() );
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return loc;
+    }
 }

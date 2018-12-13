@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.models.local.immovables;
 
-import android.net.Uri;
 
 public class Picture {
 

@@ -5,7 +5,6 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -22,9 +21,7 @@ import com.openclassrooms.realestatemanager.models.local.immovables.Immo;
 import com.openclassrooms.realestatemanager.utils.ItemClickSupport;
 import com.openclassrooms.realestatemanager.utils.LocalStorageHelper;
 import com.openclassrooms.realestatemanager.utils.Utils;
-import com.openclassrooms.realestatemanager.viewmodels.CurrencyExchangeRateViewModel;
 import com.openclassrooms.realestatemanager.viewmodels.ImmoViewModel;
-import com.openclassrooms.realestatemanager.views.PageAdapter;
 import com.openclassrooms.realestatemanager.views.PhotoAdapter;
 
 import javax.inject.Inject;
@@ -104,7 +101,7 @@ public class DetailsFragment extends BaseFragment {
     // - Configure RecyclerView, Adapter, LayoutManager & glue it together
     private void configureRecyclerView(){
         // - Create adapter passing the list of Restaurants
-        this.photoAdapter = new PhotoAdapter(0);
+        this.photoAdapter = new PhotoAdapter(DETAILS_FRAGMENT_SOURCE);
         // - Attach the adapter to the recyclerview to populate items
         this.recyclerView.setAdapter(this.photoAdapter);
         // - Set layout manager to position the items

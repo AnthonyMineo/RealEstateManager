@@ -1,11 +1,6 @@
 package com.openclassrooms.realestatemanager.utils;
 
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.net.Uri;
-import android.provider.MediaStore;
-
-import com.openclassrooms.realestatemanager.models.local.immovables.Picture;
 
 import java.io.File;
 import java.io.FileOutputStream;

@@ -1,54 +1,43 @@
 package com.openclassrooms.realestatemanager.controllers.activities;
 
-import android.Manifest;
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.provider.OpenableColumns;
+
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+
 import android.view.View;
-import android.widget.Button;
+
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageView;
+
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.local.immovables.Immo;
 import com.openclassrooms.realestatemanager.models.local.immovables.Picture;
 import com.openclassrooms.realestatemanager.models.local.immovables.Vicinity;
 import com.openclassrooms.realestatemanager.utils.ItemClickSupport;
-import com.openclassrooms.realestatemanager.utils.LocalStorageHelper;
+
 import com.openclassrooms.realestatemanager.utils.Utils;
 import com.openclassrooms.realestatemanager.viewmodels.ImmoViewModel;
 import com.openclassrooms.realestatemanager.views.PhotoAdapter;
 
-import java.io.File;
-import java.io.IOException;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import dagger.android.AndroidInjection;
-import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
 public class EditionActivity extends BaseActivity {
@@ -131,7 +120,7 @@ public class EditionActivity extends BaseActivity {
         this.configureRecyclerView();
         this.configureViewModel();
         this.configureUI(immoViewModel.getSelectedImmo().getValue());
-        this.chekForPermissions();
+        this.checkForPermissions();
     }
 
     @Override
@@ -154,9 +143,9 @@ public class EditionActivity extends BaseActivity {
     // ACTIONS
     // --------------------
 
-    private void chekForPermissions(){
-        if (!EasyPermissions.hasPermissions(this, PERMS)) {
-            EasyPermissions.requestPermissions(this, "test", RC_IMAGE_PERMS, PERMS);
+    private void checkForPermissions(){
+        if (!EasyPermissions.hasPermissions(this, READ_EXTERNAL_STORAGE_PERMS)) {
+            EasyPermissions.requestPermissions(this, getResources().getString(R.string.popup_title_permission), RC_IMAGE_PERMS, READ_EXTERNAL_STORAGE_PERMS);
             return;
         }
     }
@@ -180,13 +169,15 @@ public class EditionActivity extends BaseActivity {
         // Get a support ActionBar corresponding to this toolbar
         ActionBar ab = getSupportActionBar();
         // Enable the Up button
-        ab.setDisplayHomeAsUpEnabled(true);
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     // - Configure RecyclerView, Adapter, LayoutManager & glue it together
     private void configureRecyclerView(){
         // - Create adapter passing the list of Restaurants
-        this.photoAdapter = new PhotoAdapter(1);
+        this.photoAdapter = new PhotoAdapter(ACTIVITY_EDITION_SOURCE);
         // - Attach the adapter to the recyclerview to populate items
         this.recyclerView.setAdapter(this.photoAdapter);
         // - Set layout manager to position the items
@@ -267,14 +258,14 @@ public class EditionActivity extends BaseActivity {
     @OnClick({R.id.activity_edition_gallery_outdoor, R.id.activity_edition_gallery_kitchen, R.id.activity_edition_gallery_bath,
             R.id.activity_edition_gallery_bed, R.id.activity_edition_gallery_living, R.id.activity_edition_gallery_other})
     public void addImageToGallery(View view){
-        this.chekForPermissions();
+        this.checkForPermissions();
         setPicturePlace(view);
 
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 
-        Intent chooser = Intent.createChooser(galleryIntent, getResources().getString(R.string.chooser_text));
-        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] { cameraIntent });
+        Intent chooser = Intent.createChooser(cameraIntent, getResources().getString(R.string.chooser_text));
+        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] { galleryIntent });
         startActivityForResult(chooser, PICK_IMAGE_REQUEST);
 
     }

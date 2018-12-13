@@ -23,7 +23,7 @@ public interface ImmoDao {
     @Query("SELECT * FROM Immo WHERE id = :immoId")
     LiveData<Immo> getImmoById(long immoId);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     long insertImmo(Immo immo);
 
     @Update

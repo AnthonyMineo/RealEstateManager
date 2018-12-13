@@ -10,10 +10,18 @@ import butterknife.ButterKnife;
 public abstract class BaseActivity extends AppCompatActivity {
 
     public final long USER_ID = 1;
+    public static final int ACTIVITY_MAIN_SOURCE = 0;
+    public static final int ACTIVITY_EDITION_SOURCE = 1;
+    public static final int ACTIVITY_MAP_SOURCE = 2;
 
     // - STATIC DATA FOR PICTURE
-    public static final String PERMS = Manifest.permission.READ_EXTERNAL_STORAGE;
+    public static final String READ_EXTERNAL_STORAGE_PERMS = Manifest.permission.READ_EXTERNAL_STORAGE;
     public static final int RC_IMAGE_PERMS = 100;
+    public static final String ACCESS_FINE_LOCATION_PERMS = Manifest.permission.ACCESS_FINE_LOCATION;
+    public static final int RC_LOCATION_PERMS1 = 150;
+    public static final String ACCES_COARSE_LOCATION_PERMS = Manifest.permission.ACCESS_COARSE_LOCATION;
+    public static final int RC_LOCATION_PERMS2 = 200;
+
 
     // --------------------
     // CREATION

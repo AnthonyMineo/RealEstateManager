@@ -12,7 +12,6 @@ import com.openclassrooms.realestatemanager.utils.api.AlphaVantageService;
 import java.util.concurrent.Executor;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import retrofit2.Call;
 import retrofit2.Callback;

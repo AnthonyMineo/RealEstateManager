@@ -4,6 +4,7 @@ Activity Builder
  */
 import com.openclassrooms.realestatemanager.controllers.activities.EditionActivity;
 import com.openclassrooms.realestatemanager.controllers.activities.MainActivity;
+import com.openclassrooms.realestatemanager.controllers.activities.MapActivity;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -15,4 +16,7 @@ public abstract class ActivityModule {
 
     @ContributesAndroidInjector
     abstract EditionActivity contributeCreationActivity();
+
+    @ContributesAndroidInjector
+    abstract MapActivity contributeMapActivity();
 }
