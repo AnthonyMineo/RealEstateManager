@@ -101,7 +101,9 @@ public class ListFragment extends BaseFragment {
                 .setOnItemClickListener((recyclerView, position, v) -> {
                     //v.setBackgroundColor(getContext().getResources().getColor(R.color.colorAccent));
                     immoViewModel.setSelectedImmo(immoAdapter.getImmo(position));
-                    callback.onItemSelected();
+                    if(!getResources().getBoolean(R.bool.isTablet)) {
+                        callback.onItemSelected();
+                    }
                 });
     }
 

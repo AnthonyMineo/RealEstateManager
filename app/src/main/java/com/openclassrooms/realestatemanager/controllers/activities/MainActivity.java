@@ -39,12 +39,12 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.activity_main_drawer_layout) DrawerLayout drawerLayout;
     @BindView(R.id.activity_main_nav_view) NavigationView navigationView;
-    @BindView(R.id.activity_main_view_pager) ViewPager viewPager;
     private MenuItem addMenu;
     private MenuItem editMenu;
     private MenuItem searchMenu;
+    private ViewPager viewPager;
 
-    // FOR DATA
+            // FOR DATA
     @Inject
     ViewModelProvider.Factory viewModelFactory;
     private ImmoViewModel immoViewModel;
@@ -68,7 +68,7 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
         this.configureToolBar();
         this.configureDrawerLayout();
         this.configureNavigationView();
-        this.configureViewPager();
+        this.configureViewPagerOrFragment();
         this.configureViewModel();
         this.showFirstFragment();
         this.checkForPermission();
@@ -133,10 +133,26 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
     }
 
     // - Configure ViewPager
-    private void configureViewPager() {
-        pagerAdapter = new PageAdapter(getSupportFragmentManager(), ACTIVITY_MAIN_SOURCE, this);
-        // - Set Adapter PageAdapter and glue it together
-        viewPager.setAdapter(pagerAdapter);
+    private void configureViewPagerOrFragment() {
+        if(getResources().getBoolean(R.bool.isTablet)){
+            if (listFragment == null && findViewById(R.id.frame_layout_list) != null) {
+                listFragment = ListFragment.newInstance();
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.frame_layout_list, listFragment)
+                        .commit();
+            }
+            if (detailsFragment == null && findViewById(R.id.frame_layout_details) != null) {
+                detailsFragment = DetailsFragment.newInstance();
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.frame_layout_details, detailsFragment)
+                        .commit();
+            }
+        } else {
+            this.viewPager = findViewById(R.id.activity_main_view_pager);
+            pagerAdapter = new PageAdapter(getSupportFragmentManager(), ACTIVITY_MAIN_SOURCE, this);
+            // - Set Adapter PageAdapter and glue it together
+            this.viewPager.setAdapter(pagerAdapter);
+        }
     }
 
     private void configureViewModel(){
@@ -148,21 +164,25 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
     // Listener init
     @Override
     public void onAttachFragment(Fragment fragment) {
-        if (fragment instanceof ListFragment) {
-            ListFragment lf = (ListFragment) fragment;
-            lf.setOnItemSelectedListener(this);
+        if(!getResources().getBoolean(R.bool.isTablet)){
+            if (fragment instanceof ListFragment) {
+                ListFragment lf = (ListFragment) fragment;
+                lf.setOnItemSelectedListener(this);
+            }
         }
     }
 
     // - Show first fragment
     private void showFirstFragment(){
-        Fragment visibleFragment = getSupportFragmentManager().findFragmentById(R.id.activity_main_view_pager);
-        if (visibleFragment == null){
-            // - Show ListFragment
-            if(this.listFragment == null){
-                this.listFragment = ListFragment.newInstance();
+        if(!getResources().getBoolean(R.bool.isTablet)) {
+            Fragment visibleFragment = getSupportFragmentManager().findFragmentById(R.id.activity_main_view_pager);
+            if (visibleFragment == null) {
+                // - Show ListFragment
+                if (this.listFragment == null) {
+                    this.listFragment = ListFragment.newInstance();
+                }
+                viewPager.setCurrentItem(0);
             }
-            viewPager.setCurrentItem(0);
         }
     }
 

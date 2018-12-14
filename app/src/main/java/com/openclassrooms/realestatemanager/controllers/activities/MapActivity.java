@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.controllers.fragments.DetailsFragment;
 import com.openclassrooms.realestatemanager.controllers.fragments.MapFragment;
 import com.openclassrooms.realestatemanager.viewmodels.ImmoViewModel;
 import com.openclassrooms.realestatemanager.views.PageAdapter;
@@ -26,8 +27,6 @@ public class MapActivity extends BaseActivity implements HasSupportFragmentInjec
     // FOR DESIGN
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.activity_map_view_pager)
-    ViewPager viewPager;
 
     // FOR DATA
     @Inject
@@ -35,6 +34,8 @@ public class MapActivity extends BaseActivity implements HasSupportFragmentInjec
     private ImmoViewModel immoViewModel;
     private PageAdapter pagerAdapter;
     private MapFragment mapFragment;
+    private DetailsFragment detailsFragment;
+    private ViewPager viewPager;
 
     // FOR INJECTION
     @Inject
@@ -47,7 +48,7 @@ public class MapActivity extends BaseActivity implements HasSupportFragmentInjec
         this.configureDagger();
 
         this.configureToolBar();
-        this.configureViewPager();
+        this.configureViewPagerOrFragment();
         this.configureViewModel();
         this.showFirstFragment();
     }
@@ -79,21 +80,39 @@ public class MapActivity extends BaseActivity implements HasSupportFragmentInjec
     }
 
     // - Configure ViewPager
-    private void configureViewPager() {
-        pagerAdapter = new PageAdapter(getSupportFragmentManager(), ACTIVITY_MAP_SOURCE, this);
-        // - Set Adapter PageAdapter and glue it together
-        viewPager.setAdapter(pagerAdapter);
+    private void configureViewPagerOrFragment() {
+        if(getResources().getBoolean(R.bool.isTablet)) {
+            if (mapFragment == null && findViewById(R.id.frame_layout_map) != null) {
+                mapFragment = MapFragment.newInstance();
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.frame_layout_map, mapFragment)
+                        .commit();
+            }
+            if (detailsFragment == null && findViewById(R.id.frame_layout_details) != null) {
+                detailsFragment = DetailsFragment.newInstance();
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.frame_layout_details, detailsFragment)
+                        .commit();
+            }
+        } else {
+            viewPager = findViewById(R.id.activity_map_view_pager);
+            pagerAdapter = new PageAdapter(getSupportFragmentManager(), ACTIVITY_MAP_SOURCE, this);
+            // - Set Adapter PageAdapter and glue it together
+            viewPager.setAdapter(pagerAdapter);
+        }
     }
 
     // - Show first fragment
     private void showFirstFragment(){
-        Fragment visibleFragment = getSupportFragmentManager().findFragmentById(R.id.activity_main_view_pager);
-        if (visibleFragment == null){
-            // - Show ListFragment
-            if(this.mapFragment == null){
-                this.mapFragment = mapFragment.newInstance();
+        if(!getResources().getBoolean(R.bool.isTablet)) {
+            Fragment visibleFragment = getSupportFragmentManager().findFragmentById(R.id.activity_map_view_pager);
+            if (visibleFragment == null) {
+                // - Show ListFragment
+                if (this.mapFragment == null) {
+                    this.mapFragment = mapFragment.newInstance();
+                }
+                viewPager.setCurrentItem(0);
             }
-            viewPager.setCurrentItem(0);
         }
     }
 

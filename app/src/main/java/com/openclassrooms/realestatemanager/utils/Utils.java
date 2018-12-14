@@ -54,7 +54,7 @@ public class Utils {
      * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
      * @return
      */
-    // I had just changed the pattern
+    // I just changed the pattern
     public static String getTodayDate(){
         Date currentDate = Calendar.getInstance().getTime();
         SimpleDateFormat dateFormat= new SimpleDateFormat("dd/MM/yyyy");

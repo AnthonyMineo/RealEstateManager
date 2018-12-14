@@ -153,7 +153,9 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
     private void updateSelectedImmo(Immo selectedImmo){
         immoViewModel.setSelectedImmo(selectedImmo);
-        callback.onItemSelected();
+        if(!getResources().getBoolean(R.bool.isTablet)) {
+            callback.onItemSelected();
+        }
     }
 
     // --------------------
