@@ -19,9 +19,8 @@
     <item
         android:id="@+id/toolbar_menu_search"
         android:icon="@drawable/baseline_search_black_48"
-        app:showAsAction="collapseActionView|ifRoom"
-        android:title="@string/menu_search_title"
-        app:actionViewClass="android.support.v7.widget.SearchView">
+        app:showAsAction="ifRoom"
+        android:title="@string/menu_search_title">
     </item>
 
 </menu>

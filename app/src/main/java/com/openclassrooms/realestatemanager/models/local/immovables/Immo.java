@@ -28,8 +28,8 @@ public class Immo {
     private Vicinity vicinity;
     private List<String> pointsOfInterest = new ArrayList<String>();
     private boolean status = false;
-    private String enterDate;
-    private String sellingDate = ""; // omitted in constructor because it should be initialize during an update
+    private int enterDate;
+    private int sellingDate = -1; // omitted in constructor because it should be initialize during an update
     private long agentId;
 
     // --- DEFAULT CONSTRUCTOR ---
@@ -38,7 +38,7 @@ public class Immo {
     // --- PARTIAL CONSTRUCTORS ---
     // without "gallery" / "pointsOfInterest"
     public Immo(String type, int price, int surface, int pieceNumber, int bathNumber, int bedNumber, String description, Vicinity vicinity,
-                String enterDate, long agentId) {
+                int enterDate, long agentId) {
         this.type = type;
         this.price = price;
         this.surface = surface;
@@ -53,7 +53,7 @@ public class Immo {
 
     // --- COMPLETE CONSTRUCTOR ---
     public Immo(String type, int price, int surface, int pieceNumber, int bathNumber, int bedNumber, String description, List<Picture> gallery,
-                Vicinity vicinity, List<String> pointsOfInterest, String enterDate, long agentId) {
+                Vicinity vicinity, List<String> pointsOfInterest, int enterDate, long agentId) {
         this.type = type;
         this.price = price;
         this.surface = surface;
@@ -81,8 +81,8 @@ public class Immo {
     public Vicinity getVicinity() { return vicinity; }
     public List<String> getPointsOfInterest() { return pointsOfInterest; }
     public boolean isStatus() { return status; }
-    public String getEnterDate() { return enterDate; }
-    public String getSellingDate() { return sellingDate; }
+    public int getEnterDate() { return enterDate; }
+    public int getSellingDate() { return sellingDate; }
     public long getAgentId() { return agentId; }
 
     // --- SETTER ---
@@ -98,8 +98,8 @@ public class Immo {
     public void setVicinity(Vicinity vicinity) { this.vicinity = vicinity; }
     public void setPointsOfInterest(List<String> pointsOfInterest) { this.pointsOfInterest = pointsOfInterest; }
     public void setStatus(boolean status) { this.status = status; }
-    public void setEnterDate(String enterDate) { this.enterDate = enterDate; }
-    public void setSellingDate(String sellingDate) { this.sellingDate = sellingDate; }
+    public void setEnterDate(int enterDate) { this.enterDate = enterDate; }
+    public void setSellingDate(int sellingDate) { this.sellingDate = sellingDate; }
     public void setAgentId(long agentId) { this.agentId = agentId; }
 
     public void addToGallery(Picture pic){ this.gallery.add(pic); }

@@ -8,6 +8,7 @@ import com.openclassrooms.realestatemanager.models.local.immovables.Immo;
 import com.openclassrooms.realestatemanager.repositories.AgentDataRepository;
 import com.openclassrooms.realestatemanager.repositories.ImmoDataRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 
@@ -44,6 +45,8 @@ public class ImmoViewModel extends ViewModel {
     // --- FOR IMMO ---
     public LiveData<List<Immo>> getImmosByAgent(long agentId) { return immoDataSource.getImmosByAgent(agentId); }
     public LiveData<List<Immo>> getAllImmos() { return immoDataSource.getAllImmos(); }
+    public LiveData<List<Immo>> getSearchImmos(int minPrice, int maxPrice, int minSurface, int maxSurface, int enterDate, int sellingDate) {
+        return immoDataSource.getSearchImmos(minPrice, maxPrice, minSurface, maxSurface, enterDate, sellingDate); }
     public LiveData<Immo> getImmoById(long immoId) { return immoDataSource.getImmoById(immoId); }
     public void createImmo(Immo immo) { executor.execute(() -> immoDataSource.createImmo(immo)); }
     public void updateImmo(Immo immo) { executor.execute(() -> immoDataSource.updateImmo(immo)); }

@@ -10,8 +10,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,6 +22,8 @@ import com.openclassrooms.realestatemanager.controllers.fragments.ListFragment;
 import com.openclassrooms.realestatemanager.models.local.immovables.Immo;
 import com.openclassrooms.realestatemanager.viewmodels.ImmoViewModel;
 import com.openclassrooms.realestatemanager.views.PageAdapter;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -49,7 +51,7 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
     private PageAdapter pagerAdapter;
     private ListFragment listFragment;
     private DetailsFragment detailsFragment;
-    private SearchView searchView;
+    private static final int SEARCH_RESULT_REQUEST_CODE = 50;
 
     // FOR INJECTION
     @Inject
@@ -132,7 +134,7 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
 
     // - Configure ViewPager
     private void configureViewPager() {
-        pagerAdapter = new PageAdapter(getSupportFragmentManager(), ACTIVITY_MAIN_SOURCE);
+        pagerAdapter = new PageAdapter(getSupportFragmentManager(), ACTIVITY_MAIN_SOURCE, this);
         // - Set Adapter PageAdapter and glue it together
         viewPager.setAdapter(pagerAdapter);
     }
@@ -179,21 +181,6 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
         this.editMenu.setVisible(false);
         this.searchMenu = menu.findItem(R.id.toolbar_menu_search);
 
-        this.searchView = (SearchView) searchMenu.getActionView();
-        this.searchView.setQueryHint(getResources().getString(R.string.search_query_hint));
-        this.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                // doMySearch(query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-
         return true;
     }
 
@@ -212,8 +199,33 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
                 intentEdit.putExtra("editionMode", 1);
                 startActivity(intentEdit);
                 return true;
+            case R.id.toolbar_menu_search:
+                Intent intentSearch = new Intent(MainActivity.this, SearchActivity.class);
+                startActivityForResult(intentSearch, SEARCH_RESULT_REQUEST_CODE);
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == SEARCH_RESULT_REQUEST_CODE && resultCode == RESULT_OK && data != null && data.getExtras() != null) {
+
+            Bundle result = data.getExtras();
+
+            int minPrice = result.getInt("minPrice");
+            int maxPrice = result.getInt("maxPrice");
+            int minSurface = result.getInt("minSurface");
+            int maxSurface = result.getInt("maxSurface");
+            String city = result.getString("city");
+            int minPhotoNumber = result.getInt("minPhotoNumber");
+            ArrayList<String> poi = result.getStringArrayList("poi");
+            int enterDate =  result.getInt("enterDate");
+            int sellingDate = result.getInt("sellingDate");
+
+            this.listFragment = (ListFragment) this.pagerAdapter.getFragment(0);
+            this.listFragment.getSearchImmos(minPrice, maxPrice, minSurface, maxSurface, city, minPhotoNumber, poi, enterDate, sellingDate);
         }
     }
 
@@ -233,6 +245,7 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
                 break;
             case R.id.menu_drawer_log_out:
                 // - Run off the activity
+                this.finish();
                 break;
             default:
                 break;
@@ -266,4 +279,5 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
     public void onItemSelected() {
         viewPager.setCurrentItem(1);
     }
+
 }

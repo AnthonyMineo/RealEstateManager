@@ -34,4 +34,26 @@ public interface ImmoDao {
 
     @Query("SELECT * FROM Immo WHERE id = :immoId")
     Immo hasImmo(long immoId);
+
+    // Search QUERIES
+    // All init
+    @Query("SELECT * FROM Immo WHERE price >= :minPrice AND price <= :maxPrice AND surface >= :minSurface " +
+            "AND surface <= :maxSurface AND enterDate >= :enterDate AND sellingDate >= :sellingDate")
+    LiveData<List<Immo>> getSearchImmos(int minPrice, int maxPrice, int minSurface, int maxSurface, int enterDate, int sellingDate);
+
+    // no maxPrice
+    @Query("SELECT * FROM Immo WHERE price >= :minPrice AND surface >= :minSurface " +
+            "AND surface <= :maxSurface AND enterDate >= :enterDate AND sellingDate >= :sellingDate")
+    LiveData<List<Immo>> getSearchImmos1(int minPrice, int minSurface, int maxSurface, int enterDate, int sellingDate);
+
+    // no maxSurface
+    @Query("SELECT * FROM Immo WHERE price >= :minPrice AND price <= :maxPrice AND surface >= :minSurface " +
+            "AND enterDate >= :enterDate AND sellingDate >= :sellingDate")
+    LiveData<List<Immo>> getSearchImmos2(int minPrice, int maxPrice, int minSurface, int enterDate, int sellingDate);
+
+    // no both
+    @Query("SELECT * FROM Immo WHERE price >= :minPrice AND surface >= :minSurface " +
+            "AND enterDate >= :enterDate AND sellingDate >= :sellingDate")
+    LiveData<List<Immo>> getSearchImmo3(int minPrice, int minSurface, int enterDate, int sellingDate);
+
 }

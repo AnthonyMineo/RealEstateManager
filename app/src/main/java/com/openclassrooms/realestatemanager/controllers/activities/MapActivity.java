@@ -80,7 +80,7 @@ public class MapActivity extends BaseActivity implements HasSupportFragmentInjec
 
     // - Configure ViewPager
     private void configureViewPager() {
-        pagerAdapter = new PageAdapter(getSupportFragmentManager(), ACTIVITY_MAP_SOURCE);
+        pagerAdapter = new PageAdapter(getSupportFragmentManager(), ACTIVITY_MAP_SOURCE, this);
         // - Set Adapter PageAdapter and glue it together
         viewPager.setAdapter(pagerAdapter);
     }

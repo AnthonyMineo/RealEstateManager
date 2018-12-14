@@ -77,4 +77,21 @@
     <!-- MAP Activity -->
     <string name="activity_map_title">Map View</string>
 
+    <!-- Search Dialog -->
+    <string name="search_title">Immovables Search</string>
+    <string name="hint_min_surface">minimal surface</string>
+    <string name="hint_max_surface">maximal surface</string>
+    <string name="hint_city">city</string>
+    <string name="hint_min_photo_number">min photo number</string>
+    <string name="hint_min_price">minimal price</string>
+    <string name="hint_max_price">maximal price</string>
+    <string name="enter_date">Enter date</string>
+    <string name="selling_date">Selling date</string>
+    <string name="price_range_group">PRICE RANGE</string>
+    <string name="surface_range_group">SURFACE RANGE</string>
+    <string name="others_group">OTHERS</string>
+
+    <string name="ok">Search</string>
+    <string name="cancel">Cancel</string>
+
 </resources>

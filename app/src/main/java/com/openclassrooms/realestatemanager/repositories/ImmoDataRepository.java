@@ -16,9 +16,11 @@ import com.openclassrooms.realestatemanager.models.local.immovables.Picture;
 import com.openclassrooms.realestatemanager.utils.FirebaseImmoHelper;
 import com.openclassrooms.realestatemanager.utils.FirebaseStorageHelper;
 import com.openclassrooms.realestatemanager.utils.LocalStorageHelper;
+import com.openclassrooms.realestatemanager.utils.Utils;
 
 import java.io.File;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 
@@ -48,6 +50,25 @@ public class ImmoDataRepository {
     public LiveData<List<Immo>> getAllImmos(){
         getAllImmosFromFirebase();
         return this.immoDao.getAllImmos();
+    }
+
+    public LiveData<List<Immo>> getSearchImmos(int minPrice, int maxPrice, int minSurface, int maxSurface, int enterDate, int sellingDate){
+
+        if(minPrice == -1 && maxPrice == -1 && minSurface == -1 && maxSurface == -1 && enterDate == -1 && sellingDate == -1) {
+            // none init
+            return this.immoDao.getAllImmos();
+        }else if(maxPrice == -1 && maxSurface == -1){
+            // no both
+            return this.immoDao.getSearchImmo3(minPrice, minSurface, enterDate, sellingDate);
+        }else if(maxPrice == -1){
+            // no maxPrice
+            return this.immoDao.getSearchImmos1(minPrice, minSurface, maxSurface, enterDate, sellingDate);
+        }else if(maxSurface == -1){
+            // no maxSurface
+            return this.immoDao.getSearchImmos2(minPrice, maxPrice, minSurface, enterDate, sellingDate);
+        }else {
+            return this.immoDao.getSearchImmos(minPrice, maxPrice, minSurface, maxSurface, enterDate, sellingDate);
+        }
     }
 
     public LiveData<Immo> getImmoById(long immoId){

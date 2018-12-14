@@ -30,4 +30,11 @@
         -->
     </style>
 
+    <!-- Date Picker Theme -->
+    <style name="DatePickerTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="colorControlActivated">@color/colorAccent</item>
+        <item name="colorControlHighlight">@color/colorAccentDark</item>
+    </style>
+
 </resources>

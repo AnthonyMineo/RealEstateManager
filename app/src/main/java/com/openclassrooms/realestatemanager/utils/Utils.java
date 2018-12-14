@@ -9,6 +9,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 
 import android.provider.OpenableColumns;
+import android.support.v7.app.AlertDialog;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.openclassrooms.realestatemanager.models.local.immovables.Vicinity;
@@ -55,6 +56,12 @@ public class Utils {
         Date currentDate = Calendar.getInstance().getTime();
         SimpleDateFormat dateFormat= new SimpleDateFormat("dd/MM/yyyy");
         return dateFormat.format(currentDate);
+    }
+
+    public static int getTodayDateInt(){
+        Date currentDate = Calendar.getInstance().getTime();
+        SimpleDateFormat dateFormat= new SimpleDateFormat("yyyyMMdd");
+        return Integer.parseInt(dateFormat.format(currentDate));
     }
 
     /**
@@ -136,5 +143,14 @@ public class Utils {
             ex.printStackTrace();
         }
         return loc;
+    }
+
+    public static int changeDateFormat(String baseDate){
+        String temp = baseDate;
+        String dayFormat = temp.substring(0, 2);
+        String monthFormat = temp.substring(3, 5);
+        String yearFormat = temp.substring(6, 10);
+        temp = yearFormat + monthFormat + dayFormat;
+        return Integer.parseInt(temp);
     }
 }

@@ -52,15 +52,26 @@
                 android:value=".controllers.activities.MainActivity" />
         </activity>
 
+        <!-- SEARCH ACTIVITY -->
+        <activity
+            android:name=".controllers.activities.SearchActivity"
+            android:label="Search"
+            android:parentActivityName=".controllers.activities.MainActivity">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".controllers.activities.MainActivity" />
+        </activity>
+
         <!-- Google MapsAPI Key / Android restriction -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/maps_api_key" />
-
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-
     </application>
+
 </manifest>

@@ -1,6 +1,8 @@
 package com.openclassrooms.realestatemanager.controllers.fragments;
 
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
@@ -22,6 +24,7 @@ import com.openclassrooms.realestatemanager.viewmodels.CurrencyExchangeRateViewM
 import com.openclassrooms.realestatemanager.viewmodels.ImmoViewModel;
 import com.openclassrooms.realestatemanager.views.ImmoAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -118,9 +121,49 @@ public class ListFragment extends BaseFragment {
         immoViewModel.getAllImmos().observe(this, immos -> updateListImmo(immos));
     }
 
+    public void getSearchImmos(int minPrice, int maxPrice, int minSurface, int maxSurface, String city, int minPhotoNumber, ArrayList<String> poi, int enterDate, int sellingDate){
+        Log.i("LIST FRAGMENT", "GET SEARCH IMMOS !!!");
+        immoViewModel.getSearchImmos(minPrice, maxPrice, minSurface, maxSurface, enterDate, sellingDate)
+                .observe(this, immos -> updateListImmoBySearch(immos, city, minPhotoNumber, poi));
+    }
+
     private void updateListImmo(List<Immo> immos){
         Log.i("ListFragment", "immo update");
         this.immoAdapter.updateData(immos);
+    }
+
+    private void updateListImmoBySearch(List<Immo> immos, String city, int minPhotoNumber, ArrayList<String> poi){
+        Boolean similarPOI = true;
+        List<Immo> tempList = new ArrayList<>();
+        for(Immo immo : immos){
+
+            // if city is same and gallery is not init or superior
+            if(immo.getVicinity().getCity().equals(city) && immo.getGallery().size() >= minPhotoNumber){
+                for(String p : poi){
+                    if(immo.getPointsOfInterest().contains(p)){
+                        similarPOI = true;
+                    }else {
+                        similarPOI = false;
+                    }
+                }
+                if(similarPOI){
+                    tempList.add(immo);
+                }
+            } else if(city.equals("") && immo.getGallery().size() >= minPhotoNumber){
+                // if city is not init and gallery is not init or superior
+                for(String p : poi){
+                    if(immo.getPointsOfInterest().contains(p)){
+                        similarPOI = true;
+                    }else {
+                        similarPOI = false;
+                    }
+                }
+                if(similarPOI){
+                    tempList.add(immo);
+                }
+            }
+        }
+        this.immoAdapter.updateData(tempList);
     }
 
     private void updateUI(@Nullable CurrencyExchangeRate cer){

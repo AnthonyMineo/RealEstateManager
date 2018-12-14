@@ -210,7 +210,7 @@ public class EditionActivity extends BaseActivity {
             this.sellingLayout.setVisibility(View.VISIBLE);
             this.sellingLayout.getLayoutParams().height = getResources().getDimensionPixelSize(R.dimen.selling_layout_height);
 
-            if(selectedImmo.getSellingDate().equals("")){
+            if(selectedImmo.getSellingDate() == -1){
                 sellingCheckBox.setChecked(false);
             } else {
                 sellingCheckBox.setChecked(true);
@@ -358,13 +358,13 @@ public class EditionActivity extends BaseActivity {
         newImmo.setDescription(description);
         newImmo.setVicinity(vicinity);
         newImmo.setPointsOfInterest(poi);
-        newImmo.setEnterDate(Utils.getTodayDate());
+        newImmo.setEnterDate(Utils.getTodayDateInt());
         newImmo.setAgentId(USER_ID);
         if(sellingCheckBox.isChecked()){
-            newImmo.setSellingDate(Utils.getTodayDate());
+            newImmo.setSellingDate(Utils.getTodayDateInt());
             newImmo.setStatus(true);
         } else {
-            newImmo.setSellingDate("");
+            newImmo.setSellingDate(-1);
             newImmo.setStatus(false);
         }
 
