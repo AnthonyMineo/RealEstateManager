@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.models.local.immovables;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
+import android.content.ContentValues;
 
 import com.openclassrooms.realestatemanager.models.local.Agent;
 
@@ -105,9 +106,14 @@ public class Immo {
     public void addToGallery(Picture pic){ this.gallery.add(pic); }
     public void deleteFromGallery(int position){ this.gallery.remove(position); }
 
-    // --- UTILS ---
 
-    /*
-    To do : method that transform ContentValues to Immo object in order to work with our futur ContentProvider
-     */
+
+    public static Immo fromContentValues(ContentValues values) {
+        final Immo immo = new Immo();
+        if (values.containsKey("type")) immo.setType(values.getAsString("type"));
+        if (values.containsKey("agentId")) immo.setAgentId(values.getAsInteger("agentId"));
+        return immo;
+
+    }
+
 }

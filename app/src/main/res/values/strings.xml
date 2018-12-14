@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">Real Estate Manager</string>
 
+    <!-- NOTIFICATION -->
+    <string name="notif_creation_title">Immovable Saved</string>
+    <string name="notif_update_title">Immovable Updated</string>
+    <string name="notif_creation_text">Your new immovable has been saved !</string>
+    <string name="notif_update_text">Your immovable has been updated !</string>
+
     <!-- PERMISSIONS -->
     <string name="popup_title_permission">This application need permissions to work</string>
 

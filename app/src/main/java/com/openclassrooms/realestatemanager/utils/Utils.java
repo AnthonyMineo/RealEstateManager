@@ -9,9 +9,12 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 
 import android.provider.OpenableColumns;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AlertDialog;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.local.immovables.Vicinity;
 
 import java.io.IOException;
@@ -152,5 +155,25 @@ public class Utils {
         String yearFormat = temp.substring(6, 10);
         temp = yearFormat + monthFormat + dayFormat;
         return Integer.parseInt(temp);
+    }
+
+    public static void sendSimpleNotification(Context context, int source){
+        String NOTIFICATION_ID = "channel_id_01";
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, NOTIFICATION_ID)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setAutoCancel(true)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        if(source == 0){
+            mBuilder.setContentTitle(context.getResources().getString(R.string.notif_creation_title))
+                    .setContentText(context.getResources().getString(R.string.notif_creation_text));
+        }else {
+            mBuilder.setContentTitle(context.getResources().getString(R.string.notif_update_title))
+                    .setContentText(context.getResources().getString(R.string.notif_update_text));
+        }
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+        // notificationId is a unique int for each notification that you must define
+        notificationManager.notify(1, mBuilder.build());
     }
 }

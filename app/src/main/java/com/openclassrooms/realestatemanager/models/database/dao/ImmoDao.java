@@ -6,6 +6,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
+import android.database.Cursor;
 
 import com.openclassrooms.realestatemanager.models.local.immovables.Immo;
 
@@ -34,6 +35,12 @@ public interface ImmoDao {
 
     @Query("SELECT * FROM Immo WHERE id = :immoId")
     Immo hasImmo(long immoId);
+
+
+    // FOR CONTENT PROVIDER
+    @Query("SELECT * FROM Immo ")
+    Cursor getAllImmoWithCursor();
+
 
     // Search QUERIES
     // All init

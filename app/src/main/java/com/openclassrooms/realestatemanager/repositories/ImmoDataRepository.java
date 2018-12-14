@@ -6,10 +6,13 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.local.immovables.Immo;
 import com.openclassrooms.realestatemanager.models.database.dao.ImmoDao;
 import com.openclassrooms.realestatemanager.models.local.immovables.Picture;
@@ -34,6 +37,8 @@ public class ImmoDataRepository {
     private final Context context;
     private final MutableLiveData<Immo> selectedImmo = new MutableLiveData<Immo>();
     private Immo tempImmo = new Immo();
+    private final int CREATION_SOURCE = 0;
+    private final int UPDATE_SOURCE = 1;
 
     // --- CONSTRUCTOR ---
     @Inject
@@ -152,8 +157,8 @@ public class ImmoDataRepository {
                     }
                 });
             }
-            // something notification related
-            Log.i("ImmoDataRepository", "ImmoAddOnFireBase");
+            // Send notification
+            Utils.sendSimpleNotification(context, CREATION_SOURCE);
         }).addOnFailureListener(this.onFailureListener());
     }
 
@@ -177,7 +182,8 @@ public class ImmoDataRepository {
                     }
                 });
             }
-            // something notification related
+            // Send notification
+            Utils.sendSimpleNotification(context, UPDATE_SOURCE);
             Log.i("ImmoDataRepository", "ImmoUpdateOnFireBase");
         }).addOnFailureListener(this.onFailureListener());
     }

@@ -51,9 +51,10 @@ public class ImmoDaoTest {
     private static Vicinity vic1 = new Vicinity("10 rue du test", null, "Android", "32000", "World");
     private static Vicinity vic2 = new Vicinity("20 rue du test", null, "Android", "32000", "World");
     private static Vicinity vic3 = new Vicinity("30 rue du test", null, "Android", "32000", "World");
-    private static Immo IMMO_1 = new Immo("Apartment",  210000, 70, 5, vic1, false, "14/11/2018", AGENT_ID);
-    private static Immo IMMO_2 = new Immo("Mansion",  832500, 234, 16, vic2, false, "14/11/2018", AGENT_ID);
-    private static Immo IMMO_3 = new Immo("Apartment",  2350000, 79, 6, vic3, false, "14/11/2018", AGENT_ID);
+    private static String description = "Hello test !";
+    private static Immo IMMO_1 = new Immo("Apartment",  210000, 70, 5, 1, 1, description, vic1, 20181114, AGENT_ID);
+    private static Immo IMMO_2 = new Immo("Mansion",  832500, 234, 16, 2, 2, description, vic2, 20181114, AGENT_ID);
+    private static Immo IMMO_3 = new Immo("Apartment",  2350000, 79, 6, 1, 2, description, vic3,  20181114, AGENT_ID);
 
     @Test
     public void insertAndGetUser() throws InterruptedException {
@@ -93,8 +94,8 @@ public class ImmoDaoTest {
 
         // Adding a list of picture
         List<Picture> gallery = new ArrayList<Picture>();
-        Picture pic1 = new Picture("main", "path/1", "file.1");
-        Picture pic2 = new Picture("kitchen", "path/2", "file.2");
+        Picture pic1 = new Picture("main", "file.1", "uri");
+        Picture pic2 = new Picture("kitchen", "file.2", "uri");
         gallery.add(pic1);
         gallery.add(pic2);
 
@@ -111,8 +112,8 @@ public class ImmoDaoTest {
         List<Immo> immoList = LiveDataTestUtil.getValue(this.database.immoDao().getImmosByAgent(AGENT_ID));
         assertTrue(immoList.size() == 1);
         assertTrue(immoList.get(0).getPointsOfInterest().get(0).contains("Ecoles") && immoList.get(0).getPointsOfInterest().get(1).contains("SuperMarché"));
-        assertTrue( immoList.get(0).getGallery().get(0).getFileName().contains("file.1"));
-        assertTrue( immoList.get(0).getGallery().get(1).getFileName().contains("file.2"));
+        assertTrue(immoList.get(0).getGallery().get(0).getFileName().contains("file.1"));
+        assertTrue(immoList.get(0).getGallery().get(1).getFileName().contains("file.2"));
     }
 
     @Test
