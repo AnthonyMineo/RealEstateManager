@@ -6,13 +6,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.local.immovables.Immo;
 import com.openclassrooms.realestatemanager.models.database.dao.ImmoDao;
 import com.openclassrooms.realestatemanager.models.local.immovables.Picture;
@@ -23,7 +20,6 @@ import com.openclassrooms.realestatemanager.utils.Utils;
 
 import java.io.File;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 

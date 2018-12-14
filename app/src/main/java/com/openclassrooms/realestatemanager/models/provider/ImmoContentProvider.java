@@ -12,8 +12,6 @@ import android.support.annotation.Nullable;
 import com.openclassrooms.realestatemanager.models.database.RealEstateDB;
 import com.openclassrooms.realestatemanager.models.local.immovables.Immo;
 
-import javax.inject.Inject;
-
 
 public class ImmoContentProvider extends ContentProvider {
 
