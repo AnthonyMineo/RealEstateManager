@@ -9,7 +9,6 @@ import butterknife.ButterKnife;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
-    public final long USER_ID = 1;
     public static final int ACTIVITY_MAIN_SOURCE = 0;
     public static final int ACTIVITY_EDITION_SOURCE = 1;
     public static final int ACTIVITY_MAP_SOURCE = 2;

@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.provider.OpenableColumns;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
+import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.openclassrooms.realestatemanager.R;
@@ -99,6 +100,37 @@ public class Utils {
             data = activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE;
         }
         return data;
+    }
+
+    public static String formatPriceForImageView(int price, String currency){
+        String temp =  String.valueOf(price);
+        String edit = "";
+        int size = temp.length();
+        for(int i=size; i > 0; i=i-3){
+            if(i == size){
+                if(i >=3){
+                    edit =  temp.substring(i-3, i);
+                } else {
+                    if (i == 1) {
+                        edit = temp.substring(i - 1, i);
+                    } else {
+                        edit = temp.substring(i - 2, i);
+                    }
+                }
+            } else {
+                if(i >= 3){
+                    edit =  temp.substring(i-3, i) + "," + edit;
+                } else {
+                    if(i == 1){
+                        edit = temp.substring(i-1, i) + "," + edit;
+                    } else {
+                        edit = temp.substring(i-2, i) + "," + edit;
+                    }
+                }
+            }
+        }
+        String format = currency + " " + edit;
+        return format;
     }
 
     public static String convertVicinityToMapsStaticAPIFormat(Vicinity vicinity){

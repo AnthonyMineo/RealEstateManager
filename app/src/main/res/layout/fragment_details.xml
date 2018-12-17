@@ -32,6 +32,13 @@
             android:src="@drawable/no_photo"
             android:layout_marginBottom="@dimen/detail_fragment_element_bottom_margin"/>
 
+        <ImageView
+            android:id="@+id/sold_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:src="@drawable/sold"
+            android:layout_marginBottom="@dimen/detail_fragment_element_bottom_margin"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

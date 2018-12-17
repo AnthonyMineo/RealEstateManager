@@ -98,7 +98,6 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
     private void configureViewModel(){
         immoViewModel = ViewModelProviders.of(this, viewModelFactory).get(ImmoViewModel.class);
-        immoViewModel.initCurrentUser(USER_ID);
     }
 
     @SuppressLint("MissingPermission")

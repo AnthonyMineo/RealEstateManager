@@ -2,7 +2,6 @@ package com.openclassrooms.realestatemanager.utils.di;
 
 import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
 
 import javax.inject.Inject;
 

@@ -36,11 +36,15 @@ public class PhotoViewHolder extends RecyclerView.ViewHolder {
         // Use glide to resize the pic
         if(source == BaseFragment.DETAILS_FRAGMENT_SOURCE){
             // need a test when image fully write
-            if(LocalStorageHelper.createOrGetFile(context.getFilesDir(), pic.getFileName()).exists())
+            if(LocalStorageHelper.createOrGetFile(context.getFilesDir(), pic.getFileName()).exists()){
                 Glide.with(context).load(LocalStorageHelper.createOrGetFile(context.getFilesDir(), pic.getFileName())).into(photoImageView);
+                photoImageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            }
+
         } else if (source == BaseActivity.ACTIVITY_EDITION_SOURCE){
             try{
                 Glide.with(context).load(pic.getUri()).into(photoImageView);
+                photoImageView.setScaleType(ImageView.ScaleType.FIT_XY);
             }catch (Exception e){
                 e.printStackTrace();
             }

@@ -11,9 +11,6 @@ import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.openclassrooms.realestatemanager.models.local.immovables.Picture;
-import com.openclassrooms.realestatemanager.models.local.immovables.Vicinity;
-import com.openclassrooms.realestatemanager.models.database.Converters;
 import com.openclassrooms.realestatemanager.models.database.RealEstateDB;
 import com.openclassrooms.realestatemanager.models.database.dao.AgentDao;
 import com.openclassrooms.realestatemanager.models.database.dao.CerDao;
@@ -24,8 +21,6 @@ import com.openclassrooms.realestatemanager.repositories.ImmoDataRepository;
 import com.openclassrooms.realestatemanager.utils.api.AlphaVantageService;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -73,8 +68,21 @@ public class AppModule {
                 contentValues.put("userName", "Anthony");
                 contentValues.put("mailAddress", "anthony.mineo.pro@gmail.com");
                 contentValues.put("urlPicture", "none");
-
                 db.insert("Agent", OnConflictStrategy.IGNORE, contentValues);
+
+                ContentValues contentValues2 = new ContentValues();
+                contentValues2.put("id", 2);
+                contentValues2.put("userName", "Thomas");
+                contentValues2.put("mailAddress", "thomas21@gmal.com");
+                contentValues2.put("urlPicture", "none");
+                db.insert("Agent", OnConflictStrategy.IGNORE, contentValues2);
+
+                ContentValues contentValues3 = new ContentValues();
+                contentValues3.put("id", 3);
+                contentValues3.put("userName", "Nicolas");
+                contentValues3.put("mailAddress", "nicolaskevin@gmal.com");
+                contentValues3.put("urlPicture", "none");
+                db.insert("Agent", OnConflictStrategy.IGNORE, contentValues3);
             }
         };
     }

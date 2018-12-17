@@ -1,34 +1,41 @@
 package com.openclassrooms.realestatemanager;
 
-import android.content.Context;
+import android.test.ActivityInstrumentationTestCase2;
 
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
-
-
+import com.openclassrooms.realestatemanager.controllers.activities.MainActivity;
 import com.openclassrooms.realestatemanager.utils.Utils;
+import com.robotium.solo.Solo;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import static junit.framework.Assert.assertTrue;
 
-@RunWith(AndroidJUnit4.class)
-public class InternetConnexionTest {
+import static android.support.test.InstrumentationRegistry.getTargetContext;
 
-    private Context context;;
 
-    @Before
-    public void setup(){
-        context = InstrumentationRegistry.getTargetContext();
+public class InternetConnexionTest extends ActivityInstrumentationTestCase2<MainActivity> {
+
+    private Solo solo;
+
+    public InternetConnexionTest() {
+        super(MainActivity.class);
     }
 
-    @Test
-    public void InternetConnexionTest(){
+    @Override
+    protected void setUp() throws Exception{
+        solo = new Solo(getInstrumentation(), getActivity());
+    }
+
+    @Override
+    protected void tearDown(){
+        solo.finishOpenedActivities();
+    }
+
+    public void testWifiConnexionTest(){
         // Test
-        Boolean data = Utils.isInternetAvailable(context);
-        assertTrue(data);
+        solo.setWiFiData(true);
+        solo.waitForActivity(String.valueOf(solo.getCurrentActivity()), 5000);
+        Boolean internet = Utils.isInternetAvailable(getTargetContext());
+        assertTrue(internet);
+        solo.setWiFiData(false);
     }
 
 }

@@ -1,7 +1,9 @@
 package com.openclassrooms.realestatemanager.controllers.activities;
 
+
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -11,6 +13,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -51,6 +54,7 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
     private ListFragment listFragment;
     private DetailsFragment detailsFragment;
     private static final int SEARCH_RESULT_REQUEST_CODE = 50;
+    private Context mContext = this;
 
     // FOR INJECTION
     @Inject
@@ -97,10 +101,13 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
         AndroidInjection.inject(this);
     }
 
+
+
     // - Configure Toolbar
     private void configureToolBar() {
         toolbar.setTitle(getResources().getString(R.string.activity_main_title));
         setSupportActionBar(toolbar);
+
     }
 
     private void checkForPermission(){
@@ -156,7 +163,6 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
 
     private void configureViewModel(){
         immoViewModel = ViewModelProviders.of(this, viewModelFactory).get(ImmoViewModel.class);
-        immoViewModel.initCurrentUser(USER_ID);
         immoViewModel.getSelectedImmo().observe(this, immo -> updateMenu(immo));
     }
 

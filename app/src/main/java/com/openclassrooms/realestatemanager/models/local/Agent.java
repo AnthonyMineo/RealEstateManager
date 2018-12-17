@@ -12,6 +12,8 @@ public class Agent {
     private String mailAddress;
     private String urlPicture;
 
+    public Agent(){}
+
     public Agent (long id, String userName, String mailAddress, String urlPicture){
         this.id = id;
         this.userName = userName;

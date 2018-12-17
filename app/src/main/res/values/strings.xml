@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Real Estate Manager</string>
+    <string name="loggin_title">Please Log in</string>
 
     <!-- NOTIFICATION -->
     <string name="notif_creation_title">Immovable Saved</string>
@@ -12,6 +13,7 @@
 
     <!-- Activity Main -->
     <string name="activity_main_title">R.E.M</string>
+    <string name="user_title">Please select a user</string>
 
     <!-- Toolbar menu -->
     <string name="menu_add_title">Add</string>
@@ -27,7 +29,7 @@
     <string name="menu_log_out_title">LOG OUT</string>
 
     <!-- Recycle item -->
-    <string name="no_text_yet">loading informations…</string>
+    <string name="no_text_yet">No informations yet</string>
 
     <!-- Detail Fragment -->
     <string name="media_title">Media</string>
@@ -42,24 +44,25 @@
     <string name="error_unknown_error">An unknown error has occurred&#8230;</string>
 
     <!-- Edition Activity -->
+
     <string name="activity_edition_creation_title">Immovable Creation</string>
     <string name="activity_edition_editing_title">Immovable Edition</string>
     <string name="global_group">GLOBAL</string>
     <string name="location_group">LOCATION</string>
     <string name="description_group">DESCRIPTION</string>
     <string name="poi_group">NEARBY POINTS OF INTEREST</string>
-    <string name="gallery_group">GALLERY</string>
-    <string name="type_presentation">Type of immovable :</string>
-    <string name="price_presentation">Price (dollars) :</string>
+    <string name="gallery_group">GALLERY*</string>
+    <string name="type_presentation">Type of immovable* :</string>
+    <string name="price_presentation">Price (dollars)* :</string>
     <string name="surface_presentation">Surface (m2) : </string>
     <string name="piece_number_presentation">Piece number :</string>
     <string name="bath_number_presentation">Bath number :</string>
     <string name="bed_number_presentation">Bed number :</string>
-    <string name="address_presentation">Address :</string>
+    <string name="address_presentation">Address* :</string>
     <string name="cpt_address_presentation">Address complement :</string>
-    <string name="city_presentation">City :</string>
-    <string name="postal_code_presentation">Postal code :</string>
-    <string name="country_presentation">Country :</string>
+    <string name="city_presentation">City* :</string>
+    <string name="postal_code_presentation">Postal code* :</string>
+    <string name="country_presentation">Country* :</string>
     <string name="poi_school">School</string>
     <string name="poi_market">Market</string>
     <string name="poi_bus">Bus Station</string>
@@ -79,6 +82,7 @@
     <string name="validation_button">Validation</string>
 
     <string name="error_photo_number">Immovable should at least have one photo</string>
+    <string name="error_fields">Fields with (*) are mandatory</string>
 
     <!-- MAP Activity -->
     <string name="activity_map_title">Map View</string>

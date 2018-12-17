@@ -118,7 +118,6 @@ public class MapActivity extends BaseActivity implements HasSupportFragmentInjec
 
     private void configureViewModel(){
         immoViewModel = ViewModelProviders.of(this, viewModelFactory).get(ImmoViewModel.class);
-        immoViewModel.initCurrentUser(USER_ID);
         immoViewModel.setSelectedImmo(null);
     }
 

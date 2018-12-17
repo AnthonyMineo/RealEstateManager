@@ -18,40 +18,54 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:layout_marginTop="@dimen/recyle_item_height_padding"
-            android:layout_marginBottom="@dimen/recyle_item_height_padding"
-            android:layout_marginLeft="@dimen/recyle_item_width_padding">
+            android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/immo_list_recycle_type"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/recycle_item_text_type_size"
-                android:textColor="@android:color/black"
-                android:text="@string/no_text_yet"/>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/recyle_item_height_padding"
+                android:layout_marginBottom="@dimen/recyle_item_height_padding"
+                android:layout_marginLeft="@dimen/recyle_item_width_padding">
 
-            <TextView
-                android:id="@+id/immo_list_recyle_city"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/recycle_item_text_city_size"
-                android:textColor="@android:color/darker_gray"
-                android:text="@string/no_text_yet"/>
+                <TextView
+                    android:id="@+id/immo_list_recycle_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/recycle_item_text_type_size"
+                    android:textColor="@android:color/black"
+                    android:text="@string/no_text_yet"/>
 
-            <TextView
-                android:id="@+id/immo_list_recycle_price"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/recycle_item_text_price_size"
-                android:textColor="@color/colorPrimaryDark"
-                android:text="@string/no_text_yet"/>
+                <TextView
+                    android:id="@+id/immo_list_recyle_city"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/recycle_item_text_city_size"
+                    android:textColor="@android:color/darker_gray"
+                    android:text="@string/no_text_yet"/>
+
+                <TextView
+                    android:id="@+id/immo_list_recycle_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/recycle_item_text_price_size"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:text="@string/no_text_yet"/>
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/recycler_sold_image_view"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
 
         </LinearLayout>
 
-    </LinearLayout>
+        </LinearLayout>
+
 
     <FrameLayout
         android:layout_width="match_parent"

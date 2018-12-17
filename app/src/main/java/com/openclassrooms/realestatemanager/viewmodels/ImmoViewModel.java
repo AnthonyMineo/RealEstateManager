@@ -17,29 +17,24 @@ public class ImmoViewModel extends ViewModel {
 
     // --- REPOSITORIES ---
     private ImmoDataRepository immoDataSource;
-    private AgentDataRepository agentDateSource;
+    private AgentDataRepository agentDataSource;
     private Executor executor;
-
-    // --- DATA ---
-    private LiveData<Agent> currentUser;
 
     // --- CONSTRUCTOR ---
     @Inject
     public ImmoViewModel(ImmoDataRepository immoDataSource, AgentDataRepository agentDateSource, Executor executor){
         this.immoDataSource = immoDataSource;
-        this.agentDateSource = agentDateSource;
+        this.agentDataSource = agentDateSource;
         this.executor = executor;
     }
 
-    public void initCurrentUser(long agentId){
-        if(this.currentUser != null){
-            return;
-        }
-        currentUser = agentDateSource.getAgentById(agentId);
-    }
 
     // --- FOR AGENT ---
-    public LiveData<Agent> getCurrentUser() { return this.currentUser; }
+    public LiveData<Agent> getUserById(long agentId){ return agentDataSource.getAgentById(agentId); }
+    public LiveData<List<Agent>> getAllAgent(){ return agentDataSource.getAllAgent(); }
+
+    public Agent getCurrentUser() { return agentDataSource.getCurrentUser(); }
+    public void setCurrentUser(Agent user) { agentDataSource.setCurrentUser(user); }
 
     // --- FOR IMMO ---
     public LiveData<List<Immo>> getImmosByAgent(long agentId) { return immoDataSource.getImmosByAgent(agentId); }
@@ -62,4 +57,5 @@ public class ImmoViewModel extends ViewModel {
     public void setTempImmo(Immo tempImmo) {
         immoDataSource.setTempImmo(tempImmo);
     }
+
 }

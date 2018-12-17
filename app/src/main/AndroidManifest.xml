@@ -3,8 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.openclassrooms.realestatemanager">
 
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -19,13 +22,24 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <!-- MAIN ACTIVITY -->
-        <activity android:name=".controllers.activities.MainActivity">
+        <activity android:name=".controllers.activities.LogginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <!-- MAIN ACTIVITY -->
+        <activity android:name=".controllers.activities.MainActivity"
+            android:label="Creation"
+            android:parentActivityName=".controllers.activities.LogginActivity">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".controllers.activities.LogginActivity" />
+
         </activity>
 
         <!-- CREATION ACTIVITY -->
@@ -75,7 +89,7 @@
         <provider
             android:name=".models.provider.ImmoContentProvider"
             android:authorities="com.openclassrooms.realestatemanager.models.provider"
-            android:exported="true"/>
+            android:exported="true" />
 
     </application>
 

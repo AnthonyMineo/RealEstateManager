@@ -201,7 +201,6 @@ public class EditionActivity extends BaseActivity {
 
     private void configureViewModel(){
         immoViewModel = ViewModelProviders.of(this, viewModelFactory).get(ImmoViewModel.class);
-        immoViewModel.initCurrentUser(USER_ID);
     }
 
     private void configureUI(Immo selectedImmo){
@@ -216,18 +215,24 @@ public class EditionActivity extends BaseActivity {
                 sellingCheckBox.setChecked(true);
             }
 
+            if(selectedImmo.getSurface() != -1)
+                this.surfaceEditText.setText(String.valueOf(selectedImmo.getSurface()));
+            if(selectedImmo.getPieceNumber() != -1)
+                this.pieceNumberEditText.setText(String.valueOf(selectedImmo.getPieceNumber()));
+            if(selectedImmo.getBathNumber() != -1)
+                this.bathNumberEditText.setText(String.valueOf(selectedImmo.getBathNumber()));
+            if(selectedImmo.getBedNumber() != -1)
+                this.bedNumberEditText.setText(String.valueOf(selectedImmo.getBedNumber()));
+            if(!selectedImmo.getDescription().equals(""))
+                this.descriptionEditText.setText(selectedImmo.getDescription());
+
             this.typeEditText.setText(selectedImmo.getType());
             this.priceEditText.setText(String.valueOf(selectedImmo.getPrice()));
-            this.surfaceEditText.setText(String.valueOf(selectedImmo.getSurface()));
-            this.pieceNumberEditText.setText(String.valueOf(selectedImmo.getPieceNumber()));
-            this.bathNumberEditText.setText(String.valueOf(selectedImmo.getBathNumber()));
-            this.bedNumberEditText.setText(String.valueOf(selectedImmo.getBedNumber()));
             this.addressEditText.setText(selectedImmo.getVicinity().getAddress());
             this.cptAddressEditText.setText(selectedImmo.getVicinity().getCptAddress());
             this.cityEditText.setText(selectedImmo.getVicinity().getCity());
             this.postalCodeEditText.setText(selectedImmo.getVicinity().getPostalCode());
             this.countryEditText.setText(selectedImmo.getVicinity().getCountry());
-            this.descriptionEditText.setText(selectedImmo.getDescription());
 
             this.configureCheckBox(selectedImmo);
 
@@ -312,63 +317,87 @@ public class EditionActivity extends BaseActivity {
 
     @OnClick(R.id.activity_edition_validation_button)
     public void submit(){
-        String type = this.typeEditText.getText().toString();
-        int price = Integer.valueOf(this.priceEditText.getText().toString());
-        int surface = Integer.valueOf(this.surfaceEditText.getText().toString());
-        int pieceNumber = Integer.valueOf(this.pieceNumberEditText.getText().toString());
-        int bathNumber = Integer.valueOf(this.bathNumberEditText.getText().toString());
-        int bedNumber = Integer.valueOf(this.bedNumberEditText.getText().toString());
-        String description = this.descriptionEditText.getText().toString();
 
+        // mandatory
+        String type = this.typeEditText.getText().toString();
         String address = this.addressEditText.getText().toString();
         String cptAddress = this.cptAddressEditText.getText().toString();
         String city = this.cityEditText.getText().toString();
         String postalCode = this.postalCodeEditText.getText().toString();
         String country = this.countryEditText.getText().toString();
         Vicinity vicinity = new Vicinity(address, cptAddress, city, postalCode, country);
+        int price = -1;
 
-        List<String> poi = new ArrayList<>();
-        if(this.schoolCheckBox.isChecked())
-            poi.add(getResources().getString(R.string.poi_school));
-        if(this.marketCheckBox.isChecked())
-            poi.add(getResources().getString(R.string.poi_market));
-        if(this.busCheckBox.isChecked())
-            poi.add(getResources().getString(R.string.poi_bus));
-        if(this.sportCheckBox.isChecked())
-            poi.add(getResources().getString(R.string.poi_sport));
-        if(this.monumentCheckBox.isChecked())
-            poi.add(getResources().getString(R.string.poi_monument));
-        if(this.parkCheckBox.isChecked())
-            poi.add(getResources().getString(R.string.poi_park));
+        // optional
+        int surface = -1;
+        int pieceNumber = -1;
+        int bathNumber = -1;
+        int bedNumber = -1;
+        String description = "";
 
         Immo newImmo = null;
-
         if(mode == 0){
             newImmo = immoViewModel.getTempImmo();
+            newImmo.setAgentId(immoViewModel.getCurrentUser().getId());
         } else {
             newImmo = immoViewModel.getSelectedImmo().getValue();
         }
 
-        newImmo.setType(type);
-        newImmo.setPrice(price);
-        newImmo.setSurface(surface);
-        newImmo.setPieceNumber(pieceNumber);
-        newImmo.setBathNumber(bathNumber);
-        newImmo.setBedNumber(bedNumber);
-        newImmo.setDescription(description);
-        newImmo.setVicinity(vicinity);
-        newImmo.setPointsOfInterest(poi);
-        newImmo.setEnterDate(Utils.getTodayDateInt());
-        newImmo.setAgentId(USER_ID);
-        if(sellingCheckBox.isChecked()){
-            newImmo.setSellingDate(Utils.getTodayDateInt());
-            newImmo.setStatus(true);
+        if(type.equals("") || this.priceEditText.getText().toString().equals("") || address.equals("") || city.equals("") || postalCode.equals("") || country.equals("")){
+            if(newImmo.getGallery().isEmpty()){
+                Toast.makeText(this, R.string.error_photo_number, Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, R.string.error_fields, Toast.LENGTH_LONG).show();
+            }
         } else {
-            newImmo.setSellingDate(-1);
-            newImmo.setStatus(false);
+            price = Integer.valueOf(this.priceEditText.getText().toString());
+            if(!this.surfaceEditText.getText().toString().equals(""))
+                surface = Integer.valueOf(this.surfaceEditText.getText().toString());
+            if(!this.pieceNumberEditText.getText().toString().equals(""))
+                pieceNumber = Integer.valueOf(this.pieceNumberEditText.getText().toString());
+            if(!this.bathNumberEditText.getText().toString().equals(""))
+                bathNumber = Integer.valueOf(this.bathNumberEditText.getText().toString());
+            if(!this.bedNumberEditText.getText().toString().equals(""))
+                bedNumber = Integer.valueOf(this.bedNumberEditText.getText().toString());
+            if(!this.descriptionEditText.getText().toString().equals(""))
+                description = this.descriptionEditText.getText().toString();
+
+            List<String> poi = new ArrayList<>();
+            if(this.schoolCheckBox.isChecked())
+                poi.add(getResources().getString(R.string.poi_school));
+            if(this.marketCheckBox.isChecked())
+                poi.add(getResources().getString(R.string.poi_market));
+            if(this.busCheckBox.isChecked())
+                poi.add(getResources().getString(R.string.poi_bus));
+            if(this.sportCheckBox.isChecked())
+                poi.add(getResources().getString(R.string.poi_sport));
+            if(this.monumentCheckBox.isChecked())
+                poi.add(getResources().getString(R.string.poi_monument));
+            if(this.parkCheckBox.isChecked())
+                poi.add(getResources().getString(R.string.poi_park));
+
+            newImmo.setType(type);
+            newImmo.setPrice(price);
+            newImmo.setSurface(surface);
+            newImmo.setPieceNumber(pieceNumber);
+            newImmo.setBathNumber(bathNumber);
+            newImmo.setBedNumber(bedNumber);
+            newImmo.setDescription(description);
+            newImmo.setVicinity(vicinity);
+            newImmo.setPointsOfInterest(poi);
+            newImmo.setEnterDate(Utils.getTodayDateInt());
+            newImmo.setAgentId(newImmo.getAgentId());
+            if(sellingCheckBox.isChecked()){
+                newImmo.setSellingDate(Utils.getTodayDateInt());
+                newImmo.setStatus(true);
+            } else {
+                newImmo.setSellingDate(-1);
+                newImmo.setStatus(false);
+            }
+
+            ImmoAction(newImmo);
         }
 
-        ImmoAction(newImmo);
     }
 
     private void ImmoAction(Immo immo){

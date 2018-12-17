@@ -34,7 +34,8 @@ import dagger.android.support.AndroidSupportInjection;
 public class ListFragment extends BaseFragment {
 
     // --- DESIGN ---
-    @BindView(R.id.fragment_list_recycler_view) RecyclerView recyclerView;
+    @BindView(R.id.fragment_list_recycler_view)
+    RecyclerView recyclerView;
 
     // --- DATA ---
     public OnItemSelectedListener callback;
@@ -45,11 +46,11 @@ public class ListFragment extends BaseFragment {
     private ImmoViewModel immoViewModel;
     private ImmoAdapter immoAdapter;
 
-    public void setOnItemSelectedListener(MainActivity activity){
-        callback =  activity;
+    public void setOnItemSelectedListener(MainActivity activity) {
+        callback = activity;
     }
 
-    public interface OnItemSelectedListener{
+    public interface OnItemSelectedListener {
         void onItemSelected();
     }
 
@@ -57,7 +58,9 @@ public class ListFragment extends BaseFragment {
         // Required empty public constructor
     }
 
-    public static ListFragment newInstance() { return new ListFragment(); }
+    public static ListFragment newInstance() {
+        return new ListFragment();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,9 +78,11 @@ public class ListFragment extends BaseFragment {
     }
 
     @Override
-    public int getFragmentLayout() { return R.layout.fragment_list; }
+    public int getFragmentLayout() {
+        return R.layout.fragment_list;
+    }
 
-    private void configureDagger(){
+    private void configureDagger() {
         AndroidSupportInjection.inject(this);
     }
 
@@ -87,7 +92,7 @@ public class ListFragment extends BaseFragment {
     // --------------------
 
     // - Configure RecyclerView, Adapter, LayoutManager & glue it together
-    private void configureRecyclerView(){
+    private void configureRecyclerView() {
         // - Create adapter passing the list of Restaurants
         this.immoAdapter = new ImmoAdapter();
         // - Attach the adapter to the recyclerview to populate items
@@ -99,66 +104,64 @@ public class ListFragment extends BaseFragment {
                 .setOnItemClickListener((recyclerView, position, v) -> {
                     //v.setBackgroundColor(getContext().getResources().getColor(R.color.colorAccent));
                     immoViewModel.setSelectedImmo(immoAdapter.getImmo(position));
-                    if(!getResources().getBoolean(R.bool.isTablet)) {
+                    if (!getResources().getBoolean(R.bool.isTablet)) {
                         callback.onItemSelected();
                     }
                 });
     }
 
-    private void configureViewModel(){
+    private void configureViewModel() {
         cerViewModel = ViewModelProviders.of(this, viewModelFactory).get(CurrencyExchangeRateViewModel.class);
         cerViewModel.initCER(CURRENCY_1, CURRENCY_2);
-
         immoViewModel = ViewModelProviders.of(this, viewModelFactory).get(ImmoViewModel.class);
-        immoViewModel.initCurrentUser(USER_ID);
     }
 
-    private void getCER(){
+    private void getCER() {
         cerViewModel.getCER().observe(this, cer -> updateUI(cer));
     }
 
-    private void getAllImmos(){
+    private void getAllImmos() {
         immoViewModel.getAllImmos().observe(this, immos -> updateListImmo(immos));
     }
 
-    public void getSearchImmos(int minPrice, int maxPrice, int minSurface, int maxSurface, String city, int minPhotoNumber, ArrayList<String> poi, int enterDate, int sellingDate){
+    public void getSearchImmos(int minPrice, int maxPrice, int minSurface, int maxSurface, String city, int minPhotoNumber, ArrayList<String> poi, int enterDate, int sellingDate) {
         Log.i("LIST FRAGMENT", "GET SEARCH IMMOS !!!");
         immoViewModel.getSearchImmos(minPrice, maxPrice, minSurface, maxSurface, enterDate, sellingDate)
                 .observe(this, immos -> updateListImmoBySearch(immos, city, minPhotoNumber, poi));
     }
 
-    private void updateListImmo(List<Immo> immos){
+    private void updateListImmo(List<Immo> immos) {
         Log.i("ListFragment", "immo update");
         this.immoAdapter.updateData(immos);
     }
 
-    private void updateListImmoBySearch(List<Immo> immos, String city, int minPhotoNumber, ArrayList<String> poi){
+    private void updateListImmoBySearch(List<Immo> immos, String city, int minPhotoNumber, ArrayList<String> poi) {
         Boolean similarPOI = true;
         List<Immo> tempList = new ArrayList<>();
-        for(Immo immo : immos){
+        for (Immo immo : immos) {
 
             // if city is same and gallery is not init or superior
-            if(immo.getVicinity().getCity().equals(city) && immo.getGallery().size() >= minPhotoNumber){
-                for(String p : poi){
-                    if(immo.getPointsOfInterest().contains(p)){
+            if (immo.getVicinity().getCity().equals(city) && immo.getGallery().size() >= minPhotoNumber) {
+                for (String p : poi) {
+                    if (immo.getPointsOfInterest().contains(p)) {
                         similarPOI = true;
-                    }else {
+                    } else {
                         similarPOI = false;
                     }
                 }
-                if(similarPOI){
+                if (similarPOI) {
                     tempList.add(immo);
                 }
-            } else if(city.equals("") && immo.getGallery().size() >= minPhotoNumber){
+            } else if (city.equals("") && immo.getGallery().size() >= minPhotoNumber) {
                 // if city is not init and gallery is not init or superior
-                for(String p : poi){
-                    if(immo.getPointsOfInterest().contains(p)){
+                for (String p : poi) {
+                    if (immo.getPointsOfInterest().contains(p)) {
                         similarPOI = true;
-                    }else {
+                    } else {
                         similarPOI = false;
                     }
                 }
-                if(similarPOI){
+                if (similarPOI) {
                     tempList.add(immo);
                 }
             }
@@ -166,7 +169,7 @@ public class ListFragment extends BaseFragment {
         this.immoAdapter.updateData(tempList);
     }
 
-    private void updateUI(@Nullable CurrencyExchangeRate cer){
+    private void updateUI(@Nullable CurrencyExchangeRate cer) {
         Log.i("ListFragment", "CER change");
     }
 

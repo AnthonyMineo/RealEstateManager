@@ -36,6 +36,8 @@ public class DetailsFragment extends BaseFragment {
     RecyclerView recyclerView;
     @BindView(R.id.fragment_detail_zoom_image_view)
     ImageView zoomImageView;
+    @BindView(R.id.sold_image_view)
+    ImageView soldImageView;
     @BindView(R.id.fragment_detail_description_text)
     TextView descriptionTextView;
     @BindView(R.id.detail_fragment_surface_text_view)
@@ -114,7 +116,7 @@ public class DetailsFragment extends BaseFragment {
 
                     if(zoomImageView.getVisibility() == View.INVISIBLE){
                         zoomImageView.getLayoutParams().height = getResources().getDimensionPixelSize(R.dimen.zoom_image_height);
-                        zoomImageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                        zoomImageView.setScaleType(ImageView.ScaleType.FIT_XY);
                         zoomImageView.setVisibility(View.VISIBLE);
                     }
                     zoomImageView.setImageURI(Uri.fromFile(LocalStorageHelper.createOrGetFile(getContext().getFilesDir(), photoAdapter.getPhoto(position).getFileName())));
@@ -124,7 +126,6 @@ public class DetailsFragment extends BaseFragment {
 
     private void configureViewModel(){
         immoViewModel = ViewModelProviders.of(this, viewModelFactory).get(ImmoViewModel.class);
-        immoViewModel.initCurrentUser(USER_ID);
         this.zoomImageView.setVisibility(View.INVISIBLE);
         immoViewModel.getSelectedImmo().observe(this, immo -> updateUI(immo));
     }
@@ -139,11 +140,26 @@ public class DetailsFragment extends BaseFragment {
             }
 
             // first layout informations
-            this.descriptionTextView.setText(immo.getDescription());
-            this.surfaceTextView.setText(String.valueOf(immo.getSurface()));
-            this.roomsTextView.setText(String.valueOf(immo.getPieceNumber()));
-            this.bathTextView.setText(String.valueOf(immo.getBathNumber()));
-            this.bedTextView.setText(String.valueOf(immo.getBedNumber()));
+            if(immo.getSurface() != -1)
+                this.surfaceTextView.setText(String.valueOf(immo.getSurface()));
+            else
+                this.surfaceTextView.setText(R.string.no_text_yet);
+            if(immo.getPieceNumber() != -1)
+                this.roomsTextView.setText(String.valueOf(immo.getPieceNumber()));
+            else
+                this.roomsTextView.setText(R.string.no_text_yet);
+            if(immo.getBathNumber() != -1)
+                this.bathTextView.setText(String.valueOf(immo.getBathNumber()));
+            else
+                this.bathTextView.setText(R.string.no_text_yet);
+            if(immo.getBedNumber() != -1)
+                this.bedTextView.setText(String.valueOf(immo.getBedNumber()));
+            else
+                this.bedTextView.setText(R.string.no_text_yet);
+            if(!immo.getDescription().equals(""))
+                this.descriptionTextView.setText(immo.getDescription());
+            else
+                this.descriptionTextView.setText(R.string.no_text_yet);
 
             // second layout informations - location
             this.addressTextView.setText(immo.getVicinity().getAddress());
@@ -151,6 +167,12 @@ public class DetailsFragment extends BaseFragment {
             this.cityTextView.setText(immo.getVicinity().getCity());
             this.postalCodeTextView.setText(immo.getVicinity().getPostalCode());
             this.countryTextView.setText(immo.getVicinity().getCountry());
+
+            if(immo.getSellingDate() != -1){
+                soldImageView.getLayoutParams().height = getResources().getDimensionPixelSize(R.dimen.sold_image_height);
+            } else {
+                soldImageView.getLayoutParams().height = 0;
+            }
 
             try{
                 String addressFormatted = Utils.convertVicinityToMapsStaticAPIFormat(immo.getVicinity());
