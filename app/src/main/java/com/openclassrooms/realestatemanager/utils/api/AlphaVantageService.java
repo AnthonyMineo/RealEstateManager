@@ -14,3 +14,4 @@ public interface AlphaVantageService {
     @GET("query?function=CURRENCY_EXCHANGE_RATE&apikey="+ apiKey)
     Call<AlphaVantageResponse> getExchangeCurrencyRate(@Query("from_currency") String fromCurrency, @Query("to_currency") String toCurrency);
 }
+

@@ -68,8 +68,6 @@ public class PageAdapter extends FragmentStatePagerAdapter {
     // - It will allow us to perform method's call from the fragment it return directly into our activity
     @Nullable
     public Fragment getFragment(final int position) {
-        Log.i("PAGE ADAPTER", "GET FRAGMENT");
         return instantiatedFragments.get(position);
-
     }
 }

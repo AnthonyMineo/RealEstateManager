@@ -3,7 +3,9 @@ package com.openclassrooms.realestatemanager.views;
 import android.content.Context;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,23 +27,24 @@ public class PhotoViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.fragment_detail_recycler_text_view)
     TextView photoTextView;
 
-    public PhotoViewHolder(View itemView) {
+    public PhotoViewHolder(View itemView, ViewGroup parent) {
         super(itemView);
         ButterKnife.bind(this, itemView);
+        int height = parent.getWidth();
+        int height2 = parent.getHeight();
+        Log.e("AAAAAAAAAAAAAAAAAAAAAAA", "width = " + String.valueOf(height));
+        Log.e("AAAAAAAAAAAAAAAAAAAAAAA", "width 2 = " + String.valueOf(height2));
     }
 
     public void updateWithPicture(Picture pic, Context context, int source){
         // this.photoImageView
         this.photoTextView.setText(pic.getPlace());
-        // Use glide to resize the pic
-        if(source == BaseFragment.DETAILS_FRAGMENT_SOURCE){
-            // need a test when image fully write
-            if(LocalStorageHelper.createOrGetFile(context.getFilesDir(), pic.getFileName()).exists()){
-                Glide.with(context).load(LocalStorageHelper.createOrGetFile(context.getFilesDir(), pic.getFileName())).into(photoImageView);
-                photoImageView.setScaleType(ImageView.ScaleType.FIT_XY);
-            }
 
-        } else if (source == BaseActivity.ACTIVITY_EDITION_SOURCE){
+        // Use glide to resize the pic
+        if(LocalStorageHelper.createOrGetFile(context.getFilesDir(), pic.getFileName()).exists()){
+            Glide.with(context).load(LocalStorageHelper.createOrGetFile(context.getFilesDir(), pic.getFileName())).into(photoImageView);
+            photoImageView.setScaleType(ImageView.ScaleType.FIT_XY);
+        }else{
             try{
                 Glide.with(context).load(pic.getUri()).into(photoImageView);
                 photoImageView.setScaleType(ImageView.ScaleType.FIT_XY);
@@ -49,5 +52,6 @@ public class PhotoViewHolder extends RecyclerView.ViewHolder {
                 e.printStackTrace();
             }
         }
+
     }
 }

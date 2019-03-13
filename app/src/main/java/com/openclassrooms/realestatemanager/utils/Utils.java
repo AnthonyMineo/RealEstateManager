@@ -24,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Philippe on 21/02/2018.
@@ -66,6 +67,23 @@ public class Utils {
         SimpleDateFormat dateFormat= new SimpleDateFormat("yyyyMMdd");
         return Integer.parseInt(dateFormat.format(currentDate));
     }
+
+
+    public static int getDateGapWithToday(Date dateToCompare) {
+        Date todayDate = Calendar.getInstance().getTime();
+        SimpleDateFormat dateFormat= new SimpleDateFormat("yyyyMMdd");
+
+        int todayDateInt = Integer.parseInt(dateFormat.format(todayDate));
+        int dateToCompareInt =  Integer.parseInt(dateFormat.format(dateToCompare));
+
+        int dateGapWithToday = 0;
+        while (dateToCompareInt < todayDateInt) {
+            dateToCompareInt++;
+            dateGapWithToday++;
+        }
+        return dateGapWithToday;
+    }
+
 
     /**
      * Vérification de la connexion réseau

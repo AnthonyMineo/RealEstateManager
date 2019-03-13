@@ -46,7 +46,7 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
     private MenuItem searchMenu;
     private ViewPager viewPager;
 
-            // FOR DATA
+    // FOR DATA
     @Inject
     ViewModelProvider.Factory viewModelFactory;
     private ImmoViewModel immoViewModel;

@@ -408,6 +408,7 @@ public class EditionActivity extends BaseActivity {
             immoViewModel.createImmo(immo);
         } else {
             immoViewModel.updateImmo(immo);
+            immoViewModel.setSelectedImmo(immo);
         }
 
         this.finish();

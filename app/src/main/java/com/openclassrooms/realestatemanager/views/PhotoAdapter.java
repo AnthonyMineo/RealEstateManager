@@ -30,7 +30,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoViewHolder> {
         this.context = context;
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.photo_list_recycle_item, parent, false);
-        return new PhotoViewHolder(view);
+        return new PhotoViewHolder(view, parent);
     }
 
     // UPDATE VIEW HOLDER WITH PICTURE

@@ -110,6 +110,7 @@ public class DetailsFragment extends BaseFragment {
         LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         this.recyclerView.setLayoutManager(horizontalLayoutManager);
 
+
         ItemClickSupport.addTo(recyclerView, R.layout.photo_list_recycle_item)
                 .setOnItemClickListener((recyclerView, position, v) -> {
                     //v.setBackgroundColor(getContext().getResources().getColor(R.color.colorAccent));
@@ -119,6 +120,7 @@ public class DetailsFragment extends BaseFragment {
                         zoomImageView.setScaleType(ImageView.ScaleType.FIT_XY);
                         zoomImageView.setVisibility(View.VISIBLE);
                     }
+
                     zoomImageView.setImageURI(Uri.fromFile(LocalStorageHelper.createOrGetFile(getContext().getFilesDir(), photoAdapter.getPhoto(position).getFileName())));
                     Log.i("ItemClickSupport", "You click on : " + photoAdapter.getPhoto(position));
                 });
